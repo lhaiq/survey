@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hongrui.survey.core.repository.SignRepository">
+  <resultMap id="BaseResultMap" type="com.hongrui.survey.core.entity.Sign">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="task_id" jdbcType="BIGINT" property="taskId" />
+    <result column="sign_latitude" jdbcType="DOUBLE" property="signLatitude" />
+    <result column="sign_longitude" jdbcType="DOUBLE" property="signLongitude" />
+    <result column="actual_latitude" jdbcType="DOUBLE" property="actualLatitude" />
+    <result column="actual_longitude" jdbcType="DOUBLE" property="actualLongitude" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, task_id, sign_latitude, sign_longitude, actual_latitude, actual_longitude, create_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sign
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from sign
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.hongrui.survey.core.entity.Sign">
+    insert into sign (id, task_id, sign_latitude, 
+      sign_longitude, actual_latitude, actual_longitude, 
+      create_time)
+    values (#{id,jdbcType=BIGINT}, #{taskId,jdbcType=BIGINT}, #{signLatitude,jdbcType=DOUBLE}, 
+      #{signLongitude,jdbcType=DOUBLE}, #{actualLatitude,jdbcType=DOUBLE}, #{actualLongitude,jdbcType=DOUBLE}, 
+      #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hongrui.survey.core.entity.Sign">
+    insert into sign
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="taskId != null">
+        task_id,
+      </if>
+      <if test="signLatitude != null">
+        sign_latitude,
+      </if>
+      <if test="signLongitude != null">
+        sign_longitude,
+      </if>
+      <if test="actualLatitude != null">
+        actual_latitude,
+      </if>
+      <if test="actualLongitude != null">
+        actual_longitude,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="taskId != null">
+        #{taskId,jdbcType=BIGINT},
+      </if>
+      <if test="signLatitude != null">
+        #{signLatitude,jdbcType=DOUBLE},
+      </if>
+      <if test="signLongitude != null">
+        #{signLongitude,jdbcType=DOUBLE},
+      </if>
+      <if test="actualLatitude != null">
+        #{actualLatitude,jdbcType=DOUBLE},
+      </if>
+      <if test="actualLongitude != null">
+        #{actualLongitude,jdbcType=DOUBLE},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hongrui.survey.core.entity.Sign">
+    update sign
+    <set>
+      <if test="taskId != null">
+        task_id = #{taskId,jdbcType=BIGINT},
+      </if>
+      <if test="signLatitude != null">
+        sign_latitude = #{signLatitude,jdbcType=DOUBLE},
+      </if>
+      <if test="signLongitude != null">
+        sign_longitude = #{signLongitude,jdbcType=DOUBLE},
+      </if>
+      <if test="actualLatitude != null">
+        actual_latitude = #{actualLatitude,jdbcType=DOUBLE},
+      </if>
+      <if test="actualLongitude != null">
+        actual_longitude = #{actualLongitude,jdbcType=DOUBLE},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hongrui.survey.core.entity.Sign">
+    update sign
+    set task_id = #{taskId,jdbcType=BIGINT},
+      sign_latitude = #{signLatitude,jdbcType=DOUBLE},
+      sign_longitude = #{signLongitude,jdbcType=DOUBLE},
+      actual_latitude = #{actualLatitude,jdbcType=DOUBLE},
+      actual_longitude = #{actualLongitude,jdbcType=DOUBLE},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectCount" parameterType="com.hongrui.survey.core.entity.Sign" resultType="java.lang.Integer">
+    select count(*) from sign
+    <where>
+      <if test="id != null">
+        and id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="taskId != null">
+        and task_id = #{taskId,jdbcType=BIGINT}
+      </if>
+      <if test="signLatitude != null">
+        and sign_latitude = #{signLatitude,jdbcType=DOUBLE}
+      </if>
+      <if test="signLongitude != null">
+        and sign_longitude = #{signLongitude,jdbcType=DOUBLE}
+      </if>
+      <if test="actualLatitude != null">
+        and actual_latitude = #{actualLatitude,jdbcType=DOUBLE}
+      </if>
+      <if test="actualLongitude != null">
+        and actual_longitude = #{actualLongitude,jdbcType=DOUBLE}
+      </if>
+      <if test="createTime != null">
+        and create_time = #{createTime,jdbcType=TIMESTAMP}
+      </if>
+    </where>
+  </select>
+  <select id="selectPage" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sign where 1 = 1 
+    <if test="param1.id != null">
+      and id = #{param1.id,jdbcType=BIGINT}
+    </if>
+    <if test="param1.taskId != null">
+      and task_id = #{param1.taskId,jdbcType=BIGINT}
+    </if>
+    <if test="param1.signLatitude != null">
+      and sign_latitude = #{param1.signLatitude,jdbcType=DOUBLE}
+    </if>
+    <if test="param1.signLongitude != null">
+      and sign_longitude = #{param1.signLongitude,jdbcType=DOUBLE}
+    </if>
+    <if test="param1.actualLatitude != null">
+      and actual_latitude = #{param1.actualLatitude,jdbcType=DOUBLE}
+    </if>
+    <if test="param1.actualLongitude != null">
+      and actual_longitude = #{param1.actualLongitude,jdbcType=DOUBLE}
+    </if>
+    <if test="param1.createTime != null">
+      and create_time = #{param1.createTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="param2.sort != null">
+      order by 
+      <foreach collection="param2.sort" item="order" separator=",">
+        ${order.property} ${order.direction}
+      </foreach>
+    </if>
+    <if test="param2.offset >= 0 and param2.pageSize > 0">
+      limit ${param2.offset}, ${param2.pageSize}
+    </if>
+  </select>
+</mapper>

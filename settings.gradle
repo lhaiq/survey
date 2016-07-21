@@ -1,0 +1,4 @@
+rootProject.name = 'survey'
+include 'survey-service-api'
+include 'survey-service'
+include 'survey-webapp'

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+	<definition name="index" template="/jsp/template/list.jsp">
+		<put-attribute name="title" value="" />
+		<put-attribute name="head" value="/jsp/template/head.jsp" />
+		<put-attribute name="navbar" value="/jsp/template/navbar.jsp" />
+		<put-attribute name="left_navbar" value="/jsp/template/left_navbar.jsp" />
+		<put-attribute name="top_menu" value="/jsp/template/top_menu.jsp" />
+		<put-attribute name="layout_setting" value="/jsp/template/layout_setting.jsp" />
+		<!--<put-attribute name="main" value="/jsp/template/main.jsp" />-->
+		<put-attribute name="footer" value="/jsp/template/footer.jsp" />
+	</definition>
+
+
+	<definition name="error_404" extends="index">
+	<put-attribute name="title" value="404-错误" /> 
+		<put-attribute name="main" value="/jsp/views/generic/error-404.jsp" />
+	</definition>
+
+	<definition name="error_500" extends="index">
+	<put-attribute name="title" value="500-错误" /> 
+		<put-attribute name="main" value="/jsp/views/generic/error-500.jsp" />
+	</definition>
+	
+	<!--  
+		<definition name="error_404" extends="index">
+		<put-attribute name="main" value="/jsp/views/generic/error-404.jsp" />
+	</definition>
+		<definition name="*.*.*error" extends="default.list">
+		<put-attribute name="main" value="/jsp/{1}/{2}_{3}-404.jsp" />
+	</definition>
+	
+	<definition name="error_500" template="/jsp/error-500.jsp">
+		<put-attribute name="error-500" value="/jsp/error-500.jsp" />
+	</definition>
+
+	<definition name="error-5001" extends="default.list">
+		<put-attribute name="main" value="/jsp/error-500.jsp" />
+	</definition>
+	
+	<definition name="*.*" template="/jsp/template/error.jsp">
+	</definition>-->
+
+</tiles-definitions>
