@@ -2,29 +2,41 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8" %>
 
-<div>
-    <div id="sample-table-2_wrapper" class="dataTables_wrapper form-inline no-footer">
+
+
+
+
+<div class="row">
+<div class="col-xs-12">
+    <div class="page-header">
+        <h1>评审员管理 <small> <i class="ace-icon fa fa-angle-double-right"></i> &nbsp;评审员列表</small></h1>
+    </div>
+    <div class="table-header">
+        列表
+    </div>
+
+
+    <div id="sample-table-2_wrapper" class="dataTables_wrapper form-inline no-footer" >
         <div class="row">
-            <div class="col-xs-5">
+            <div class="col-xs-6">
                 <div class="dataTables_length" id="sample-table-2_length">
-                    <label>Display
-                        <select name="sample-table-2_length" aria-controls="sample-table-2"
-                                class="form-control input-sm">
-                            <option value="10">10</option>
-                            <option value="25">25</option>
-                            <option value="50">50</option>
-                            <option value="100">100</option>
-                        </select> records</label></div>
+                    <label>Display <select name="sample-table-2_length" aria-controls="sample-table-2" class="form-control input-sm">
+                        <option value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select> records</label></div>
             </div>
-            <div class="col-xs-5">
-                <div id="sample-table-2_filter" class="dataTables_filter"><label>Search:
-                    <input type="search" class="form-control input-sm" aria-controls="sample-table-2"></label>
-                </div>
+            <div class="col-xs-6">
+                <div id="sample-table-2_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control input-sm" aria-controls="sample-table-2">
+                </label></div>
             </div>
         </div>
         <div class="row">
-            <table id="sample-table-2" class="table table-striped table-bordered table-hover dataTable no-footer"
-                   role="grid" aria-describedby="sample-table-2_info">
+            <%--<table id="sample-table-2" class="table table-striped table-bordered table-hover dataTable no-footer"--%>
+                   <%--role="grid" aria-describedby="sample-table-2_info">--%>
+
+                <table id="sample-table-2" class="table table-striped table-bordered table-hover">
                 <thead>
                 <tr role="row">
 
@@ -55,9 +67,6 @@
                                                            pattern="yyyy-MM-dd HH:mm:SS"/></td>
                     <td>
                         <div class="hidden-sm hidden-xs action-buttons">
-                            <a class="blue" href="#">
-                                <i class="ace-icon fa fa-search-plus bigger-130"></i>
-                            </a>
 
                             <a class="green" href="#">
                                 <i class="ace-icon fa fa-pencil bigger-130"></i>
@@ -72,14 +81,6 @@
                             <div class="inline position-relative">
 
                                 <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
-                                    <li>
-                                        <a href="#" class="tooltip-info" data-rel="tooltip" title=""
-                                           data-original-title="View">
-                                            <span class="blue">
-                                                <i class="ace-icon fa fa-search-plus bigger-120"></i>
-                                            </span>
-                                        </a>
-                                    </li>
 
                                     <li>
                                         <a href="#" class="tooltip-success" data-rel="tooltip" title=""
@@ -133,4 +134,7 @@
             </div>
         </div>
     </div>
+
+</div>
+
 </div>
