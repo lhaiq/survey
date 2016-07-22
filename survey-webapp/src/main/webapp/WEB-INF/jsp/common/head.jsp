@@ -31,6 +31,7 @@
 	<link rel="stylesheet" href="assets/css/select2.css" />
 	<link rel="stylesheet" href="assets/css/ui.jqgrid.css" />
 	<link rel="stylesheet" href="assets/css/jquery.gritter.css" />
+	<link rel="stylesheet" href="assets/css/colorbox.css" />
 	<!-- text fonts -->
 	<link rel="stylesheet" href="assets/css/ace-fonts.css" />
 
