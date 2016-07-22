@@ -134,15 +134,15 @@
 
             <ul class="submenu">
                 <li class="">
-                    <a href="#" class="dropdown-toggle">
+                    <a href="javascript:link('/survey/addCustomerUI')">
                         <i class="menu-icon fa fa-caret-right"></i>
-                        添加客户1
+                        添加客户
                     </a>
                     <b class="arrow"></b>
                 </li>
 
                 <li class="">
-                    <a href="typography.html">
+                    <a href="javascript:link('/survey/customer')">
                         <i class="menu-icon fa fa-caret-right"></i>
                         客户列表
                     </a>
@@ -151,6 +151,30 @@
                 </li>
             </ul>
         </li>
+
+
+        <li class="">
+            <a href="#" class="dropdown-toggle">
+                <i class="menu-icon fa fa-desktop"></i>
+                <span class="menu-text">调查任务</span>
+
+                <b class="arrow fa fa-angle-down"></b>
+            </a>
+
+            <b class="arrow"></b>
+
+            <ul class="submenu">
+                <li class="">
+                    <a href="javascript:link('/survey/task')">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        任务列表
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+            </ul>
+        </li>
+
     </ul>
 
 

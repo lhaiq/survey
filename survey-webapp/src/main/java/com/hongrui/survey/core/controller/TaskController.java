@@ -46,12 +46,14 @@ public class TaskController {
 	@GetMapping(value = "/task")
     public String listTask(TaskVO taskVO,Pageable pageable,Model model){
 		TaskModel param = beanMapper.map(taskVO, TaskModel.class);
-        List<TaskModel> taskModelModels = taskService.selectPage(param,pageable);
-        long count=taskService.selectCount(param);
-        Page<TaskModel> page = new PageImpl<>(taskModelModels,pageable,count);
-		model.addAttribute("data",page);
-        return "task_list";
+		model.addAttribute("data",taskService.searchPage(param,pageable));
+        return "task/task_list";
     }
+
+	@GetMapping(value = "/task/report/{id}")
+	public String taskReport(@PathVariable Long id){
+		return "task/task_report";
+	}
 
 	@PostMapping(value = "/core/task")
 	public ResponseEnvelope<Integer> createTask(@RequestBody TaskVO taskVO){

@@ -29,9 +29,9 @@
         <!-- /section:basics/sidebar.mobile.toggle 设置公司图标和项目名称-->
         <div class="navbar-header pull-left">
             <!-- #section:basics/navbar.layout.brand -->
-            <a href="#" class="navbar-brand">
+            <a href="" class="navbar-brand">
                 <small> <!-- i标签为公司图标-->
-                    <i class="fa fa-leaf"></i> 数据监控预警平台
+                    <i class="fa fa-leaf"></i> 汇融易实地调查系统
                 </small>
             </a>
 
