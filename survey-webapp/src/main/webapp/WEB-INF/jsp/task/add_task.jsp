@@ -20,10 +20,10 @@
         <form class="form-horizontal" action="rest/user/creat" method="post" onsubmit="return false;">
             <!-- #section:elements.form -->
             <div class="form-group">
-                <label class="col-sm-3 control-label no-padding-right" for="form-field-1">客户姓名<label
+                <label class="col-sm-4 control-label no-padding-right" for="form-field-1">客户姓名<label
                         style="color: red;">&nbsp;*</label> </label>
 
-                <div class="col-sm-9">
+                <div class="col-sm-8">
                     <div class="col-sm-5 no-padding-left">
                         <input type="text" class="form-control" name="username" value="haiquan"/>
                         ${isSameUser }
@@ -32,10 +32,10 @@
             </div>
 
             <div class="form-group">
-                <label class="col-sm-3 control-label no-padding-right" for="form-field-1">分配调查员<label
+                <label class="col-sm-4 control-label no-padding-right" for="form-field-1">分配调查员<label
                         style="color: red;">&nbsp;*</label> </label>
 
-                <div class="col-sm-9">
+                <div class="col-sm-8">
                     <div class="col-sm-5 no-padding-left">
                         <select
                                 class="form-control col-sm-5"
@@ -50,10 +50,10 @@
             </div>
 
             <div class="form-group">
-                <label class="col-sm-3 control-label no-padding-right" for="form-field-1-2">调查类型 <label
+                <label class="col-sm-4 control-label no-padding-right" for="form-field-1-2">调查类型 <label
                         style="color: red;">&nbsp;*</label> </label>
 
-                <div class="col-sm-9">
+                <div class="col-sm-8">
                     <div class="col-sm-5 no-padding-left">
                         <select
                                 class="form-control col-sm-5"
@@ -65,10 +65,10 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label no-padding-right" for="form-field-1-2">调查要点 <label
+                <label class="col-sm-4 control-label no-padding-right" for="form-field-1-2">调查要点 <label
                         style="color: red;">&nbsp;*</label> </label>
 
-                <div class="col-sm-9">
+                <div class="col-sm-8">
                     <div class="col-sm-5 no-padding-left">
                         <input type="text" name="chinaName" class="form-control col-sm-5"/>
                     </div>
@@ -76,16 +76,20 @@
             </div>
 
             <div class="row" style="height:30px"></div>
-            <div align="center">
-                <div>
-                    <button class="btn btn-sm btn-success" onclick="onSubmit()">
-                        <i class="ace-icon fa fa-check bigger-110">提交</i>
-                    </button>
+            <div class="form-group">
+                <label class="col-sm-4 control-label no-padding-right" for="form-field-1-2"> </label>
 
-                    &nbsp; &nbsp; &nbsp;
-                    <button class="btn btn-sm btn-success" onclick="doUndoAll()">
-                        <i class="ace-icon fa fa-undo bigger-110">重置</i>
-                    </button>
+                <div class="col-sm-8">
+                    <div class="col-sm-5 no-padding-left">
+                        <button class="btn btn-xs btn-success" onclick="onSubmit()" style="width: 81px;margin-left: 34px">
+                            <i class="ace-icon fa fa-check bigger-110">提交</i>
+                        </button>
+
+                        &nbsp; &nbsp; &nbsp;
+                        <button class="btn btn-xs btn-success" onclick="doUndoAll()">
+                            <i class="ace-icon fa fa-undo bigger-110">重置</i>
+                        </button>
+                    </div>
                 </div>
             </div>
         </form>
