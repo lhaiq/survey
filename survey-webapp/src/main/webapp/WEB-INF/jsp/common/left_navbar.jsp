@@ -94,7 +94,7 @@
 
         <li class="">
             <a href="#" class="dropdown-toggle">
-                <i class="menu-icon fa fa-desktop"></i>
+                <i class="menu-icon fa fa-user-plus"></i>
                 <span class="menu-text">调查员管理</span>
 
                 <b class="arrow fa fa-angle-down"></b>
@@ -104,7 +104,7 @@
 
             <ul class="submenu">
                 <li class="">
-                    <a href="#" class="dropdown-toggle">
+                    <a href="javascript:link('/survey/surveyor_ui')">
                         <i class="menu-icon fa fa-caret-right"></i>
                         添加调查员
                     </a>
@@ -112,7 +112,7 @@
                 </li>
 
                 <li class="">
-                    <a href="typography.html">
+                    <a href="javascript:link('/survey/surveyor')">
                         <i class="menu-icon fa fa-caret-right"></i>
                         调查员列表
                     </a>
@@ -124,7 +124,7 @@
 
         <li class="">
             <a href="#" class="dropdown-toggle">
-                <i class="menu-icon fa fa-desktop"></i>
+                <i class="menu-icon fa fa-universal-access"></i>
                 <span class="menu-text">客户管理</span>
 
                 <b class="arrow fa fa-angle-down"></b>
@@ -135,7 +135,7 @@
             <ul class="submenu">
                 <li class="">
                     <a href="javascript:link('/survey/addCustomerUI')">
-                        <i class="menu-icon fa fa-caret-right"></i>
+                        <i class="menu-icon fa fa-user-plus"></i>
                         添加客户
                     </a>
                     <b class="arrow"></b>
@@ -155,7 +155,7 @@
 
         <li class="">
             <a href="#" class="dropdown-toggle">
-                <i class="menu-icon fa fa-desktop"></i>
+                <i class="menu-icon fa fa-paper-plane-o"></i>
                 <span class="menu-text">调查任务</span>
 
                 <b class="arrow fa fa-angle-down"></b>
@@ -164,6 +164,22 @@
             <b class="arrow"></b>
 
             <ul class="submenu">
+                <li class="">
+                    <a href="javascript:link('/survey/task/addTypeUI')">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        添加任务类型
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+                <li class="">
+                    <a href="javascript:link('/survey/task')">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        任务类型列表
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
                 <li class="">
                     <a href="javascript:link('/survey/task')">
                         <i class="menu-icon fa fa-caret-right"></i>
@@ -174,6 +190,7 @@
                 </li>
             </ul>
         </li>
+
 
     </ul>
 

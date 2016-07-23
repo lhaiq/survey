@@ -43,6 +43,11 @@ public class TaskController {
 		return responseEnv;
 	}
 
+	@GetMapping(value = "/task/addTypeUI")
+	public String addTypeUI(){
+		return "task/add_task_type";
+	}
+
 	@GetMapping(value = "/task")
     public String listTask(TaskVO taskVO,Pageable pageable,Model model){
 		TaskModel param = beanMapper.map(taskVO, TaskModel.class);
