@@ -73,7 +73,7 @@
                         <td>
                             <div class="hidden-sm hidden-xs action-buttons">
 
-                                <a class="black" href="#modal-form" role="button">
+                                <a class="dialogMessage" href="#modal-form"  href="#"  name="${i.count}" role="button">
                                     <i class="ace-icon fa fa-eye bigger-130"></i>
                                 </a>
 
@@ -84,6 +84,18 @@
                                 <a class="red" href="#">
                                     <i class="ace-icon fa fa-trash-o bigger-130"></i>
                                 </a>
+                               <%--需要显示的类容--%>
+                                <div id="dialog-message${i.count}" class="hide">
+                                    <p>
+                                       这是第${i.count}行的信息
+                                    </p>
+
+                                    <div class="hr hr-12 hr-double"></div>
+
+                                    <p>
+                                       名称为${item.name}
+                                    </p>
+                                </div>
                             </div>
 
                             <div class="hidden-md hidden-lg">
@@ -92,7 +104,7 @@
                                     <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
 
                                         <li>
-                                            <a href="#" class="tooltip-success" data-rel="tooltip" title=""
+                                            <a   class="tooltip-success" data-rel="tooltip" title=""
                                                data-original-title="View">
                                             <span class="black">
                                                 <i class="ace-icon fa fa-eye bigger-120"></i>
@@ -237,7 +249,7 @@
 </div>
 
 <script type="text/javascript">
-    $(function () {
+    $(function ($) {
         $('#modal-form').on('shown.bs.modal', function () {
             $(this).find('.chosen-container').each(function () {
                 $(this).find('a:first-child').css('width', '210px');
@@ -245,5 +257,45 @@
                 $(this).find('.chosen-search input').css('width', '200px');
             });
         })
+
+
+
+        //override dialog's title function to allow for HTML titles
+        $.widget("ui.dialog", $.extend({}, $.ui.dialog.prototype, {
+            _title: function(title) {
+                var $title = this.options.title || '&nbsp;'
+                if( ("title_html" in this.options) && this.options.title_html == true )
+                    title.html($title);
+                else title.text($title);
+            }
+        }));
+       //查看相信信息js
+        $( ".dialogMessage" ).on('click', function(e) {
+            e.preventDefault();
+            var name=this.name;
+            var dialog = $( "#dialog-message"+name ).removeClass('hide').dialog({
+                modal: true,
+                title: "<div class='widget-header widget-header-small'><h4 class='smaller'><i class='ace-icon fa fa-check'></i> 详细信息</h4></div>",
+                title_html: true,
+                buttons: [
+//                    {
+//                        text: "取消",
+//                        "class" : "btn btn-xs",
+//                        click: function() {
+//                            $( this ).dialog( "close" );
+//                        }
+//                    },
+                    {
+                        text: "Ok",
+                        "class" : "btn btn-primary btn-xs",
+                        click: function() {
+                            $( this ).dialog( "close" );
+                        }
+                    }
+                ]
+            });
+
+        });
+
     });
 </script>
