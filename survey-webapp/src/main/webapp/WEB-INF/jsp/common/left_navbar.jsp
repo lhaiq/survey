@@ -173,7 +173,7 @@
                     <b class="arrow"></b>
                 </li>
                 <li class="">
-                    <a href="javascript:link('/survey/task')">
+                    <a href="javascript:link('/survey/task/taskType')">
                         <i class="menu-icon fa fa-caret-right"></i>
                         任务类型列表
                     </a>

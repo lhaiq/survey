@@ -31,7 +31,7 @@
             <!-- #section:basics/navbar.layout.brand -->
             <a href="" class="navbar-brand">
                 <small> <!-- i标签为公司图标-->
-                    <i class="fa fa-leaf"></i> 汇融易实地调查系统
+                    <img src="assets/logo.png"> 汇融易实地调查系统
                 </small>
             </a>
 

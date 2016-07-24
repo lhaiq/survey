@@ -32,7 +32,7 @@
                     + '<label class="col-sm-4 control-label no-padding-right" for="form-field-1-2"> </label>'
                     + '<div class="col-sm-8">'
                     + '<div class="col-sm-5 no-padding-left">'
-                    + '<input type="text" class="form-control" name="username" value=""/>'
+                    + '<input type="file" class="form-control" name="username" value=""/>'
                     + '</div>'
                     + '<div class="col-sm-3" style="margin-top: 8px">'
                     + '<a href="javascript:void(0)" class="tooltip-success" data-rel="tooltip" title=""'
@@ -110,7 +110,7 @@
 
                 <div class="col-sm-8">
                     <div class="col-sm-5 no-padding-left">
-                        <input type="text" class="form-control" name="username" value=""/>
+                        <input type="file" class="form-control" name="username" value=""/>
                     </div>
                     <div class="col-sm-3" style="margin-top: 8px">
 
@@ -129,7 +129,7 @@
 
                 <div class="col-sm-8">
                     <div class="col-sm-5 no-padding-left">
-                        <input type="text" name="chinaName" class="form-control col-sm-5"/>
+                        <textarea class="form-control col-sm-5"></textarea>
                     </div>
 
                 </div>

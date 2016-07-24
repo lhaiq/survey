@@ -55,6 +55,13 @@ public class TaskController {
         return "task/task_list";
     }
 
+	@GetMapping(value = "/task/taskType")
+	public String listTaskType(TaskVO taskVO,Pageable pageable,Model model){
+		TaskModel param = beanMapper.map(taskVO, TaskModel.class);
+		model.addAttribute("data",taskService.searchPage(param,pageable));
+		return "task/task_type_list";
+	}
+
 	@GetMapping(value = "/task/report/{id}")
 	public String taskReport(@PathVariable Long id){
 		return "task/task_report";
