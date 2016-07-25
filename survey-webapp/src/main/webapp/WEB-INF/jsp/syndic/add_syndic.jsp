@@ -5,12 +5,17 @@
 <div class="row">
     <div class="col-xs-12">
 
-            <div class="alert alert-block alert-success">
-                <button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i>
-                </button>
-                <i class="ace-icon fa fa-check green"></i>
-                <strong class="green">添加成功</strong>
-            </div>
+        <div class="page-header">
+            <h1>评审员管理
+                <small><i class="ace-icon fa fa-angle-double-right"></i> &nbsp;添加评审员</small>
+            </h1>
+        </div>
+            <%--<div class="alert alert-block alert-success">--%>
+                <%--<button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i>--%>
+                <%--</button>--%>
+                <%--<i class="ace-icon fa fa-check green"></i>--%>
+                <%--<strong class="green">添加成功</strong>--%>
+            <%--</div>--%>
 
         <!-- PAGE CONTENT BEGINS -->
         <form class="form-horizontal" action="rest/user/creat" method="post" onsubmit="return false;">

@@ -49,6 +49,9 @@
                             aria-label="Price: activate to sort column ascending">创建时间
                         </th>
                         <th class="sorting" tabindex="0" aria-controls="sample-table-2" rowspan="1" colspan="1"
+                            aria-label="Price: activate to sort column ascending">状态
+                        </th>
+                        <th class="sorting" tabindex="0" aria-controls="sample-table-2" rowspan="1" colspan="1"
                             aria-label="Price: activate to sort column ascending">调查要点
                         </th>
 
@@ -70,8 +73,8 @@
                         <td class="hidden-480">${item.name}</td>
                         <td class="hidden-480">李四</td>
                         <td class="hidden-480">${item.type}</td>
-                        <td class="hidden-480"><fmt:formatDate value="${item.createTime}"
-                                                               pattern="yyyy-MM-dd HH:mm:SS"/></td>
+                        <td class="hidden-480">2016-07-23 23:34</td>
+                        <td class="hidden-480">调查中</td>
                         <td class="hidden-480">${item.point}</td>
                         <td>
                             <div class="hidden-sm hidden-xs action-buttons">
@@ -80,12 +83,16 @@
                                     <i class="ace-icon fa fa-eye bigger-130"></i>
                                 </a>
 
+                                <a class="red" href="#">
+                                    <i class="ace-icon glyphicon glyphicon-repeat bigger-130"></i>
+                                </a>
+
                                 <a class="green" href="#">
-                                    <i class="ace-icon fa fa-pencil bigger-130"></i>
+                                    <i class="ace-icon fa fa-thumbs-o-up bigger-130"></i>
                                 </a>
 
                                 <a class="red" href="#">
-                                    <i class="ace-icon fa fa-trash-o bigger-130"></i>
+                                    <i class="ace-icon fa fa-thumbs-o-down bigger-130"></i>
                                 </a>
                             </div>
 
@@ -106,8 +113,17 @@
                                         <li>
                                             <a href="#" class="tooltip-success" data-rel="tooltip" title=""
                                                data-original-title="Edit">
+                                            <span class="red">
+                                                <i class="ace-icon glyphicon glyphicon-repeat bigger-120"></i>
+                                            </span>
+                                            </a>
+                                        </li>
+
+                                        <li>
+                                            <a href="#" class="tooltip-success" data-rel="tooltip" title=""
+                                               data-original-title="Edit">
                                             <span class="green">
-                                                <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
+                                                <i class="ace-icon fa fa-thumbs-o-up bigger-120"></i>
                                             </span>
                                             </a>
                                         </li>
@@ -116,7 +132,7 @@
                                             <a href="#" class="tooltip-error" data-rel="tooltip" title=""
                                                data-original-title="Delete">
                                             <span class="red">
-                                                <i class="ace-icon fa fa-trash-o bigger-120"></i>
+                                                <i class="ace-icon fa fa-thumbs-o-down bigger-120"></i>
                                             </span>
                                             </a>
                                         </li>

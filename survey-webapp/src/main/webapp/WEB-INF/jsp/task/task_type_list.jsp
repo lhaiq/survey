@@ -314,6 +314,7 @@
             e.preventDefault();
             var name = this.name;
             var dialog = $("#dialog-message" + name).removeClass('hide').dialog({
+                width:800,
                 modal: true,
                 title: "<div class='widget-header widget-header-small'><h4 class='smaller'><i class='ace-icon fa fa-check'></i>模板预览</h4></div>",
                 title_html: true,

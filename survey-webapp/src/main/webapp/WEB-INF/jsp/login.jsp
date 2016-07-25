@@ -22,7 +22,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 <head>
 <base href="<%=basePath%>">
 <meta charset="utf-8"/>
-<title>数据监控预警平台</title>
+<title>汇融易实地调查系统</title>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <meta content="" name="description"/>
@@ -56,7 +56,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 <div class="logo">
 	<h3>
 								
-		<span class="create-account">（数据监控）图片</span>
+		<span class="create-account">汇融易实地调查系统</span>
    </h3>
 </div>
 <!-- END LOGO -->
@@ -100,11 +100,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 			</button>
 		</div>
 
-		<div class="create-account">
-			<p>
-				联系人：糖糖   &nbsp;   电话：188888888888
-			</p>
-		</div>
+
 	</form>
 	<!-- END LOGIN FORM -->
 	<!-- BEGIN FORGOT PASSWORD FORM -->
@@ -133,7 +129,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 <!-- END LOGIN -->
 <!-- BEGIN COPYRIGHT -->
 <div class="copyright">
-	 2015 &copy; 雅砻江流域水电开发有限公司
+	 2016 &copy; Hongrui
 </div>
 <!-- END COPYRIGHT -->
 <!-- BEGIN JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->

@@ -194,9 +194,6 @@
                             </ul>
                         </li>
 
-                        <li class="dropdown-footer">
-                            <a href="rest/sms/searchAlert"> 查看全部短信 <i class="ace-icon fa fa-arrow-right"></i> </a>
-                        </li>
                     </ul>
                 </li>
 
@@ -205,16 +202,14 @@
                                           class="dropdown-toggle"> <img class="nav-user-photo"
                                                                         src="<%= basePath%>assets/avatars/user.jpg"
                                                                         alt="Jason's Photo"/> <span
-                        class="user-info"> <small>Welcome,</small> 川江
+                        class="user-info"> <small>Welcome,</small> haiquan
 					</span> <i class="ace-icon fa fa-caret-down"></i>
                 </a>
 
                     <ul
                             class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
-                        <li><a href="#"> <i class="ace-icon fa fa-cog"></i> 设置
-                        </a></li>
 
-                        <li><a href="profile.html"> <i
+                        <li><a href="javascript:link('/survey/updatePasswordUI')"> <i
                                 class="ace-icon fa fa-user"></i> 资料
                         </a></li>
 

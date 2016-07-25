@@ -5,8 +5,8 @@
 <div class="row">
     <div class="col-xs-12">
         <div class="page-header">
-            <h1>评审员管理
-                <small><i class="ace-icon fa fa-angle-double-right"></i> &nbsp;评审员列表</small>
+            <h1>客户管理
+                <small><i class="ace-icon fa fa-angle-double-right"></i> &nbsp;客户列表</small>
             </h1>
         </div>
         <div class="table-header" style="background-color: #438eb9">

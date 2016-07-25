@@ -4,8 +4,8 @@
 <div class="row">
     <div class="col-xs-12">
         <div class="page-header">
-            <h1>客户管理
-                <small><i class="ace-icon fa fa-angle-double-right"></i> &nbsp;添加客户</small>
+            <h1>个人资料
+                <small><i class="ace-icon fa fa-angle-double-right"></i> &nbsp;修改密码</small>
             </h1>
         </div>
         <c:if test="${addFlag == 'Y' }">
@@ -20,7 +20,7 @@
         <form class="form-horizontal" action="rest/user/creat" method="post" onsubmit="return false;">
             <!-- #section:elements.form -->
             <div class="form-group">
-                <label class="col-sm-4 control-label no-padding-right" for="form-field-1">姓名<label
+                <label class="col-sm-4 control-label no-padding-right" for="form-field-1">旧密码<label
                         style="color: red;">&nbsp;*</label> </label>
 
                 <div class="col-sm-8">
@@ -32,36 +32,26 @@
             </div>
 
             <div class="form-group">
-                <label class="col-sm-4 control-label no-padding-right" for="form-field-1-2">身份证号码 <label
+                <label class="col-sm-4 control-label no-padding-right" for="form-field-1-2">新密码 <label
                         style="color: red;">&nbsp;*</label> </label>
 
                 <div class="col-sm-8">
                     <div class="col-sm-5 no-padding-left">
-                        <input type="text" name="idCard" class="form-control col-sm-5"/>
+                        <input type="password" name="idCard" class="form-control col-sm-5"/>
                     </div>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-4 control-label no-padding-right" for="form-field-1-2">公司 <label
+                <label class="col-sm-4 control-label no-padding-right" for="form-field-1-2">新密码确认 <label
                         style="color: red;">&nbsp;*</label> </label>
 
                 <div class="col-sm-8">
                     <div class="col-sm-5 no-padding-left">
-                        <input type="text" name="company" class="form-control col-sm-5"/>
+                        <input type="password" name="company" class="form-control col-sm-5"/>
                     </div>
                 </div>
             </div>
 
-            <div class="form-group">
-                <label class="col-sm-4 control-label no-padding-right" for="form-field-1-2">地址 <label
-                        style="color: red;">&nbsp;*</label> </label>
-
-                <div class="col-sm-8">
-                    <div class="col-sm-5 no-padding-left">
-                        <input type="text" name="address" class="form-control col-sm-5"/>
-                    </div>
-                </div>
-            </div>
 
             <div class="row" style="height:30px"></div>
             <div class="form-group">

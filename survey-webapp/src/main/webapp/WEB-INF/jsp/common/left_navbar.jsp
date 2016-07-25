@@ -61,97 +61,99 @@
 
             <b class="arrow"></b>
         </li>
+        <c:if test="${admin}">
+            <li class="">
+                <a href="#" class="dropdown-toggle">
+                    <i class="menu-icon fa fa-user"></i>
+                    <span class="menu-text">评审员管理</span>
 
-        <li class="">
-            <a href="#" class="dropdown-toggle">
-                <i class="menu-icon fa fa-user"></i>
-                <span class="menu-text">评审员管理</span>
+                    <b class="arrow fa fa-angle-down"></b>
+                </a>
 
-                <b class="arrow fa fa-angle-down"></b>
-            </a>
+                <b class="arrow"></b>
 
-            <b class="arrow"></b>
+                <ul class="submenu">
+                    <li class="">
+                        <a href="javascript:link('/survey/syndic_ui')">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            添加评审员
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
 
-            <ul class="submenu">
-                <li class="" >
-                    <a href="javascript:link('/survey/syndic_ui')">
-                        <i class="menu-icon fa fa-caret-right"></i>
-                        添加评审员
-                    </a>
-                    <b class="arrow"></b>
-                </li>
+                    <li class="">
+                        <a href="javascript:link('/survey/syndic')">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            评审员列表
+                        </a>
 
-                <li class="">
-                    <a href="javascript:link('/survey/syndic')">
-                        <i class="menu-icon fa fa-caret-right"></i>
-                        评审员列表
-                    </a>
+                        <b class="arrow"></b>
+                    </li>
+                </ul>
+            </li>
 
-                    <b class="arrow"></b>
-                </li>
-            </ul>
-        </li>
+            <li class="">
+                <a href="#" class="dropdown-toggle">
+                    <i class="menu-icon fa fa-user"></i>
+                    <span class="menu-text">调查员管理</span>
 
-        <li class="">
-            <a href="#" class="dropdown-toggle">
-                <i class="menu-icon fa fa-user"></i>
-                <span class="menu-text">调查员管理</span>
+                    <b class="arrow fa fa-angle-down"></b>
+                </a>
 
-                <b class="arrow fa fa-angle-down"></b>
-            </a>
+                <b class="arrow"></b>
 
-            <b class="arrow"></b>
+                <ul class="submenu">
+                    <li class="">
+                        <a href="javascript:link('/survey/surveyor_ui')">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            添加调查员
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
 
-            <ul class="submenu">
-                <li class="">
-                    <a href="javascript:link('/survey/surveyor_ui')">
-                        <i class="menu-icon fa fa-caret-right"></i>
-                        添加调查员
-                    </a>
-                    <b class="arrow"></b>
-                </li>
+                    <li class="">
+                        <a href="javascript:link('/survey/surveyor')">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            调查员列表
+                        </a>
 
-                <li class="">
-                    <a href="javascript:link('/survey/surveyor')">
-                        <i class="menu-icon fa fa-caret-right"></i>
-                        调查员列表
-                    </a>
+                        <b class="arrow"></b>
+                    </li>
+                </ul>
+            </li>
 
-                    <b class="arrow"></b>
-                </li>
-            </ul>
-        </li>
+        </c:if>
+        <c:if test="${!admin}">
+            <li class="">
+                <a href="#" class="dropdown-toggle">
+                    <i class="menu-icon fa fa-user"></i>
+                    <span class="menu-text">客户管理</span>
 
-        <li class="">
-            <a href="#" class="dropdown-toggle">
-                <i class="menu-icon fa fa-user"></i>
-                <span class="menu-text">客户管理</span>
+                    <b class="arrow fa fa-angle-down"></b>
+                </a>
 
-                <b class="arrow fa fa-angle-down"></b>
-            </a>
+                <b class="arrow"></b>
 
-            <b class="arrow"></b>
+                <ul class="submenu">
+                    <li class="">
+                        <a href="javascript:link('/survey/addCustomerUI')">
+                            <i class="menu-icon fa fa-user-plus"></i>
+                            添加客户
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
 
-            <ul class="submenu">
-                <li class="">
-                    <a href="javascript:link('/survey/addCustomerUI')">
-                        <i class="menu-icon fa fa-user-plus"></i>
-                        添加客户
-                    </a>
-                    <b class="arrow"></b>
-                </li>
+                    <li class="">
+                        <a href="javascript:link('/survey/customer')">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            客户列表
+                        </a>
 
-                <li class="">
-                    <a href="javascript:link('/survey/customer')">
-                        <i class="menu-icon fa fa-caret-right"></i>
-                        客户列表
-                    </a>
-
-                    <b class="arrow"></b>
-                </li>
-            </ul>
-        </li>
-
+                        <b class="arrow"></b>
+                    </li>
+                </ul>
+            </li>
+        </c:if>
 
         <li class="">
             <a href="#" class="dropdown-toggle">
@@ -164,30 +166,34 @@
             <b class="arrow"></b>
 
             <ul class="submenu">
-                <li class="">
-                    <a href="javascript:link('/survey/task/addTypeUI')">
-                        <i class="menu-icon fa fa-caret-right"></i>
-                        添加任务类型
-                    </a>
+                <c:if test="${admin}">
+                    <li class="">
+                        <a href="javascript:link('/survey/task/addTypeUI')">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            添加任务类型
+                        </a>
 
-                    <b class="arrow"></b>
-                </li>
-                <li class="">
-                    <a href="javascript:link('/survey/task/taskType')">
-                        <i class="menu-icon fa fa-caret-right"></i>
-                        任务类型列表
-                    </a>
+                        <b class="arrow"></b>
+                    </li>
+                    <li class="">
+                        <a href="javascript:link('/survey/task/taskType')">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            任务类型列表
+                        </a>
 
-                    <b class="arrow"></b>
-                </li>
-                <li class="">
-                    <a href="javascript:link('/survey/task')">
-                        <i class="menu-icon fa fa-caret-right"></i>
-                        任务列表
-                    </a>
+                        <b class="arrow"></b>
+                    </li>
+                </c:if>
+                <c:if test="${!admin}">
+                    <li class="">
+                        <a href="javascript:link('/survey/task')">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            任务列表
+                        </a>
 
-                    <b class="arrow"></b>
-                </li>
+                        <b class="arrow"></b>
+                    </li>
+                </c:if>
             </ul>
         </li>
 
@@ -215,9 +221,10 @@
     <script type="text/javascript">
 
         function link(url) {
-            $.ajax({url: url,
+            $.ajax({
+                url: url,
                 async: true,
-                success:function(data){
+                success: function (data) {
                     $(".page-content-area").html(data)
                 }
             });
