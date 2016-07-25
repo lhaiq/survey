@@ -10,7 +10,7 @@
                 <small><i class="ace-icon fa fa-angle-double-right"></i> &nbsp;调查任务类型列表</small>
             </h1>
         </div>
-        <div class="table-header">
+        <div class="table-header" style="background-color: #438eb9">
             列表
         </div>
         <div id="sample-table-2_wrapper" class="dataTables_wrapper form-inline no-footer">
@@ -26,7 +26,9 @@
                         </select> records</label></div>
                 </div>
                 <div class="col-xs-6">
-                    <div id="sample-table-2_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control input-sm" aria-controls="sample-table-2">
+                    <div id="sample-table-2_filter" class="dataTables_filter"><label>Search:<input type="search"
+                                                                                                   class="form-control input-sm"
+                                                                                                   aria-controls="sample-table-2">
                     </label></div>
                 </div>
             </div>
@@ -73,7 +75,7 @@
                         <td>
                             <div class="hidden-sm hidden-xs action-buttons">
 
-                                <a class="dialogMessage" href="#modal-form"  href="#"  name="${i.count}" role="button">
+                                <a class="dialogMessage" href="#modal-form" href="#" name="${i.count}" role="button">
                                     <i class="ace-icon fa fa-eye bigger-130"></i>
                                 </a>
 
@@ -84,17 +86,139 @@
                                 <a class="red" href="#">
                                     <i class="ace-icon fa fa-trash-o bigger-130"></i>
                                 </a>
-                               <%--需要显示的类容--%>
+                                    <%--需要显示的类容--%>
                                 <div id="dialog-message${i.count}" class="hide">
-                                    <p>
-                                       这是第${i.count}行的信息
-                                    </p>
+                                    <div class="tabbable">
+                                        <ul class="nav nav-tabs padding-18">
+                                            <li class="active">
+                                                <a data-toggle="tab" href="#pictures1">
+                                                    <i class="green"></i>
+                                                    客户个人资料
+                                                </a>
+                                            </li>
 
-                                    <div class="hr hr-12 hr-double"></div>
+                                            <li>
+                                                <a data-toggle="tab" href="#pictures2">
+                                                    <i class="orange"></i>
+                                                    客户家庭资料
+                                                </a>
+                                            </li>
 
-                                    <p>
-                                       名称为${item.name}
-                                    </p>
+                                        </ul>
+
+                                        <div class="tab-content no-border padding-24">
+                                            <div id="pictures1" class="tab-pane in active">
+                                                <table class="table table-bordered">
+                                                    <tr>
+                                                        <td class="col-md-2">7.1</td>
+                                                        <td class="col-md-2">企业实际经营地址与注册地址是否一致</td>
+                                                        <td class="col-md-3"/>
+                                                        <td class="col-md-2">7.7</td>
+                                                        <td class="col-md-2">仓库、存货</td>
+                                                        <td class="col-md-3"/>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="col-md-2">7.2</td>
+                                                        <td class="col-md-2">相关证照</td>
+                                                        <td class="col-md-3"/>
+                                                        <td class="col-md-2">7.8</td>
+                                                        <td class="col-md-2">办公环境</td>
+                                                        <td class="col-md-3"/>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="col-md-2">7.3</td>
+                                                        <td class="col-md-2">租赁合同</td>
+                                                        <td class="col-md-3"/>
+                                                        <td class="col-md-2">7.9</td>
+                                                        <td class="col-md-2">生产环境</td>
+                                                        <td class="col-md-3"/>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td class="col-md-2">7.4</td>
+                                                        <td class="col-md-2">购销合同</td>
+                                                        <td class="col-md-3"/>
+                                                        <td class="col-md-2">7.10</td>
+                                                        <td class="col-md-2">员工作业情况</td>
+                                                        <td class="col-md-3"/>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="col-md-2">7.5</td>
+                                                        <td class="col-md-2">进出货单</td>
+                                                        <td class="col-md-3"/>
+                                                        <td class="col-md-2">7.11</td>
+                                                        <td class="col-md-2">周边情况</td>
+                                                        <td class="col-md-3"/>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="col-md-2">7.6</td>
+                                                        <td class="col-md-2">近半年计薪情况</td>
+                                                        <td class="col-md-3"/>
+                                                        <td class="col-md-2">7.12</td>
+                                                        <td class="col-md-2">现场员工人数</td>
+                                                        <td class="col-md-3"/>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                            <!-- /#home -->
+
+                                            <div id="pictures2" class="tab-pane">
+                                                <table class="table table-bordered">
+                                                    <tr>
+                                                        <td class="col-md-2">7.1</td>
+                                                        <td class="col-md-2">企业实际经营地址与注册地址是否一致</td>
+                                                        <td class="col-md-3"/>
+                                                        <td class="col-md-2">7.7</td>
+                                                        <td class="col-md-2">仓库、存货</td>
+                                                        <td class="col-md-3"/>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="col-md-2">7.2</td>
+                                                        <td class="col-md-2">相关证照</td>
+                                                        <td class="col-md-3"/>
+                                                        <td class="col-md-2">7.8</td>
+                                                        <td class="col-md-2">办公环境</td>
+                                                        <td class="col-md-3"/>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="col-md-2">7.3</td>
+                                                        <td class="col-md-2">租赁合同</td>
+                                                        <td class="col-md-3"/>
+                                                        <td class="col-md-2">7.9</td>
+                                                        <td class="col-md-2">生产环境</td>
+                                                        <td class="col-md-3"/>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td class="col-md-2">7.4</td>
+                                                        <td class="col-md-2">购销合同</td>
+                                                        <td class="col-md-3"/>
+                                                        <td class="col-md-2">7.10</td>
+                                                        <td class="col-md-2">员工作业情况</td>
+                                                        <td class="col-md-3"/>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="col-md-2">7.5</td>
+                                                        <td class="col-md-2">进出货单</td>
+                                                        <td class="col-md-3"/>
+                                                        <td class="col-md-2">7.11</td>
+                                                        <td class="col-md-2">周边情况</td>
+                                                        <td class="col-md-3"/>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="col-md-2">7.6</td>
+                                                        <td class="col-md-2">近半年计薪情况</td>
+                                                        <td class="col-md-3"/>
+                                                        <td class="col-md-2">7.12</td>
+                                                        <td class="col-md-2">现场员工人数</td>
+                                                        <td class="col-md-3"/>
+                                                    </tr>
+                                                </table>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
 
@@ -104,7 +228,7 @@
                                     <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
 
                                         <li>
-                                            <a   class="tooltip-success" data-rel="tooltip" title=""
+                                            <a class="tooltip-success" data-rel="tooltip" title=""
                                                data-original-title="View">
                                             <span class="black">
                                                 <i class="ace-icon fa fa-eye bigger-120"></i>
@@ -173,109 +297,25 @@
 </div>
 
 
-<div id="modal-form" class="modal" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="blue bigger">Please fill the following form
-                    fields</h4>
-            </div>
-
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-xs-12 col-sm-5">
-                        <div class="space"></div>
-
-                        <input type="file"/>
-                    </div>
-
-                    <div class="col-xs-12 col-sm-7">
-                        <div class="form-group">
-                            <label for="form-field-select-3">Location</label>
-
-                            <div>
-                                <select class="chosen-select"
-                                        data-placeholder="Choose a Country...">
-                                    <option value="">&nbsp;</option>
-                                    <option value="AL">Alabama</option>
-                                    <option value="AK">Alaska</option>
-                                    <option value="AZ">Arizona</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="space-4"></div>
-
-                        <div class="form-group">
-                            <label for="form-field-username">Username</label>
-
-                            <div>
-                                <input class="input-large" type="text"
-                                       id="form-field-username" placeholder="Username"
-                                       value="alexdoe"/>
-                            </div>
-                        </div>
-
-                        <div class="space-4"></div>
-
-                        <div class="form-group">
-                            <label for="form-field-first">Name</label>
-
-                            <div>
-                                <input class="input-medium" type="text"
-                                       id="form-field-first" placeholder="First Name"
-                                       value="Alex"/> <input class="input-medium" type="text"
-                                                             id="form-field-last"
-                                                             placeholder="Last Name"
-                                                             value="Doe"/>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="modal-footer">
-                <button class="btn btn-sm" data-dismiss="modal">
-                    <i class="ace-icon fa fa-times"></i> Cancel
-                </button>
-
-                <button class="btn btn-sm btn-primary">
-                    <i class="ace-icon fa fa-check"></i> Save
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-
 <script type="text/javascript">
     $(function ($) {
-        $('#modal-form').on('shown.bs.modal', function () {
-            $(this).find('.chosen-container').each(function () {
-                $(this).find('a:first-child').css('width', '210px');
-                $(this).find('.chosen-drop').css('width', '210px');
-                $(this).find('.chosen-search input').css('width', '200px');
-            });
-        })
-
-
 
         //override dialog's title function to allow for HTML titles
         $.widget("ui.dialog", $.extend({}, $.ui.dialog.prototype, {
-            _title: function(title) {
+            _title: function (title) {
                 var $title = this.options.title || '&nbsp;'
-                if( ("title_html" in this.options) && this.options.title_html == true )
+                if (("title_html" in this.options) && this.options.title_html == true)
                     title.html($title);
                 else title.text($title);
             }
         }));
-       //查看相信信息js
-        $( ".dialogMessage" ).on('click', function(e) {
+        //查看相信信息js
+        $(".dialogMessage").on('click', function (e) {
             e.preventDefault();
-            var name=this.name;
-            var dialog = $( "#dialog-message"+name ).removeClass('hide').dialog({
+            var name = this.name;
+            var dialog = $("#dialog-message" + name).removeClass('hide').dialog({
                 modal: true,
-                title: "<div class='widget-header widget-header-small'><h4 class='smaller'><i class='ace-icon fa fa-check'></i> 详细信息</h4></div>",
+                title: "<div class='widget-header widget-header-small'><h4 class='smaller'><i class='ace-icon fa fa-check'></i>模板预览</h4></div>",
                 title_html: true,
                 buttons: [
 //                    {
@@ -287,9 +327,9 @@
 //                    },
                     {
                         text: "Ok",
-                        "class" : "btn btn-primary btn-xs",
-                        click: function() {
-                            $( this ).dialog( "close" );
+                        "class": "btn btn-primary btn-xs",
+                        click: function () {
+                            $(this).dialog("close");
                         }
                     }
                 ]

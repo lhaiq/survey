@@ -5,8 +5,8 @@
 	<div class="footer-inner">
 		<!-- #section:basics/footer -->
 		<div class="footer-content">
-			<span class="bigger-120"> <span class="blue bolder">Ace</span>
-				Application &copy; 2013-2014
+			<span class="bigger-120"> <span class="blue bolder">Hongrui</span>
+				&copy; 2016-2018
 			</span> &nbsp; &nbsp; <span class="action-buttons"> <a href="#">
 					<i class="ace-icon fa fa-twitter-square light-blue bigger-150"></i>
 			</a> <a href="#"> <i

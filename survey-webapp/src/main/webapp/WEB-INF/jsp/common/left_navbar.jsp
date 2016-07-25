@@ -94,7 +94,7 @@
 
         <li class="">
             <a href="#" class="dropdown-toggle">
-                <i class="menu-icon fa fa-user-plus"></i>
+                <i class="menu-icon fa fa-user"></i>
                 <span class="menu-text">调查员管理</span>
 
                 <b class="arrow fa fa-angle-down"></b>
@@ -124,7 +124,7 @@
 
         <li class="">
             <a href="#" class="dropdown-toggle">
-                <i class="menu-icon fa fa-universal-access"></i>
+                <i class="menu-icon fa fa-user"></i>
                 <span class="menu-text">客户管理</span>
 
                 <b class="arrow fa fa-angle-down"></b>

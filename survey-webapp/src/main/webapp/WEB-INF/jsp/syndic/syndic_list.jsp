@@ -10,7 +10,7 @@
                 <small><i class="ace-icon fa fa-angle-double-right"></i> &nbsp;评审员列表</small>
             </h1>
         </div>
-        <div class="table-header">
+        <div class="table-header" style="background-color: #438eb9">
             列表
         </div>
         <div id="sample-table-2_wrapper" class="dataTables_wrapper form-inline no-footer">
