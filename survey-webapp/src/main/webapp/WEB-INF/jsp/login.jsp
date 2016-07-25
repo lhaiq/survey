@@ -152,7 +152,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 <script src="assets/plugins/uniform/jquery.uniform.min.js" type="text/javascript"></script>
 <!-- END CORE PLUGINS -->
 <!-- BEGIN PAGE LEVEL PLUGINS -->
-<script src="assets/plugins/jquery-validation/dist/jquery.validate.min.js" type="text/javascript"></script>
+<script src="assets\js\jquery.validate.min.js" type="text/javascript"></script>
 <script src="assets/plugins/backstretch/jquery.backstretch.min.js" type="text/javascript"></script>
 <script type="text/javascript" src="assets/plugins/select2/select2.min.js"></script>
 <!-- END PAGE LEVEL PLUGINS -->
