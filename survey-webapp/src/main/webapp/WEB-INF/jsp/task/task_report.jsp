@@ -498,8 +498,23 @@
                         <div><h3 class="widget-title grey lighter">评价</h3></div>
                         <div class="hr hr8  hr-dotted"></div>
                         <div>
-                            <textare >asdadasd</textare>
+                            <textarea
+                                    class="autosize-transition form-control"></textarea>
                         </div>
+                        <br/>
+                        <div class="col-md-offset-3 col-md-9">
+                            <button class="btn btn-info" type="button">
+                                <i class="ace-icon fa fa-thumbs-o-up bigger-110"></i> 通过
+                            </button>
+
+                            &nbsp; &nbsp; &nbsp;
+                            <button class="btn" type="reset">
+                                <i class="ace-icon fa fa-thumbs-o-down bigger-110"></i> 拒绝
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row">
+
                     </div>
                 </div>
 

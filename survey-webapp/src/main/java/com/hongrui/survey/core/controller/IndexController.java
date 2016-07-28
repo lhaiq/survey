@@ -26,7 +26,6 @@ public class IndexController {
 
     @GetMapping(value = "/survey/updatePasswordUI")
     public String updatePassUI(Model model){
-        model.addAttribute("admin",false);
         return "update_password";
     }
 }

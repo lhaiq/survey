@@ -1,5 +1,8 @@
 package com.hongrui.survey.core.controller;
 
+import com.google.common.cache.Cache;
+import com.hongrui.survey.core.RandomUtil;
+import com.hongrui.survey.core.vo.UserInfoVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -33,48 +36,36 @@ public class UserRestApiController {
 	@Autowired
 	private UserService userService;
 
-	@GetMapping(value = "/core/user/{id}")
-	public ResponseEnvelope<UserVO> getUserById(@PathVariable Long id){
-		UserModel userModel = userService.findByPrimaryKey(id);
-		UserVO userVO =beanMapper.map(userModel, UserVO.class);
-		ResponseEnvelope<UserVO> responseEnv = new ResponseEnvelope<>(userVO,true);
-		return responseEnv;
-	}
+	@Autowired
+	private Cache<String, Long> sessionCache;
 
-	@GetMapping(value = "/core/user")
-    public ResponseEnvelope<Page<UserModel>> listUser(UserVO userVO,Pageable pageable){
-
-		UserModel param = beanMapper.map(userVO, UserModel.class);
-        List<UserModel> userModelModels = userService.selectPage(param,pageable);
-        long count=userService.selectCount(param);
-        Page<UserModel> page = new PageImpl<>(userModelModels,pageable,count);
-        ResponseEnvelope<Page<UserModel>> responseEnv = new ResponseEnvelope<>(page,true);
-        return responseEnv;
-    }
-
-	@PostMapping(value = "/core/user")
-	public ResponseEnvelope<Integer> createUser(@RequestBody UserVO userVO){
+	@PostMapping(value = "/user/login")
+	public ResponseEnvelope<UserInfoVO> userLogin(@RequestBody UserVO userVO){
 		UserModel userModel = beanMapper.map(userVO, UserModel.class);
-		Integer  result = userService.create(userModel);
-		ResponseEnvelope<Integer> responseEnv = new ResponseEnvelope<>(result,true);
+		UserModel existedUser = userService.login(userModel);
+		UserInfoVO userInfoVO = beanMapper.map(existedUser,UserInfoVO.class);
+		String sessionId = RandomUtil.generateAuthToken();
+		sessionCache.put(sessionId,existedUser.getId());
+		userInfoVO.setSessionId(sessionId);
+		ResponseEnvelope<UserInfoVO> responseEnv = new ResponseEnvelope<>(userInfoVO,true);
         return responseEnv;
 	}
 
-    @DeleteMapping(value = "/core/user/{id}")
-	public ResponseEnvelope<Integer> deleteUserByPrimaryKey(@PathVariable Long id){
-		Integer  result = userService.deleteByPrimaryKey(id);
-		ResponseEnvelope<Integer> responseEnv = new ResponseEnvelope<>(result,true);
+    @DeleteMapping(value = "/user/logout")
+	public ResponseEnvelope<String> userLogout(@RequestHeader("Authorization")String authorization){
+		sessionCache.invalidate(authorization);
+		ResponseEnvelope<String> responseEnv = new ResponseEnvelope<>("ok",true);
         return responseEnv;
 	}
 
 
-    @PutMapping(value = "/core/user/{id}")
-	public ResponseEnvelope<Integer> updateUserByPrimaryKeySelective(@PathVariable Long id,
+    @PutMapping(value = "/user/passrest")
+	public ResponseEnvelope<Integer> passrest(@RequestAttribute Long id,
 					@RequestBody UserVO userVO){
 		UserModel userModel = beanMapper.map(userVO, UserModel.class);
 		userModel.setId(id);
 		Integer  result = userService.updateByPrimaryKeySelective(userModel);
-		ResponseEnvelope<Integer> responseEnv = new ResponseEnvelope<Integer>(result,true);
+		ResponseEnvelope<Integer> responseEnv = new ResponseEnvelope<>(result,true);
         return responseEnv;
 	}
 

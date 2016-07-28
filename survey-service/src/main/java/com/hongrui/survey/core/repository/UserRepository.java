@@ -22,5 +22,5 @@ public interface UserRepository {
 
     int selectCount(@Param("user") User user);
 
-    java.util.List<com.hongrui.survey.core.entity.User> selectPage(@Param("user") User user, @Param("pageable") Pageable pageable);
+    List<User> selectPage(@Param("user") User user, @Param("pageable") Pageable pageable);
 }

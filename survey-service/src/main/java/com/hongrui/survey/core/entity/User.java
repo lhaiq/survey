@@ -13,6 +13,8 @@ public class User {
 
     private Integer role;
 
+    private String nickName;
+
     public Long getId() {
         return id;
     }
@@ -51,5 +53,13 @@ public class User {
 
     public void setRole(Integer role) {
         this.role = role;
+    }
+
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
     }
 }
