@@ -15,6 +15,8 @@ public class Photo {
 
     private Date createTime;
 
+    private String contentType;
+
     public Long getId() {
         return id;
     }
@@ -61,5 +63,13 @@ public class Photo {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public String getContentType() {
+        return contentType;
+    }
+
+    public void setContentType(String contentType) {
+        this.contentType = contentType;
     }
 }

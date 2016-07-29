@@ -1,16 +1,17 @@
-package com.hongrui.survey.core.model;
+package com.hongrui.survey.core.vo;
 
 import com.wlw.pylon.core.beans.mapping.annotation.MapClass;
 import java.util.Date;
 
-@MapClass("com.hongrui.survey.core.entity.Record")
-public class RecordModel{
+@MapClass("com.hongrui.survey.core.model.AudioModel")
+public class AudioVO{
 	
 	private Long id;
 	private String name;
 	private Long taskId;
 	private String path;
 	private Date creatTime;
+	private String contentType;
 	private Integer type;
 	private Integer index;
 		
@@ -52,6 +53,14 @@ public class RecordModel{
 	
 	public Date getCreatTime(){
 		return this.creatTime;
+	}
+		
+	public void setContentType(String contentType){
+		this.contentType = contentType;
+	}
+	
+	public String getContentType(){
+		return this.contentType;
 	}
 		
 	public void setType(Integer type){

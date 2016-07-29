@@ -1,27 +1,20 @@
 package com.hongrui.survey.core.controller;
 
+import com.hongrui.survey.core.AudioType;
 import com.hongrui.survey.core.RandomUtil;
+import com.hongrui.survey.core.model.AudioModel;
+import com.hongrui.survey.core.model.PhotoModel;
+import com.hongrui.survey.core.service.AudioService;
+import com.hongrui.survey.core.service.PhotoService;
+import com.wlw.pylon.core.beans.mapping.BeanMapper;
+import com.wlw.pylon.web.rest.ResponseEnvelope;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
-
-import com.wlw.pylon.core.beans.mapping.BeanMapper;
-import com.wlw.pylon.web.rest.ResponseEnvelope;
-import com.wlw.pylon.web.rest.annotation.RestApiController;
-
-import com.hongrui.survey.core.service.PhotoService;
-import com.hongrui.survey.core.model.PhotoModel;
-import com.hongrui.survey.core.vo.PhotoVO;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
@@ -30,33 +23,32 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Date;
-import java.util.List;
 
 @RestController
 @RequestMapping("/survey")
-public class PhotoRestApiController {
+public class AudioRestApiController {
 
-    private final Logger logger = LoggerFactory.getLogger(PhotoRestApiController.class);
+    private final Logger logger = LoggerFactory.getLogger(AudioRestApiController.class);
 
     @Autowired
     private BeanMapper beanMapper;
 
     @Autowired
-    private PhotoService photoService;
+    private AudioService audioService;
 
-    @Value("${photo.base.url}")
+    @Value("${audio.base.url}")
     private String baseDirectory;
 
-    @GetMapping(value = "/photo/{id}")
-    public void getPhotoById(@PathVariable Long id,
+    @GetMapping(value = "/audio/{id}")
+    public void getAudioById(@PathVariable Long id,
                              HttpServletResponse response) {
 
-        PhotoModel photoModel = photoService.findByPrimaryKey(id);
-        response.setContentType(photoModel.getContentType());
+        AudioModel audioModel = audioService.findByPrimaryKey(id);
+        response.setContentType(audioModel.getContentType());
         OutputStream outputStream = null;
         InputStream inputStream = null;
         try {
-            inputStream = FileUtils.openInputStream(new File(photoModel.getPath()));
+            inputStream = FileUtils.openInputStream(new File(audioModel.getPath()));
             IOUtils.copy(inputStream, outputStream);
 
         } catch (IOException e) {
@@ -69,17 +61,21 @@ public class PhotoRestApiController {
     }
 
 
-    @PostMapping(value = "/{taskId}/{photoType}/photo")
-    public ResponseEnvelope<Integer> uploadPhoto(@RequestParam MultipartFile file,
+    @PostMapping(value = "/{taskId}/audio/{filename}/{index}")
+    public ResponseEnvelope<Integer> uploadAudio(@RequestParam MultipartFile file,
                                                  @PathVariable Long taskId,
-                                                 @PathVariable Long photoType) {
-        PhotoModel photoModel = new PhotoModel();
-        photoModel.setCreateTime(new Date());
-        photoModel.setName(file.getName());
-        photoModel.setPhotoType(photoType);
-        photoModel.setTaskId(taskId);
+                                                 @PathVariable String filename,
+                                                 @PathVariable Integer index,
+                                                 @RequestParam Integer lastIndex) {
+        AudioModel audioModel = new AudioModel();
+        audioModel.setCreatTime(new Date());
+        audioModel.setName(filename);
+        audioModel.setContentType(file.getContentType());
+        audioModel.setTaskId(taskId);
+        audioModel.setIndex(index);
+        audioModel.setType(AudioType.TEMPORARY.getType());
         String path = baseDirectory + "/" + RandomUtil.createRandom(true, 12);
-        photoModel.setPath(path);
+        audioModel.setPath(path);
         OutputStream outputStream = null;
         InputStream inputStream = null;
         try {
@@ -94,14 +90,14 @@ public class PhotoRestApiController {
             IOUtils.closeQuietly(outputStream);
         }
 
-        Integer result = photoService.createSelective(photoModel);
+        Integer result = audioService.createSelective(audioModel);
         ResponseEnvelope<Integer> responseEnv = new ResponseEnvelope<>(result, true);
         return responseEnv;
     }
 
-    @DeleteMapping(value = "/photo/{id}")
-    public ResponseEnvelope<Integer> deletePhotoByPrimaryKey(@PathVariable Long id) {
-        Integer result = photoService.deleteByPrimaryKey(id);
+    @DeleteMapping(value = "/audio/{id}")
+    public ResponseEnvelope<Integer> deleteAudio(@PathVariable Long id) {
+        Integer result = audioService.deleteByPrimaryKey(id);
         ResponseEnvelope<Integer> responseEnv = new ResponseEnvelope<>(result, true);
         return responseEnv;
     }

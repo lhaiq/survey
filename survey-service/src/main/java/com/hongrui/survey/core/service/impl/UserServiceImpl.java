@@ -4,6 +4,7 @@ import com.hongrui.survey.core.HRErrorCode;
 import com.wlw.pylon.core.ErrorCode;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -70,17 +71,21 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserModel login(UserModel userModel) {
-        String sql = "select * from user where account = ?";
-        UserModel existedUser = jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(UserModel.class),
-                userModel.getAccount());
-        if (null == existedUser) {
+        String sql = "select * from user where account = ? and role = ?";
+        UserModel existedUser = null;
+
+        try {
+            existedUser = jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(UserModel.class),
+                    userModel.getAccount(), userModel.getRole());
+        } catch (EmptyResultDataAccessException e) {
             HRErrorCode.throwBusinessException(HRErrorCode.USER_NOT_EXISTED);
         }
+
 
         if (!DigestUtils.md5Hex(userModel.getPassword()).equals(existedUser.getPassword())) {
             HRErrorCode.throwBusinessException(HRErrorCode.PASSWORD_INCORRECT);
         }
-        return userModel;
+        return existedUser;
     }
 
     @Transactional

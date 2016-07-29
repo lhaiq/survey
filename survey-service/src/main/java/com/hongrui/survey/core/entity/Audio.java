@@ -2,7 +2,7 @@ package com.hongrui.survey.core.entity;
 
 import java.util.Date;
 
-public class Record {
+public class Audio {
     private Long id;
 
     private String name;
@@ -12,6 +12,8 @@ public class Record {
     private String path;
 
     private Date creatTime;
+
+    private String contentType;
 
     private Integer type;
 
@@ -55,6 +57,14 @@ public class Record {
 
     public void setCreatTime(Date creatTime) {
         this.creatTime = creatTime;
+    }
+
+    public String getContentType() {
+        return contentType;
+    }
+
+    public void setContentType(String contentType) {
+        this.contentType = contentType;
     }
 
     public Integer getType() {

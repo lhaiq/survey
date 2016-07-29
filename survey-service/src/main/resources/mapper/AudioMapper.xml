@@ -1,38 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.hongrui.survey.core.repository.RecordRepository">
-  <resultMap id="BaseResultMap" type="com.hongrui.survey.core.entity.Record">
+<mapper namespace="com.hongrui.survey.core.repository.AudioRepository">
+  <resultMap id="BaseResultMap" type="com.hongrui.survey.core.entity.Audio">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="task_id" jdbcType="BIGINT" property="taskId" />
     <result column="path" jdbcType="VARCHAR" property="path" />
     <result column="creat_time" jdbcType="TIMESTAMP" property="creatTime" />
+    <result column="content_type" jdbcType="VARCHAR" property="contentType" />
     <result column="type" jdbcType="INTEGER" property="type" />
     <result column="index" jdbcType="INTEGER" property="index" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, name, task_id, path, creat_time, type, index
+    id, name, task_id, path, creat_time, content_type, type, index
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from record
+    from audio
     where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from record
+    delete from audio
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.hongrui.survey.core.entity.Record">
-    insert into record (id, name, task_id, 
-      path, creat_time, type, 
-      index)
+  <insert id="insert" parameterType="com.hongrui.survey.core.entity.Audio">
+    insert into audio (id, name, task_id, 
+      path, creat_time, content_type, 
+      type, index)
     values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{taskId,jdbcType=BIGINT}, 
-      #{path,jdbcType=VARCHAR}, #{creatTime,jdbcType=TIMESTAMP}, #{type,jdbcType=INTEGER}, 
-      #{index,jdbcType=INTEGER})
+      #{path,jdbcType=VARCHAR}, #{creatTime,jdbcType=TIMESTAMP}, #{contentType,jdbcType=VARCHAR}, 
+      #{type,jdbcType=INTEGER}, #{index,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.hongrui.survey.core.entity.Record">
-    insert into record
+  <insert id="insertSelective" parameterType="com.hongrui.survey.core.entity.Audio">
+    insert into audio
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
@@ -48,6 +49,9 @@
       </if>
       <if test="creatTime != null">
         creat_time,
+      </if>
+      <if test="contentType != null">
+        content_type,
       </if>
       <if test="type != null">
         type,
@@ -72,6 +76,9 @@
       <if test="creatTime != null">
         #{creatTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="contentType != null">
+        #{contentType,jdbcType=VARCHAR},
+      </if>
       <if test="type != null">
         #{type,jdbcType=INTEGER},
       </if>
@@ -80,8 +87,8 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.hongrui.survey.core.entity.Record">
-    update record
+  <update id="updateByPrimaryKeySelective" parameterType="com.hongrui.survey.core.entity.Audio">
+    update audio
     <set>
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
@@ -95,6 +102,9 @@
       <if test="creatTime != null">
         creat_time = #{creatTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="contentType != null">
+        content_type = #{contentType,jdbcType=VARCHAR},
+      </if>
       <if test="type != null">
         type = #{type,jdbcType=INTEGER},
       </if>
@@ -104,18 +114,19 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.hongrui.survey.core.entity.Record">
-    update record
+  <update id="updateByPrimaryKey" parameterType="com.hongrui.survey.core.entity.Audio">
+    update audio
     set name = #{name,jdbcType=VARCHAR},
       task_id = #{taskId,jdbcType=BIGINT},
       path = #{path,jdbcType=VARCHAR},
       creat_time = #{creatTime,jdbcType=TIMESTAMP},
+      content_type = #{contentType,jdbcType=VARCHAR},
       type = #{type,jdbcType=INTEGER},
       index = #{index,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <select id="selectCount" parameterType="com.hongrui.survey.core.entity.Record" resultType="java.lang.Integer">
-    select count(*) from record
+  <select id="selectCount" parameterType="com.hongrui.survey.core.entity.Audio" resultType="java.lang.Integer">
+    select count(*) from audio
     <where>
       <if test="id != null">
         and id = #{id,jdbcType=BIGINT}
@@ -132,6 +143,9 @@
       <if test="creatTime != null">
         and creat_time = #{creatTime,jdbcType=TIMESTAMP}
       </if>
+      <if test="contentType != null">
+        and content_type = #{contentType,jdbcType=VARCHAR}
+      </if>
       <if test="type != null">
         and type = #{type,jdbcType=INTEGER}
       </if>
@@ -143,7 +157,7 @@
   <select id="selectPage" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from record where 1 = 1 
+    from audio where 1 = 1 
     <if test="param1.id != null">
       and id = #{param1.id,jdbcType=BIGINT}
     </if>
@@ -158,6 +172,9 @@
     </if>
     <if test="param1.creatTime != null">
       and creat_time = #{param1.creatTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="param1.contentType != null">
+      and content_type = #{param1.contentType,jdbcType=VARCHAR}
     </if>
     <if test="param1.type != null">
       and type = #{param1.type,jdbcType=INTEGER}

@@ -1,8 +1,12 @@
 package com.hongrui.survey.core.controller;
 
 import com.google.common.cache.Cache;
+import com.hongrui.survey.core.HRErrorCode;
 import com.hongrui.survey.core.RandomUtil;
+import com.hongrui.survey.core.UserRole;
+import com.hongrui.survey.core.vo.UpdatePassVO;
 import com.hongrui.survey.core.vo.UserInfoVO;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -28,45 +32,52 @@ import java.util.List;
 @RequestMapping("/survey")
 public class UserRestApiController {
 
-	private final Logger logger = LoggerFactory.getLogger(UserRestApiController.class);
+    private final Logger logger = LoggerFactory.getLogger(UserRestApiController.class);
 
-	@Autowired
-	private BeanMapper beanMapper;
+    @Autowired
+    private BeanMapper beanMapper;
 
-	@Autowired
-	private UserService userService;
+    @Autowired
+    private UserService userService;
 
-	@Autowired
-	private Cache<String, Long> sessionCache;
+    @Autowired
+    private Cache<String, Long> sessionCache;
 
-	@PostMapping(value = "/user/login")
-	public ResponseEnvelope<UserInfoVO> userLogin(@RequestBody UserVO userVO){
-		UserModel userModel = beanMapper.map(userVO, UserModel.class);
-		UserModel existedUser = userService.login(userModel);
-		UserInfoVO userInfoVO = beanMapper.map(existedUser,UserInfoVO.class);
-		String sessionId = RandomUtil.generateAuthToken();
-		sessionCache.put(sessionId,existedUser.getId());
-		userInfoVO.setSessionId(sessionId);
-		ResponseEnvelope<UserInfoVO> responseEnv = new ResponseEnvelope<>(userInfoVO,true);
+    @PostMapping(value = "/user/login")
+    public ResponseEnvelope<UserInfoVO> userLogin(@RequestBody UserVO userVO) {
+        UserModel userModel = beanMapper.map(userVO, UserModel.class);
+        userModel.setRole(UserRole.SURVEYOR.getCode());
+        UserModel existedUser = userService.login(userModel);
+        UserInfoVO userInfoVO = beanMapper.map(existedUser, UserInfoVO.class);
+        String sessionId = RandomUtil.generateAuthToken();
+        sessionCache.put(sessionId, existedUser.getId());
+        userInfoVO.setSessionId(sessionId);
+        ResponseEnvelope<UserInfoVO> responseEnv = new ResponseEnvelope<>(userInfoVO, true);
         return responseEnv;
-	}
+    }
 
     @DeleteMapping(value = "/user/logout")
-	public ResponseEnvelope<String> userLogout(@RequestHeader("Authorization")String authorization){
-		sessionCache.invalidate(authorization);
-		ResponseEnvelope<String> responseEnv = new ResponseEnvelope<>("ok",true);
+    public ResponseEnvelope<String> userLogout(@RequestHeader("Authorization") String authorization) {
+        sessionCache.invalidate(authorization);
+        ResponseEnvelope<String> responseEnv = new ResponseEnvelope<>("ok", true);
         return responseEnv;
-	}
+    }
 
 
     @PutMapping(value = "/user/passrest")
-	public ResponseEnvelope<Integer> passrest(@RequestAttribute Long id,
-					@RequestBody UserVO userVO){
-		UserModel userModel = beanMapper.map(userVO, UserModel.class);
-		userModel.setId(id);
-		Integer  result = userService.updateByPrimaryKeySelective(userModel);
-		ResponseEnvelope<Integer> responseEnv = new ResponseEnvelope<>(result,true);
+    public ResponseEnvelope<Integer> passrest(@RequestAttribute Long userId,
+                                              @RequestBody UpdatePassVO updatePassVO) {
+        UserModel userModel = userService.findByPrimaryKey(userId);
+        if (!DigestUtils.md5Hex(updatePassVO.getOldPassword()).equals(userModel.getPassword())) {
+            HRErrorCode.throwBusinessException(HRErrorCode.OLD_PASSWORD_INCORRECT);
+        }
+
+        UserModel param = new UserModel();
+        param.setId(userId);
+        param.setPassword(DigestUtils.md5Hex(updatePassVO.getNewPassword()));
+        Integer result = userService.updateByPrimaryKeySelective(param);
+        ResponseEnvelope<Integer> responseEnv = new ResponseEnvelope<>(result, true);
         return responseEnv;
-	}
+    }
 
 }

@@ -2,7 +2,7 @@ package com.hongrui.survey.core.entity;
 
 import java.util.Date;
 
-public class Form {
+public class Report {
     private Long id;
 
     private String name;

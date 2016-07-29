@@ -24,7 +24,7 @@ import com.hongrui.survey.core.vo.TaskVO;
 import java.util.List;
 
 @Controller
-@RequestMapping("/survey")
+@RequestMapping("/survey/core")
 public class TaskController {
 
 	private final Logger logger = LoggerFactory.getLogger(TaskController.class);

@@ -15,6 +15,8 @@ public class TaskVO{
 	private String point;
 	private String type;
 	private Integer status;
+	private Date startTime;
+	private Date endTime;
 		
 	public void setId(Long id){
 		this.id = id;
@@ -86,6 +88,22 @@ public class TaskVO{
 	
 	public Integer getStatus(){
 		return this.status;
+	}
+		
+	public void setStartTime(Date startTime){
+		this.startTime = startTime;
+	}
+	
+	public Date getStartTime(){
+		return this.startTime;
+	}
+		
+	public void setEndTime(Date endTime){
+		this.endTime = endTime;
+	}
+	
+	public Date getEndTime(){
+		return this.endTime;
 	}
 		
 		

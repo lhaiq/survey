@@ -44,9 +44,13 @@
             </bean>
         </mvc:argument-resolvers>
     </mvc:annotation-driven>
-    
 
-	
+
+    <mvc:interceptors>
+        <bean class="com.hongrui.survey.core.interceptor.AuthInterceptor"></bean>
+    </mvc:interceptors>
+
+
 	<!-- multipart Resolver -->
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<!--property name="maxUploadSize" value="100000"/-->

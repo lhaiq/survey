@@ -3,8 +3,8 @@ package com.hongrui.survey.core.vo;
 import com.wlw.pylon.core.beans.mapping.annotation.MapClass;
 import java.util.Date;
 
-@MapClass("com.hongrui.survey.core.model.FormModel")
-public class FormVO{
+@MapClass("com.hongrui.survey.core.model.ReportModel")
+public class ReportVO{
 	
 	private Long id;
 	private String name;

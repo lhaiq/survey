@@ -3,8 +3,8 @@ package com.hongrui.survey.core.model;
 import com.wlw.pylon.core.beans.mapping.annotation.MapClass;
 import java.util.Date;
 
-@MapClass("com.hongrui.survey.core.entity.Form")
-public class FormModel{
+@MapClass("com.hongrui.survey.core.entity.Report")
+public class ReportModel{
 	
 	private Long id;
 	private String name;

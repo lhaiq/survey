@@ -12,6 +12,7 @@ public class PhotoVO{
 	private Long photoType;
 	private String path;
 	private Date createTime;
+	private String contentType;
 		
 	public void setId(Long id){
 		this.id = id;
@@ -59,6 +60,14 @@ public class PhotoVO{
 	
 	public Date getCreateTime(){
 		return this.createTime;
+	}
+		
+	public void setContentType(String contentType){
+		this.contentType = contentType;
+	}
+	
+	public String getContentType(){
+		return this.contentType;
 	}
 		
 		
