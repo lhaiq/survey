@@ -11,6 +11,11 @@ public class HRErrorCode extends ErrorCode{
     public static final ErrorCode PASSWORD_INCORRECT = ErrorCode("20001", "密码不正确");
     public static final ErrorCode OLD_PASSWORD_INCORRECT = ErrorCode("20002", "旧密码不正确");
 
+    public static final ErrorCode TASK_STATUS_INCORRECT = ErrorCode("30000", "任务状态不对");
+
+
+    public static final ErrorCode HAVE_SIGNED = ErrorCode("40000", "已经签到过");
+
     protected HRErrorCode(String code, String errorMsg) {
         super(code, errorMsg);
     }

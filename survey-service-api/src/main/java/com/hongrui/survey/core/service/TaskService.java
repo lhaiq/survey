@@ -1,6 +1,7 @@
 
 package com.hongrui.survey.core.service;
 
+import com.hongrui.survey.core.model.TaskDetailModel;
 import com.hongrui.survey.core.model.TaskModel;
 
 import java.util.Date;
@@ -29,6 +30,10 @@ public interface TaskService {
     public List<TaskModel> selectPage(TaskModel taskModel, Pageable pageable);
 
     public Page searchPage(TaskModel taskModel,Pageable pageable);
+
+    public void startTask(Long id);
+
+    public TaskDetailModel taskDetail(Long id);
 
 
 }

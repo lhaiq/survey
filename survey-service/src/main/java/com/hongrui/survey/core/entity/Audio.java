@@ -11,13 +11,13 @@ public class Audio {
 
     private String path;
 
-    private Date creatTime;
+    private Date createTime;
 
     private String contentType;
 
     private Integer type;
 
-    private Integer index;
+    private Integer sequence;
 
     public Long getId() {
         return id;
@@ -51,12 +51,12 @@ public class Audio {
         this.path = path;
     }
 
-    public Date getCreatTime() {
-        return creatTime;
+    public Date getCreateTime() {
+        return createTime;
     }
 
-    public void setCreatTime(Date creatTime) {
-        this.creatTime = creatTime;
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
     public String getContentType() {
@@ -75,11 +75,11 @@ public class Audio {
         this.type = type;
     }
 
-    public Integer getIndex() {
-        return index;
+    public Integer getSequence() {
+        return sequence;
     }
 
-    public void setIndex(Integer index) {
-        this.index = index;
+    public void setSequence(Integer sequence) {
+        this.sequence = sequence;
     }
 }

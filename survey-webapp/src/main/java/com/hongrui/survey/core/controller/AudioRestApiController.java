@@ -68,11 +68,11 @@ public class AudioRestApiController {
                                                  @PathVariable Integer index,
                                                  @RequestParam Integer lastIndex) {
         AudioModel audioModel = new AudioModel();
-        audioModel.setCreatTime(new Date());
+        audioModel.setCreateTime(new Date());
         audioModel.setName(filename);
         audioModel.setContentType(file.getContentType());
         audioModel.setTaskId(taskId);
-        audioModel.setIndex(index);
+        audioModel.setSequence(index);
         audioModel.setType(AudioType.TEMPORARY.getType());
         String path = baseDirectory + "/" + RandomUtil.createRandom(true, 12);
         audioModel.setPath(path);

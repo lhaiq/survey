@@ -33,49 +33,16 @@ public class SignRestApiController {
     @Autowired
     private SignService signService;
 
-    @GetMapping(value = "/core/sign/{id}")
-    public ResponseEnvelope<SignVO> getSignById(@PathVariable Long id) {
-        SignModel signModel = signService.findByPrimaryKey(id);
-        SignVO signVO = beanMapper.map(signModel, SignVO.class);
-        ResponseEnvelope<SignVO> responseEnv = new ResponseEnvelope<>(signVO, true);
-        return responseEnv;
-    }
 
-    @GetMapping(value = "/core/sign")
-    public ResponseEnvelope<Page<SignModel>> listSign(SignVO signVO, Pageable pageable) {
-
-        SignModel param = beanMapper.map(signVO, SignModel.class);
-        List<SignModel> signModelModels = signService.selectPage(param, pageable);
-        long count = signService.selectCount(param);
-        Page<SignModel> page = new PageImpl<>(signModelModels, pageable, count);
-        ResponseEnvelope<Page<SignModel>> responseEnv = new ResponseEnvelope<>(page, true);
-        return responseEnv;
-    }
-
-    @PostMapping(value = "/core/sign")
-    public ResponseEnvelope<Integer> createSign(@RequestBody SignVO signVO) {
+    @PostMapping(value = "/{taskId}/sign")
+    public ResponseEnvelope<String> createSign(@PathVariable Long taskId,
+                                                @RequestBody SignVO signVO) {
         SignModel signModel = beanMapper.map(signVO, SignModel.class);
-        Integer result = signService.create(signModel);
-        ResponseEnvelope<Integer> responseEnv = new ResponseEnvelope<>(result, true);
+        signModel.setTaskId(taskId);
+        signService.createSign(signModel);
+        ResponseEnvelope<String> responseEnv = new ResponseEnvelope<>("ok", true);
         return responseEnv;
     }
 
-    @DeleteMapping(value = "/core/sign/{id}")
-    public ResponseEnvelope<Integer> deleteSignByPrimaryKey(@PathVariable Long id) {
-        Integer result = signService.deleteByPrimaryKey(id);
-        ResponseEnvelope<Integer> responseEnv = new ResponseEnvelope<>(result, true);
-        return responseEnv;
-    }
-
-
-    @PutMapping(value = "/core/sign/{id}")
-    public ResponseEnvelope<Integer> updateSignByPrimaryKeySelective(@PathVariable Long id,
-                                                                     @RequestBody SignVO signVO) {
-        SignModel signModel = beanMapper.map(signVO, SignModel.class);
-        signModel.setId(id);
-        Integer result = signService.updateByPrimaryKeySelective(signModel);
-        ResponseEnvelope<Integer> responseEnv = new ResponseEnvelope<Integer>(result, true);
-        return responseEnv;
-    }
 
 }

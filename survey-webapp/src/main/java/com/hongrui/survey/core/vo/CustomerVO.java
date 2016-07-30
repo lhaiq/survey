@@ -10,6 +10,8 @@ public class CustomerVO{
 	private String company;
 	private String address;
 	private String idCard;
+	private String mobileNumber;
+	private String telephoneNumber;
 		
 	public void setId(Long id){
 		this.id = id;
@@ -49,6 +51,22 @@ public class CustomerVO{
 	
 	public String getIdCard(){
 		return this.idCard;
+	}
+		
+	public void setMobileNumber(String mobileNumber){
+		this.mobileNumber = mobileNumber;
+	}
+	
+	public String getMobileNumber(){
+		return this.mobileNumber;
+	}
+		
+	public void setTelephoneNumber(String telephoneNumber){
+		this.telephoneNumber = telephoneNumber;
+	}
+	
+	public String getTelephoneNumber(){
+		return this.telephoneNumber;
 	}
 		
 		

@@ -6,13 +6,13 @@
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="task_id" jdbcType="BIGINT" property="taskId" />
     <result column="path" jdbcType="VARCHAR" property="path" />
-    <result column="creat_time" jdbcType="TIMESTAMP" property="creatTime" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="content_type" jdbcType="VARCHAR" property="contentType" />
     <result column="type" jdbcType="INTEGER" property="type" />
-    <result column="index" jdbcType="INTEGER" property="index" />
+    <result column="sequence" jdbcType="INTEGER" property="sequence" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, name, task_id, path, creat_time, content_type, type, index
+    id, name, task_id, path, create_time, content_type, type, sequence
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
@@ -26,11 +26,11 @@
   </delete>
   <insert id="insert" parameterType="com.hongrui.survey.core.entity.Audio">
     insert into audio (id, name, task_id, 
-      path, creat_time, content_type, 
-      type, index)
+      path, create_time, content_type, 
+      type, sequence)
     values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{taskId,jdbcType=BIGINT}, 
-      #{path,jdbcType=VARCHAR}, #{creatTime,jdbcType=TIMESTAMP}, #{contentType,jdbcType=VARCHAR}, 
-      #{type,jdbcType=INTEGER}, #{index,jdbcType=INTEGER})
+      #{path,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{contentType,jdbcType=VARCHAR}, 
+      #{type,jdbcType=INTEGER}, #{sequence,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.hongrui.survey.core.entity.Audio">
     insert into audio
@@ -47,8 +47,8 @@
       <if test="path != null">
         path,
       </if>
-      <if test="creatTime != null">
-        creat_time,
+      <if test="createTime != null">
+        create_time,
       </if>
       <if test="contentType != null">
         content_type,
@@ -56,8 +56,8 @@
       <if test="type != null">
         type,
       </if>
-      <if test="index != null">
-        index,
+      <if test="sequence != null">
+        sequence,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -73,8 +73,8 @@
       <if test="path != null">
         #{path,jdbcType=VARCHAR},
       </if>
-      <if test="creatTime != null">
-        #{creatTime,jdbcType=TIMESTAMP},
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="contentType != null">
         #{contentType,jdbcType=VARCHAR},
@@ -82,8 +82,8 @@
       <if test="type != null">
         #{type,jdbcType=INTEGER},
       </if>
-      <if test="index != null">
-        #{index,jdbcType=INTEGER},
+      <if test="sequence != null">
+        #{sequence,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -99,8 +99,8 @@
       <if test="path != null">
         path = #{path,jdbcType=VARCHAR},
       </if>
-      <if test="creatTime != null">
-        creat_time = #{creatTime,jdbcType=TIMESTAMP},
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="contentType != null">
         content_type = #{contentType,jdbcType=VARCHAR},
@@ -108,8 +108,8 @@
       <if test="type != null">
         type = #{type,jdbcType=INTEGER},
       </if>
-      <if test="index != null">
-        index = #{index,jdbcType=INTEGER},
+      <if test="sequence != null">
+        sequence = #{sequence,jdbcType=INTEGER},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
@@ -119,10 +119,10 @@
     set name = #{name,jdbcType=VARCHAR},
       task_id = #{taskId,jdbcType=BIGINT},
       path = #{path,jdbcType=VARCHAR},
-      creat_time = #{creatTime,jdbcType=TIMESTAMP},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
       content_type = #{contentType,jdbcType=VARCHAR},
       type = #{type,jdbcType=INTEGER},
-      index = #{index,jdbcType=INTEGER}
+      sequence = #{sequence,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <select id="selectCount" parameterType="com.hongrui.survey.core.entity.Audio" resultType="java.lang.Integer">
@@ -140,8 +140,8 @@
       <if test="path != null">
         and path = #{path,jdbcType=VARCHAR}
       </if>
-      <if test="creatTime != null">
-        and creat_time = #{creatTime,jdbcType=TIMESTAMP}
+      <if test="createTime != null">
+        and create_time = #{createTime,jdbcType=TIMESTAMP}
       </if>
       <if test="contentType != null">
         and content_type = #{contentType,jdbcType=VARCHAR}
@@ -149,8 +149,8 @@
       <if test="type != null">
         and type = #{type,jdbcType=INTEGER}
       </if>
-      <if test="index != null">
-        and index = #{index,jdbcType=INTEGER}
+      <if test="sequence != null">
+        and sequence = #{sequence,jdbcType=INTEGER}
       </if>
     </where>
   </select>
@@ -170,8 +170,8 @@
     <if test="param1.path != null">
       and path = #{param1.path,jdbcType=VARCHAR}
     </if>
-    <if test="param1.creatTime != null">
-      and creat_time = #{param1.creatTime,jdbcType=TIMESTAMP}
+    <if test="param1.createTime != null">
+      and create_time = #{param1.createTime,jdbcType=TIMESTAMP}
     </if>
     <if test="param1.contentType != null">
       and content_type = #{param1.contentType,jdbcType=VARCHAR}
@@ -179,8 +179,8 @@
     <if test="param1.type != null">
       and type = #{param1.type,jdbcType=INTEGER}
     </if>
-    <if test="param1.index != null">
-      and index = #{param1.index,jdbcType=INTEGER}
+    <if test="param1.sequence != null">
+      and sequence = #{param1.sequence,jdbcType=INTEGER}
     </if>
     <if test="param2.sort != null">
       order by 

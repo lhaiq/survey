@@ -7,9 +7,11 @@
     <result column="company" jdbcType="VARCHAR" property="company" />
     <result column="address" jdbcType="VARCHAR" property="address" />
     <result column="id_card" jdbcType="VARCHAR" property="idCard" />
+    <result column="mobile_number" jdbcType="VARCHAR" property="mobileNumber" />
+    <result column="telephone_number" jdbcType="VARCHAR" property="telephoneNumber" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, name, company, address, id_card
+    id, name, company, address, id_card, mobile_number, telephone_number
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
@@ -23,9 +25,11 @@
   </delete>
   <insert id="insert" parameterType="com.hongrui.survey.core.entity.Customer">
     insert into customer (id, name, company, 
-      address, id_card)
+      address, id_card, mobile_number, 
+      telephone_number)
     values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{company,jdbcType=VARCHAR}, 
-      #{address,jdbcType=VARCHAR}, #{idCard,jdbcType=VARCHAR})
+      #{address,jdbcType=VARCHAR}, #{idCard,jdbcType=VARCHAR}, #{mobileNumber,jdbcType=VARCHAR}, 
+      #{telephoneNumber,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.hongrui.survey.core.entity.Customer">
     insert into customer
@@ -45,6 +49,12 @@
       <if test="idCard != null">
         id_card,
       </if>
+      <if test="mobileNumber != null">
+        mobile_number,
+      </if>
+      <if test="telephoneNumber != null">
+        telephone_number,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -61,6 +71,12 @@
       </if>
       <if test="idCard != null">
         #{idCard,jdbcType=VARCHAR},
+      </if>
+      <if test="mobileNumber != null">
+        #{mobileNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="telephoneNumber != null">
+        #{telephoneNumber,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -79,6 +95,12 @@
       <if test="idCard != null">
         id_card = #{idCard,jdbcType=VARCHAR},
       </if>
+      <if test="mobileNumber != null">
+        mobile_number = #{mobileNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="telephoneNumber != null">
+        telephone_number = #{telephoneNumber,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -87,7 +109,9 @@
     set name = #{name,jdbcType=VARCHAR},
       company = #{company,jdbcType=VARCHAR},
       address = #{address,jdbcType=VARCHAR},
-      id_card = #{idCard,jdbcType=VARCHAR}
+      id_card = #{idCard,jdbcType=VARCHAR},
+      mobile_number = #{mobileNumber,jdbcType=VARCHAR},
+      telephone_number = #{telephoneNumber,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <select id="selectCount" parameterType="com.hongrui.survey.core.entity.Customer" resultType="java.lang.Integer">
@@ -107,6 +131,12 @@
       </if>
       <if test="idCard != null">
         and id_card = #{idCard,jdbcType=VARCHAR}
+      </if>
+      <if test="mobileNumber != null">
+        and mobile_number = #{mobileNumber,jdbcType=VARCHAR}
+      </if>
+      <if test="telephoneNumber != null">
+        and telephone_number = #{telephoneNumber,jdbcType=VARCHAR}
       </if>
     </where>
   </select>
@@ -128,6 +158,12 @@
     </if>
     <if test="param1.idCard != null">
       and id_card = #{param1.idCard,jdbcType=VARCHAR}
+    </if>
+    <if test="param1.mobileNumber != null">
+      and mobile_number = #{param1.mobileNumber,jdbcType=VARCHAR}
+    </if>
+    <if test="param1.telephoneNumber != null">
+      and telephone_number = #{param1.telephoneNumber,jdbcType=VARCHAR}
     </if>
     <if test="param2.sort != null">
       order by 

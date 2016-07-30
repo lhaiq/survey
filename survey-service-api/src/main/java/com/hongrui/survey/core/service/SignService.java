@@ -12,6 +12,8 @@ public int create(SignModel signModel);
 
 public int createSelective(SignModel signModel);
 
+public void createSign(SignModel signModel);
+
 public SignModel findByPrimaryKey(Long id);
 
 public int updateByPrimaryKey(SignModel signModel);

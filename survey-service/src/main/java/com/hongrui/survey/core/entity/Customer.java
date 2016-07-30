@@ -11,6 +11,10 @@ public class Customer {
 
     private String idCard;
 
+    private String mobileNumber;
+
+    private String telephoneNumber;
+
     public Long getId() {
         return id;
     }
@@ -49,5 +53,21 @@ public class Customer {
 
     public void setIdCard(String idCard) {
         this.idCard = idCard;
+    }
+
+    public String getMobileNumber() {
+        return mobileNumber;
+    }
+
+    public void setMobileNumber(String mobileNumber) {
+        this.mobileNumber = mobileNumber;
+    }
+
+    public String getTelephoneNumber() {
+        return telephoneNumber;
+    }
+
+    public void setTelephoneNumber(String telephoneNumber) {
+        this.telephoneNumber = telephoneNumber;
     }
 }

@@ -10,10 +10,10 @@ public class AudioModel{
 	private String name;
 	private Long taskId;
 	private String path;
-	private Date creatTime;
+	private Date createTime;
 	private String contentType;
 	private Integer type;
-	private Integer index;
+	private Integer sequence;
 		
 	public void setId(Long id){
 		this.id = id;
@@ -47,12 +47,12 @@ public class AudioModel{
 		return this.path;
 	}
 		
-	public void setCreatTime(Date creatTime){
-		this.creatTime = creatTime;
+	public void setCreateTime(Date createTime){
+		this.createTime = createTime;
 	}
 	
-	public Date getCreatTime(){
-		return this.creatTime;
+	public Date getCreateTime(){
+		return this.createTime;
 	}
 		
 	public void setContentType(String contentType){
@@ -71,12 +71,12 @@ public class AudioModel{
 		return this.type;
 	}
 		
-	public void setIndex(Integer index){
-		this.index = index;
+	public void setSequence(Integer sequence){
+		this.sequence = sequence;
 	}
 	
-	public Integer getIndex(){
-		return this.index;
+	public Integer getSequence(){
+		return this.sequence;
 	}
 		
 		
