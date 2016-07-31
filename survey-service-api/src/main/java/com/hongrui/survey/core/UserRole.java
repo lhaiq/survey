@@ -6,7 +6,9 @@ package com.hongrui.survey.core;
 public enum UserRole {
 
     SURVEYOR(0),
-    PERSISTENT(1);
+    SYNDIC(1),
+    ADMIN(2),
+    MANAGER(3);
 
     private int code;
 

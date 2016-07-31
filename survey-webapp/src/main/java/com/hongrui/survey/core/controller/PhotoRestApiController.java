@@ -56,7 +56,8 @@ public class PhotoRestApiController {
         OutputStream outputStream = null;
         InputStream inputStream = null;
         try {
-            inputStream = FileUtils.openInputStream(new File(photoModel.getPath()));
+            outputStream = response.getOutputStream();
+            inputStream = FileUtils.openInputStream(new File(baseDirectory + "/" + photoModel.getPath()));
             IOUtils.copy(inputStream, outputStream);
 
         } catch (IOException e) {
@@ -78,8 +79,10 @@ public class PhotoRestApiController {
         photoModel.setName(file.getName());
         photoModel.setPhotoType(photoType);
         photoModel.setTaskId(taskId);
-        String path = baseDirectory + "/" + RandomUtil.createRandom(true, 12);
-        photoModel.setPath(path);
+        photoModel.setContentType(file.getContentType());
+        String filename = RandomUtil.createRandom(true, 12);
+        String path = baseDirectory + "/" + filename;
+        photoModel.setPath(filename);
         OutputStream outputStream = null;
         InputStream inputStream = null;
         try {
@@ -100,9 +103,9 @@ public class PhotoRestApiController {
     }
 
     @DeleteMapping(value = "/photo/{id}")
-    public ResponseEnvelope<Integer> deletePhotoByPrimaryKey(@PathVariable Long id) {
-        Integer result = photoService.deleteByPrimaryKey(id);
-        ResponseEnvelope<Integer> responseEnv = new ResponseEnvelope<>(result, true);
+    public ResponseEnvelope<String> deletePhoto(@PathVariable Long id) {
+        photoService.deletePhoto(id);
+        ResponseEnvelope<String> responseEnv = new ResponseEnvelope<>("ok", true);
         return responseEnv;
     }
 

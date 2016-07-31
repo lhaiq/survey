@@ -18,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/survey")
@@ -54,6 +55,13 @@ public class TaskRestApiController {
     public ResponseEnvelope<String> startTask(@PathVariable Long id) {
         taskService.startTask(id);
         ResponseEnvelope<String> responseEnv = new ResponseEnvelope<>("ok", true);
+        return responseEnv;
+    }
+
+    @PostMapping(value = "/task/status")
+    public ResponseEnvelope<Map<Long, Integer>> tastStatus(@RequestBody List<Long> taskIds) {
+        Map<Long, Integer> statuses = taskService.taskStatus(taskIds);
+        ResponseEnvelope<Map<Long, Integer>> responseEnv = new ResponseEnvelope<>(statuses, true);
         return responseEnv;
     }
 

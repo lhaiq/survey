@@ -48,6 +48,7 @@ public class AudioRestApiController {
         OutputStream outputStream = null;
         InputStream inputStream = null;
         try {
+            outputStream = response.getOutputStream();
             inputStream = FileUtils.openInputStream(new File(audioModel.getPath()));
             IOUtils.copy(inputStream, outputStream);
 
@@ -74,8 +75,9 @@ public class AudioRestApiController {
         audioModel.setTaskId(taskId);
         audioModel.setSequence(index);
         audioModel.setType(AudioType.TEMPORARY.getType());
-        String path = baseDirectory + "/" + RandomUtil.createRandom(true, 12);
-        audioModel.setPath(path);
+        String fn = RandomUtil.createRandom(true, 12);
+        String path = baseDirectory + "/" + fn;
+        audioModel.setPath(fn);
         OutputStream outputStream = null;
         InputStream inputStream = null;
         try {
@@ -96,9 +98,9 @@ public class AudioRestApiController {
     }
 
     @DeleteMapping(value = "/audio/{id}")
-    public ResponseEnvelope<Integer> deleteAudio(@PathVariable Long id) {
-        Integer result = audioService.deleteByPrimaryKey(id);
-        ResponseEnvelope<Integer> responseEnv = new ResponseEnvelope<>(result, true);
+    public ResponseEnvelope<String> deleteAudio(@PathVariable Long id) {
+        audioService.deleteAudio(id);
+        ResponseEnvelope<String> responseEnv = new ResponseEnvelope<>("ok", true);
         return responseEnv;
     }
 

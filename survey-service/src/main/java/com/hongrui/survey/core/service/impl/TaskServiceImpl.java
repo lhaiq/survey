@@ -43,6 +43,9 @@ public class TaskServiceImpl implements TaskService {
     private PhotoService photoService;
 
     @Autowired
+    private CustomerService customerService;
+
+    @Autowired
     private JdbcTemplate jdbcTemplate;
 
     @Transactional
@@ -87,7 +90,8 @@ public class TaskServiceImpl implements TaskService {
     public Page searchPage(TaskModel taskModel, Pageable pageable) {
         String sql = "select t.id,t.start_time as startTime,t.end_time as endTime,t.comment,t.point,t.status," +
                 "u.account,c.name as customerName,c.id as customerId," +
-                "c.company,c.address,c.id_card as idCard from task t,user u,customer c\n" +
+                "c.company,c.address,c.id_card as idCard ,c.mobile_number as mobileNumber,c.telephone_number as telephoneNumber" +
+                " from task t,user u,customer c\n" +
                 "where t.customer_id=c.id\n" +
                 "and t.surveyor_id=u.id\n" +
                 "order by t.create_time desc\n" +
@@ -134,10 +138,25 @@ public class TaskServiceImpl implements TaskService {
         List<AudioModel> audios = audioService.selectPage(audioParam, new PageRequest(0, Integer.MAX_VALUE));
         taskDetailModel.setAudios(audios);
 
+        //customer
+        CustomerModel customerModel = customerService.findByPrimaryKey(taskModel.getCustomerId());
+        taskDetailModel.setCustomer(customerModel);
+
         //photos
         taskDetailModel.setPhotos(findPhotos(id, taskModel.getType()));
 
         return taskDetailModel;
+    }
+
+    @Override
+    public Map<Long, Integer> taskStatus(List<Long> taskIds) {
+        String sql = "select status from task where id = ?";
+        Map<Long,Integer> statuses = new HashMap<>();
+        for(Long taskId:taskIds){
+            Integer status = jdbcTemplate.queryForObject(sql, Integer.class, taskId);
+            statuses.put(taskId,status);
+        }
+        return statuses;
     }
 
 

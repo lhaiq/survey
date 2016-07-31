@@ -61,7 +61,7 @@
 
             <b class="arrow"></b>
         </li>
-        <c:if test="${admin}">
+        <c:if test="${role==2}">
             <li class="">
                 <a href="#" class="dropdown-toggle">
                     <i class="menu-icon fa fa-user"></i>
@@ -123,7 +123,7 @@
             </li>
 
         </c:if>
-        <c:if test="${!admin}">
+        <c:if test="${role==1 or role==3}">
             <li class="">
                 <a href="#" class="dropdown-toggle">
                     <i class="menu-icon fa fa-user"></i>
@@ -135,13 +135,15 @@
                 <b class="arrow"></b>
 
                 <ul class="submenu">
-                    <li class="">
-                        <a href="javascript:link('/survey/addCustomerUI')">
-                            <i class="menu-icon fa fa-user-plus"></i>
-                            添加客户
-                        </a>
-                        <b class="arrow"></b>
-                    </li>
+                    <c:if test="${role==1}">
+                        <li class="">
+                            <a href="javascript:link('/survey/addCustomerUI')">
+                                <i class="menu-icon fa fa-user-plus"></i>
+                                添加客户
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                    </c:if>
 
                     <li class="">
                         <a href="javascript:link('/survey/customer')">
@@ -166,7 +168,7 @@
             <b class="arrow"></b>
 
             <ul class="submenu">
-                <c:if test="${admin}">
+                <c:if test="${role==2}">
                     <li class="">
                         <a href="javascript:link('/survey/task/addTypeUI')">
                             <i class="menu-icon fa fa-caret-right"></i>
@@ -184,7 +186,7 @@
                         <b class="arrow"></b>
                     </li>
                 </c:if>
-                <c:if test="${!admin}">
+                <c:if test="${role ==1 or role ==3}">
                     <li class="">
                         <a href="javascript:link('/survey/task')">
                             <i class="menu-icon fa fa-caret-right"></i>

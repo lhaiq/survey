@@ -119,6 +119,7 @@ project("survey-service") {
 		compile(libraries.groovy_all)
 		compile(libraries.c3p0)
 		compile(libraries.immortal_logback)
+		compile(libraries.commons_io)
 		compile(libraries.ryantenney)
 		testCompile(libraries.pylon_test)
 		
@@ -135,10 +136,8 @@ project("survey-webapp") {
 		compile(libraries.logback_classic)
 		compile(libraries.groovy_all)
 		compile(libraries.commons_fileupload)
-		compile(libraries.commons_io)
 		compile(libraries.jstl_api)
-//		compile(libraries.servlet_api)
-//		compile(libraries.jsp_api)
-		compile(libraries.c3p0)	}
+		compile(libraries.c3p0)
+	}
 
 }

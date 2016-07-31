@@ -23,9 +23,13 @@ public interface AudioService {
 
     public int deleteByPrimaryKey(Long id);
 
+    public int deleteAudio(Long id);
+
     public long selectCount(AudioModel audioModel);
 
     public List<AudioModel> selectPage(AudioModel audioModel, Pageable pageable);
+
+
 
 //    public void mergeAudio(Long id,Integer lastIndex);
 

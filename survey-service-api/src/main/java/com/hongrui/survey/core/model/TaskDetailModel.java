@@ -21,9 +21,10 @@ public class TaskDetailModel {
 	private Date startTime;
 	private Date endTime;
 
-	public List<ReportModel> reports;
-	public List<AudioModel> audios;
-	public Map<String,List<PhotoModel>> photos;
+	private CustomerModel customer;
+	private List<ReportModel> reports;
+	private List<AudioModel> audios;
+	private Map<String,List<PhotoModel>> photos;
 		
 	public void setId(Long id){
 		this.id = id;
@@ -135,5 +136,13 @@ public class TaskDetailModel {
 
 	public void setReports(List<ReportModel> reports) {
 		this.reports = reports;
+	}
+
+	public void setCustomer(CustomerModel customer) {
+		this.customer = customer;
+	}
+
+	public CustomerModel getCustomer() {
+		return customer;
 	}
 }

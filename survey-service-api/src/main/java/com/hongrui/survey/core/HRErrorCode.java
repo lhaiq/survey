@@ -7,6 +7,8 @@ import com.wlw.pylon.core.ErrorCode;
  */
 public class HRErrorCode extends ErrorCode{
 
+    public static final ErrorCode UN_LOGIN = ErrorCode("10000", "未登录或session过期");
+
     public static final ErrorCode USER_NOT_EXISTED = ErrorCode("20000", "用户不存在");
     public static final ErrorCode PASSWORD_INCORRECT = ErrorCode("20001", "密码不正确");
     public static final ErrorCode OLD_PASSWORD_INCORRECT = ErrorCode("20002", "旧密码不正确");
