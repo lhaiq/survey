@@ -48,6 +48,9 @@ public class UserRestApiController {
         UserModel userModel = beanMapper.map(userVO, UserModel.class);
         userModel.setRole(UserRole.SURVEYOR.getCode());
         UserModel existedUser = userService.login(userModel);
+        if(existedUser.getRole()!=UserRole.SURVEYOR.getCode()){
+            HRErrorCode.throwBusinessException(HRErrorCode.ROLE_INVALID);
+        }
         UserInfoVO userInfoVO = beanMapper.map(existedUser, UserInfoVO.class);
         String sessionId = RandomUtil.generateAuthToken();
         sessionCache.put(sessionId, existedUser.getId());

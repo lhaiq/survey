@@ -40,14 +40,14 @@ public class TaskRestApiController {
     }
 
     @GetMapping(value = "/task")
-    public ResponseEnvelope<List<TaskModel>> listTask(@RequestAttribute Long userId,
-                                                      @RequestParam Integer status) {
+    public ResponseEnvelope<Page<TaskModel>> listTask(@RequestAttribute Long userId,
+                                                      @RequestParam Integer status,
+                                                      Pageable pageable) {
         TaskModel param = new TaskModel();
         param.setSurveyorId(userId);
         param.setStatus(status);
-        Pageable pageable = new PageRequest(0, Integer.MAX_VALUE, Sort.Direction.DESC, "create_time");
         Page<TaskModel> page = taskService.searchPage(param, pageable);
-        ResponseEnvelope<List<TaskModel>> responseEnv = new ResponseEnvelope<>(page.getContent(), true);
+        ResponseEnvelope<Page<TaskModel>> responseEnv = new ResponseEnvelope<>(page, true);
         return responseEnv;
     }
 

@@ -71,12 +71,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserModel login(UserModel userModel) {
-        String sql = "select * from user where account = ? and role = ?";
+        String sql = "select * from user where account = ?";
         UserModel existedUser = null;
 
         try {
             existedUser = jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(UserModel.class),
-                    userModel.getAccount(), userModel.getRole());
+                    userModel.getAccount());
         } catch (EmptyResultDataAccessException e) {
             HRErrorCode.throwBusinessException(HRErrorCode.USER_NOT_EXISTED);
         }

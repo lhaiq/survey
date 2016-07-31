@@ -63,7 +63,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 <!-- BEGIN LOGIN -->
 <div class="content">
 	<!-- BEGIN LOGIN FORM -->
-	<form class="login-form" action="rest/user/login" method="post">
+	<form class="login-form" action="/survey/core/user/login" method="post">
 		<h3 class="form-title">用户登录</h3>
 		<div class="alert alert-danger display-hide">
 			<button class="close" data-close="alert"></button>
@@ -76,7 +76,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 			<label class="control-label visible-ie8 visible-ie9">用户名</label>
 			<div class="input-icon">
 				<i class="fa fa-user"></i>
-				<input name="username" id="username" size="25"  class="form-control placeholder-no-fix" type="text"  placeholder="用户名" />
+				<input name="account" id="username" size="25"  class="form-control placeholder-no-fix" type="text"  placeholder="用户名" />
 			</div>
 		</div>
 		<div class="form-group">
@@ -95,7 +95,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 
 			    记住我
 			</label>
-			<button id="loginBut" type="submit" class="btn blue pull-right">
+			<button id="loginBut" type="submit" class="btn blue pull-right" onclick="login()">
 			登录 <i class="m-icon-swapright m-icon-white"></i>
 			</button>
 		</div>
@@ -104,7 +104,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 	</form>
 	<!-- END LOGIN FORM -->
 	<!-- BEGIN FORGOT PASSWORD FORM -->
-	<form class="forget-form" action="index.html" method="post">
+	<form class="forget-form"  method="post">
 		<h3>忘记密码 ?</h3>
 		<p>
 			 请输入您的电子邮箱地址来重置您的密码.
@@ -162,6 +162,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 		//  App.init();
 		  Login.init();
 		});
+
 	</script>
 <!-- END JAVASCRIPTS -->
 </body>
