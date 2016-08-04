@@ -5,22 +5,16 @@
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="task_id" jdbcType="BIGINT" property="taskId" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-  </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.hongrui.survey.core.entity.Report">
-    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+    <result column="template_id" jdbcType="BIGINT" property="templateId" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, name, task_id, create_time
+    id, name, task_id, content, create_time, template_id
   </sql>
-  <sql id="Blob_Column_List">
-    content
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
     from report
     where id = #{id,jdbcType=BIGINT}
   </select>
@@ -30,9 +24,11 @@
   </delete>
   <insert id="insert" parameterType="com.hongrui.survey.core.entity.Report">
     insert into report (id, name, task_id, 
-      create_time, content)
+      content, create_time, template_id
+      )
     values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{taskId,jdbcType=BIGINT}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{content,jdbcType=LONGVARCHAR})
+      #{content,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{templateId,jdbcType=BIGINT}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.hongrui.survey.core.entity.Report">
     insert into report
@@ -46,11 +42,14 @@
       <if test="taskId != null">
         task_id,
       </if>
+      <if test="content != null">
+        content,
+      </if>
       <if test="createTime != null">
         create_time,
       </if>
-      <if test="content != null">
-        content,
+      <if test="templateId != null">
+        template_id,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -63,11 +62,14 @@
       <if test="taskId != null">
         #{taskId,jdbcType=BIGINT},
       </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="content != null">
-        #{content,jdbcType=LONGVARCHAR},
+      <if test="templateId != null">
+        #{templateId,jdbcType=BIGINT},
       </if>
     </trim>
   </insert>
@@ -80,28 +82,25 @@
       <if test="taskId != null">
         task_id = #{taskId,jdbcType=BIGINT},
       </if>
+      <if test="content != null">
+        content = #{content,jdbcType=VARCHAR},
+      </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="content != null">
-        content = #{content,jdbcType=LONGVARCHAR},
+      <if test="templateId != null">
+        template_id = #{templateId,jdbcType=BIGINT},
       </if>
     </set>
-    where id = #{id,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.hongrui.survey.core.entity.Report">
-    update report
-    set name = #{name,jdbcType=VARCHAR},
-      task_id = #{taskId,jdbcType=BIGINT},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      content = #{content,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.hongrui.survey.core.entity.Report">
     update report
     set name = #{name,jdbcType=VARCHAR},
       task_id = #{taskId,jdbcType=BIGINT},
-      create_time = #{createTime,jdbcType=TIMESTAMP}
+      content = #{content,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      template_id = #{templateId,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <select id="selectCount" parameterType="com.hongrui.survey.core.entity.Report" resultType="java.lang.Integer">
@@ -116,11 +115,14 @@
       <if test="taskId != null">
         and task_id = #{taskId,jdbcType=BIGINT}
       </if>
+      <if test="content != null">
+        and content = #{content,jdbcType=VARCHAR}
+      </if>
       <if test="createTime != null">
         and create_time = #{createTime,jdbcType=TIMESTAMP}
       </if>
-      <if test="content != null">
-        and content = #{content,jdbcType=LONGVARCHAR}
+      <if test="templateId != null">
+        and template_id = #{templateId,jdbcType=BIGINT}
       </if>
     </where>
   </select>
@@ -137,11 +139,14 @@
     <if test="param1.taskId != null">
       and task_id = #{param1.taskId,jdbcType=BIGINT}
     </if>
+    <if test="param1.content != null">
+      and content = #{param1.content,jdbcType=VARCHAR}
+    </if>
     <if test="param1.createTime != null">
       and create_time = #{param1.createTime,jdbcType=TIMESTAMP}
     </if>
-    <if test="param1.content != null">
-      and content = #{param1.content,jdbcType=LONGVARCHAR}
+    <if test="param1.templateId != null">
+      and template_id = #{param1.templateId,jdbcType=BIGINT}
     </if>
     <if test="param2.sort != null">
       order by 

@@ -72,7 +72,7 @@
                                     <i class="ace-icon fa fa-pencil bigger-130"></i>
                                 </a>
 
-                                <a class="red" href="#">
+                                <a class="red" href="javascript:link('/su')">
                                     <i class="ace-icon fa fa-trash-o bigger-130"></i>
                                 </a>
                             </div>
@@ -141,3 +141,4 @@
         </div>
     </div>
 </div>
+

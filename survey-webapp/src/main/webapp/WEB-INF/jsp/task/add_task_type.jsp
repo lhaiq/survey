@@ -7,10 +7,20 @@
             var $newPhotoType = '<div class="form-group" >'
                     + '<label class="col-sm-4 control-label no-padding-right" for="form-field-1"> </label>'
                     + '<div class="col-sm-8">'
-                    + '<div class="col-sm-5 no-padding-left">'
-                    + '<input type="text" class="form-control" name="username" value=""/>'
+                    + '<div class="col-sm-3 no-padding-left">'
+                    + '<input type="text" class="form-control" name="photoTypes" value=""/>'
                     + '</div>'
-                    + '<div class="col-sm-3" style="margin-top: 8px">'
+                    + '<div class="col-sm-3 no-padding-left">'
+                    + '   <select name="pixels"'
+                    + '           class="form-control col-sm-5"'
+                    + '           data-placeholder="选择一个调查员...">'
+                    + '       <option value="1920*1680">1920*1680</option>'
+                    + '       <option value="副总经理">李四</option>'
+                    + '       <option value="主管">王麻子</option>'
+                    + '       <option value="WY">吴旗</option>'
+                    + '  </select>'
+                    + '</div>      '
+                    + '<div class="col-sm-2" style="margin-top: 8px">'
                     + '<a href="javascript:void(0)" class="tooltip-success" data-rel="tooltip" title=""'
                     + 'data-original-title="Add">'
                     + '<span class="black photoTypeCls">'
@@ -31,10 +41,13 @@
             var $newTemplate = '<div class="form-group" id="templateContainer">'
                     + '<label class="col-sm-4 control-label no-padding-right" for="form-field-1-2"> </label>'
                     + '<div class="col-sm-8">'
-                    + '<div class="col-sm-5 no-padding-left">'
-                    + '<input type="file" class="form-control" name="username" value=""/>'
+                    + '<div class="col-sm-3 no-padding-left">'
+                    + '<input type="text" class="form-control" name="templateNames" value=""/>'
                     + '</div>'
-                    + '<div class="col-sm-3" style="margin-top: 8px">'
+                    + '<div class="col-sm-3 no-padding-left">'
+                    + '<input type="text" class="form-control" name="templateContents" value=""/>'
+                    + '</div>'
+                    + '<div class="col-sm-2" style="margin-top: 8px">'
                     + '<a href="javascript:void(0)" class="tooltip-success" data-rel="tooltip" title=""'
                     + 'data-original-title="Add">'
                     + '<span class="black templateCls">'
@@ -76,9 +89,8 @@
                         style="color: red;">&nbsp;*</label> </label>
 
                 <div class="col-sm-8">
-                    <div class="col-sm-5 no-padding-left">
-                        <input type="text" class="form-control" name="username" value=""/>
-                        ${isSameUser }
+                    <div class="col-sm-6 no-padding-left">
+                        <input type="text" class="form-control" name="name" value=""/>
                     </div>
                 </div>
             </div>
@@ -88,10 +100,20 @@
                         style="color: red;">&nbsp;*</label> </label>
 
                 <div class="col-sm-8">
-                    <div class="col-sm-5 no-padding-left">
-                        <input type="text" class="form-control" name="username" value=""/>
+                    <div class="col-sm-3 no-padding-left">
+                        <input type="text" class="form-control" name="photoTypes" value=""/>
                     </div>
-                    <div class="col-sm-3" style="margin-top: 8px">
+                    <div class="col-sm-3 no-padding-left">
+                        <select name="pixels"
+                                class="form-control col-sm-5"
+                                data-placeholder="选择一个调查员...">
+                            <option value="1920*1680">1920*1680</option>
+                            <option value="副总经理">李四</option>
+                            <option value="主管">王麻子</option>
+                            <option value="WY">吴旗</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-2" style="margin-top: 8px">
 
                         <a href="javascript:void(0)" class="tooltip-success" data-rel="tooltip" title=""
                            data-original-title="Add">
@@ -109,8 +131,11 @@
                         style="color: red;">&nbsp;*</label> </label>
 
                 <div class="col-sm-8">
-                    <div class="col-sm-5 no-padding-left">
-                        <input type="file" class="form-control" name="username" value=""/>
+                    <div class="col-sm-3 no-padding-left">
+                        <input type="text" class="form-control" name="templateNames" value=""/>
+                    </div>
+                    <div class="col-sm-3 no-padding-left">
+                        <input type="text" class="form-control" name="templateContents" value=""/>
                     </div>
                     <div class="col-sm-3" style="margin-top: 8px">
 
@@ -128,8 +153,8 @@
                         style="color: red;">&nbsp;*</label> </label>
 
                 <div class="col-sm-8">
-                    <div class="col-sm-5 no-padding-left">
-                        <textarea class="form-control col-sm-5"></textarea>
+                    <div class="col-sm-6 no-padding-left">
+                        <textarea class="form-control col-sm-5" name="desc"></textarea>
                     </div>
 
                 </div>
@@ -157,3 +182,43 @@
         </form>
     </div>
 </div>
+
+<script type="text/javascript">
+
+
+    $.fn.serializeObject = function () {
+        var o = {};
+        var a = this.serializeArray();
+        $.each(a, function () {
+            if (o[this.name]) {
+                if (!o[this.name].push) {
+                    o[this.name] = [o[this.name]];
+                }
+                o[this.name].push(this.value || '');
+            } else {
+                o[this.name] = [this.value || ''];
+            }
+        });
+        return o;
+    };
+
+    function onSubmit() {
+        var data = $('.form-horizontal').serializeArray()
+        console.log(JSON.stringify(data))
+        $.ajax({
+            type: "post",
+            url: "/survey/core/conf",
+            contentType:"application/json",
+            data: JSON.stringify(data),
+            success: function (data) {
+                if (!data.status) {
+                    $("#account-label").html(data.error.message)
+                } else {
+                    console.log(data)
+                }
+            }
+        });
+    }
+
+
+</script>

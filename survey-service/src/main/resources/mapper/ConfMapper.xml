@@ -6,13 +6,14 @@
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="photo_type" jdbcType="VARCHAR" property="photoType" />
     <result column="template" jdbcType="VARCHAR" property="template" />
+    <result column="pixel" jdbcType="VARCHAR" property="pixel" />
     <result column="type" jdbcType="VARCHAR" property="type" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.hongrui.survey.core.entity.Conf">
     <result column="content" jdbcType="LONGVARCHAR" property="content" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, name, photo_type, template, type
+    id, name, photo_type, template, pixel, type
   </sql>
   <sql id="Blob_Column_List">
     content
@@ -31,11 +32,11 @@
   </delete>
   <insert id="insert" parameterType="com.hongrui.survey.core.entity.Conf">
     insert into conf (id, name, photo_type, 
-      template, type, content
-      )
+      template, pixel, type, 
+      content)
     values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{photoType,jdbcType=VARCHAR}, 
-      #{template,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR}
-      )
+      #{template,jdbcType=VARCHAR}, #{pixel,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
+      #{content,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.hongrui.survey.core.entity.Conf">
     insert into conf
@@ -51,6 +52,9 @@
       </if>
       <if test="template != null">
         template,
+      </if>
+      <if test="pixel != null">
+        pixel,
       </if>
       <if test="type != null">
         type,
@@ -72,6 +76,9 @@
       <if test="template != null">
         #{template,jdbcType=VARCHAR},
       </if>
+      <if test="pixel != null">
+        #{pixel,jdbcType=VARCHAR},
+      </if>
       <if test="type != null">
         #{type,jdbcType=VARCHAR},
       </if>
@@ -92,6 +99,9 @@
       <if test="template != null">
         template = #{template,jdbcType=VARCHAR},
       </if>
+      <if test="pixel != null">
+        pixel = #{pixel,jdbcType=VARCHAR},
+      </if>
       <if test="type != null">
         type = #{type,jdbcType=VARCHAR},
       </if>
@@ -106,6 +116,7 @@
     set name = #{name,jdbcType=VARCHAR},
       photo_type = #{photoType,jdbcType=VARCHAR},
       template = #{template,jdbcType=VARCHAR},
+      pixel = #{pixel,jdbcType=VARCHAR},
       type = #{type,jdbcType=VARCHAR},
       content = #{content,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=BIGINT}
@@ -115,6 +126,7 @@
     set name = #{name,jdbcType=VARCHAR},
       photo_type = #{photoType,jdbcType=VARCHAR},
       template = #{template,jdbcType=VARCHAR},
+      pixel = #{pixel,jdbcType=VARCHAR},
       type = #{type,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -132,6 +144,9 @@
       </if>
       <if test="template != null">
         and template = #{template,jdbcType=VARCHAR}
+      </if>
+      <if test="pixel != null">
+        and pixel = #{pixel,jdbcType=VARCHAR}
       </if>
       <if test="type != null">
         and type = #{type,jdbcType=VARCHAR}
@@ -156,6 +171,9 @@
     </if>
     <if test="param1.template != null">
       and template = #{param1.template,jdbcType=VARCHAR}
+    </if>
+    <if test="param1.pixel != null">
+      and pixel = #{param1.pixel,jdbcType=VARCHAR}
     </if>
     <if test="param1.type != null">
       and type = #{param1.type,jdbcType=VARCHAR}

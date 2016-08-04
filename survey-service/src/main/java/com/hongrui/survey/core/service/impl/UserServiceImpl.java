@@ -17,6 +17,7 @@ import com.hongrui.survey.core.model.UserModel;
 import com.hongrui.survey.core.service.UserService;
 import com.wlw.pylon.core.beans.mapping.BeanMapper;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -72,20 +73,29 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserModel login(UserModel userModel) {
         String sql = "select * from user where account = ?";
-        UserModel existedUser = null;
+        UserModel existedUser = findUserByAccount(userModel.getAccount());
 
-        try {
-            existedUser = jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(UserModel.class),
-                    userModel.getAccount());
-        } catch (EmptyResultDataAccessException e) {
+        if (null == existedUser) {
             HRErrorCode.throwBusinessException(HRErrorCode.USER_NOT_EXISTED);
         }
-
 
         if (!DigestUtils.md5Hex(userModel.getPassword()).equals(existedUser.getPassword())) {
             HRErrorCode.throwBusinessException(HRErrorCode.PASSWORD_INCORRECT);
         }
         return existedUser;
+    }
+
+    @Transactional
+    @Override
+    public void addUser(UserModel userModel) {
+
+        UserModel existedUser = findUserByAccount(userModel.getAccount());
+        if (null != existedUser) {
+            HRErrorCode.throwBusinessException(HRErrorCode.USER_HAVE_EXISTED);
+        }
+
+        userModel.setCreateTime(new Date());
+        createSelective(userModel);
     }
 
     @Transactional
@@ -100,4 +110,18 @@ public class UserServiceImpl implements UserService {
         return userRepo.updateByPrimaryKeySelective(beanMapper.map(userModel, User.class));
     }
 
+
+    private UserModel findUserByAccount(String account) {
+        String sql = "select * from user where account = ?";
+        UserModel userModel = null;
+
+        try {
+            userModel = jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(UserModel.class),
+                    account);
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
+
+        return userModel;
+    }
 }

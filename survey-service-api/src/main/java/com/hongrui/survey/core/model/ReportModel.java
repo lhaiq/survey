@@ -11,6 +11,7 @@ public class ReportModel{
 	private Long taskId;
 	private Date createTime;
 	private String content;
+	private Long templateId;
 		
 	public void setId(Long id){
 		this.id = id;
@@ -51,6 +52,12 @@ public class ReportModel{
 	public String getContent(){
 		return this.content;
 	}
-		
-		
+
+	public void setTemplateId(Long templateId) {
+		this.templateId = templateId;
+	}
+
+	public Long getTemplateId() {
+		return templateId;
+	}
 }

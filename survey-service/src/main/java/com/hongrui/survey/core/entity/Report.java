@@ -9,9 +9,11 @@ public class Report {
 
     private Long taskId;
 
+    private String content;
+
     private Date createTime;
 
-    private String content;
+    private Long templateId;
 
     public Long getId() {
         return id;
@@ -37,6 +39,14 @@ public class Report {
         this.taskId = taskId;
     }
 
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
     public Date getCreateTime() {
         return createTime;
     }
@@ -45,11 +55,11 @@ public class Report {
         this.createTime = createTime;
     }
 
-    public String getContent() {
-        return content;
+    public Long getTemplateId() {
+        return templateId;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setTemplateId(Long templateId) {
+        this.templateId = templateId;
     }
 }

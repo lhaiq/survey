@@ -14,7 +14,6 @@ public class IndexController {
 
     @GetMapping(value = "index")
     public String index(Model model){
-        model.addAttribute("admin",false);
         return "common/index";
     }
 

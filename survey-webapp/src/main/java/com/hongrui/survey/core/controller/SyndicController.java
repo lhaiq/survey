@@ -52,11 +52,5 @@ public class SyndicController {
         return "syndic/syndic_list";
     }
 
-    @PostMapping(value = "/syndic")
-    public ResponseEnvelope<Integer> createSyndic(UserVO userVO) {
-        UserModel userModel = beanMapper.map(userVO, UserModel.class);
-        Integer result = userService.create(userModel);
-        ResponseEnvelope<Integer> responseEnv = new ResponseEnvelope<>(result, true);
-        return responseEnv;
-    }
+
 }

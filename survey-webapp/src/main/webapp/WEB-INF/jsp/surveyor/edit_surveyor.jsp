@@ -6,12 +6,19 @@
     <div class="col-xs-12">
         <div class="page-header">
             <h1>调查元管理
-                <small><i class="ace-icon fa fa-angle-double-right"></i> &nbsp;添加调查员</small>
+                <small><i class="ace-icon fa fa-angle-double-right"></i> &nbsp;编辑调查员</small>
             </h1>
         </div>
 
+            <%--<div class="alert alert-block alert-success">--%>
+                <%--<button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i>--%>
+                <%--</button>--%>
+                <%--<i class="ace-icon fa fa-check green"></i>--%>
+                <%--<strong class="green">添加成功</strong>--%>
+            <%--</div>--%>
+
         <!-- PAGE CONTENT BEGINS -->
-        <form class="form-horizontal" action="rest/user/creat" method="post" onsubmit="return false;">
+        <form class="form-horizontal"  method="post" onsubmit="return false;">
             <!-- #section:elements.form -->
             <div class="form-group">
                 <label class="col-sm-4 control-label no-padding-right" for="form-field-1">登录名<label

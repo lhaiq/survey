@@ -9,6 +9,7 @@ public class ConfModel{
 	private String name;
 	private String photoType;
 	private String template;
+	private String pixel;
 	private String type;
 	private String content;
 		
@@ -44,6 +45,14 @@ public class ConfModel{
 		return this.template;
 	}
 		
+	public void setPixel(String pixel){
+		this.pixel = pixel;
+	}
+	
+	public String getPixel(){
+		return this.pixel;
+	}
+		
 	public void setType(String type){
 		this.type = type;
 	}
@@ -59,6 +68,4 @@ public class ConfModel{
 	public String getContent(){
 		return this.content;
 	}
-		
-		
 }

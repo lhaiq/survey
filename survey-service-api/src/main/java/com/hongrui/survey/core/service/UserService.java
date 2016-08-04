@@ -29,4 +29,6 @@ public interface UserService {
 
     public UserModel login(UserModel userModel);
 
+    public void addUser (UserModel userModel);
+
 }

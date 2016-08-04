@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.Page;
@@ -48,7 +49,7 @@ public class UserRestApiController {
         UserModel userModel = beanMapper.map(userVO, UserModel.class);
         userModel.setRole(UserRole.SURVEYOR.getCode());
         UserModel existedUser = userService.login(userModel);
-        if(existedUser.getRole()!=UserRole.SURVEYOR.getCode()){
+        if (existedUser.getRole() != UserRole.SURVEYOR.getCode()) {
             HRErrorCode.throwBusinessException(HRErrorCode.ROLE_INVALID);
         }
         UserInfoVO userInfoVO = beanMapper.map(existedUser, UserInfoVO.class);
@@ -80,6 +81,41 @@ public class UserRestApiController {
         param.setPassword(DigestUtils.md5Hex(updatePassVO.getNewPassword()));
         Integer result = userService.updateByPrimaryKeySelective(param);
         ResponseEnvelope<Integer> responseEnv = new ResponseEnvelope<>(result, true);
+        return responseEnv;
+    }
+
+    @DeleteMapping(value = "/user/{id}")
+    public ResponseEnvelope<String> deleteUser(@PathVariable Long id) {
+        userService.deleteByPrimaryKey(id);
+        ResponseEnvelope<String> responseEnv = new ResponseEnvelope<>("ok", true);
+        return responseEnv;
+    }
+
+
+    @GetMapping(value = "/user/{id}")
+    public ResponseEnvelope<UserModel> getUser(@PathVariable Long id) {
+        UserModel userModel = userService.findByPrimaryKey(id);
+        ResponseEnvelope<UserModel> responseEnv = new ResponseEnvelope<>(userModel, true);
+        return responseEnv;
+    }
+
+    @GetMapping(value = "/user")
+    public ResponseEnvelope<Page<UserModel>> listSurvey(UserVO userVO, Pageable pageable) {
+
+        UserModel param = beanMapper.map(userVO, UserModel.class);
+        List<UserModel> userModelModels = userService.selectPage(param, pageable);
+        long count = userService.selectCount(param);
+        Page<UserModel> page = new PageImpl<>(userModelModels, pageable, count);
+        ResponseEnvelope<Page<UserModel>> responseEnv = new ResponseEnvelope<>(page, true);
+        return responseEnv;
+    }
+
+
+    @PostMapping(value = "/user")
+    public ResponseEnvelope<String> createUser(UserVO userVO) {
+        UserModel userModel = beanMapper.map(userVO, UserModel.class);
+        userService.addUser(userModel);
+        ResponseEnvelope<String> responseEnv = new ResponseEnvelope<>("ok", true);
         return responseEnv;
     }
 

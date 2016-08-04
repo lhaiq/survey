@@ -25,57 +25,41 @@ import java.util.List;
 @RequestMapping("/survey")
 public class ReportRestApiController {
 
-	private final Logger logger = LoggerFactory.getLogger(ReportRestApiController.class);
+    private final Logger logger = LoggerFactory.getLogger(ReportRestApiController.class);
 
-	@Autowired
-	private BeanMapper beanMapper;
+    @Autowired
+    private BeanMapper beanMapper;
 
-	@Autowired
-	private ReportService reportService;
+    @Autowired
+    private ReportService reportService;
 
-	@GetMapping(value = "/core/report/{id}")
-	public ResponseEnvelope<ReportVO> getReportById(@PathVariable Long id){
-		ReportModel reportModel = reportService.findByPrimaryKey(id);
-		ReportVO reportVO =beanMapper.map(reportModel, ReportVO.class);
-		ResponseEnvelope<ReportVO> responseEnv = new ResponseEnvelope<>(reportVO,true);
-		return responseEnv;
-	}
-
-	@GetMapping(value = "/core/report")
-    public ResponseEnvelope<Page<ReportModel>> listReport(ReportVO reportVO,Pageable pageable){
-
-		ReportModel param = beanMapper.map(reportVO, ReportModel.class);
-        List<ReportModel> reportModelModels = reportService.selectPage(param,pageable);
-        long count=reportService.selectCount(param);
-        Page<ReportModel> page = new PageImpl<>(reportModelModels,pageable,count);
-        ResponseEnvelope<Page<ReportModel>> responseEnv = new ResponseEnvelope<>(page,true);
+    @GetMapping(value = "/core/report/{id}")
+    public ResponseEnvelope<ReportVO> getReportById(@PathVariable Long id) {
+        ReportModel reportModel = reportService.findByPrimaryKey(id);
+        ReportVO reportVO = beanMapper.map(reportModel, ReportVO.class);
+        ResponseEnvelope<ReportVO> responseEnv = new ResponseEnvelope<>(reportVO, true);
         return responseEnv;
     }
 
-	@PostMapping(value = "/core/report")
-	public ResponseEnvelope<Integer> createReport(@RequestBody ReportVO reportVO){
-		ReportModel reportModel = beanMapper.map(reportVO, ReportModel.class);
-		Integer  result = reportService.create(reportModel);
-		ResponseEnvelope<Integer> responseEnv = new ResponseEnvelope<>(result,true);
-        return responseEnv;
-	}
+    @GetMapping(value = "/core/report")
+    public ResponseEnvelope<Page<ReportModel>> listReport(ReportVO reportVO, Pageable pageable) {
 
-    @DeleteMapping(value = "/core/report/{id}")
-	public ResponseEnvelope<Integer> deleteReportByPrimaryKey(@PathVariable Long id){
-		Integer  result = reportService.deleteByPrimaryKey(id);
-		ResponseEnvelope<Integer> responseEnv = new ResponseEnvelope<>(result,true);
+        ReportModel param = beanMapper.map(reportVO, ReportModel.class);
+        List<ReportModel> reportModelModels = reportService.selectPage(param, pageable);
+        long count = reportService.selectCount(param);
+        Page<ReportModel> page = new PageImpl<>(reportModelModels, pageable, count);
+        ResponseEnvelope<Page<ReportModel>> responseEnv = new ResponseEnvelope<>(page, true);
         return responseEnv;
-	}
+    }
 
-
-    @PutMapping(value = "/core/report/{id}")
-	public ResponseEnvelope<Integer> updateReportByPrimaryKeySelective(@PathVariable Long id,
-					@RequestBody ReportVO reportVO){
-		ReportModel reportModel = beanMapper.map(reportVO, ReportModel.class);
-		reportModel.setId(id);
-		Integer  result = reportService.updateByPrimaryKeySelective(reportModel);
-		ResponseEnvelope<Integer> responseEnv = new ResponseEnvelope<Integer>(result,true);
+    @PostMapping(value = "/{taskId}/report")
+    public ResponseEnvelope<String> submitReport(@PathVariable Long taskId,
+                                                 @RequestBody List<ReportVO> reportVOs) {
+        List<ReportModel> reportModels = beanMapper.mapAsList(reportVOs, ReportModel.class);
+        reportService.submitReports(taskId, reportModels);
+        ResponseEnvelope<String> responseEnv = new ResponseEnvelope<>("ok", true);
         return responseEnv;
-	}
+    }
+
 
 }

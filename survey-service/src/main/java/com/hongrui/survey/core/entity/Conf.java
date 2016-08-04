@@ -9,6 +9,8 @@ public class Conf {
 
     private String template;
 
+    private String pixel;
+
     private String type;
 
     private String content;
@@ -43,6 +45,14 @@ public class Conf {
 
     public void setTemplate(String template) {
         this.template = template;
+    }
+
+    public String getPixel() {
+        return pixel;
+    }
+
+    public void setPixel(String pixel) {
+        this.pixel = pixel;
     }
 
     public String getType() {

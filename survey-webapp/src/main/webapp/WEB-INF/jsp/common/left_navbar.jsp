@@ -61,7 +61,7 @@
 
             <b class="arrow"></b>
         </li>
-        <c:if test="${role==2}">
+        <c:if test="${sessionScope.user.role==2}">
             <li class="">
                 <a href="#" class="dropdown-toggle">
                     <i class="menu-icon fa fa-user"></i>
@@ -112,7 +112,7 @@
                     </li>
 
                     <li class="">
-                        <a href="javascript:link('/survey/surveyor')">
+                        <a href="javascript:link_template(routers.surveyor_list,{page:0})">
                             <i class="menu-icon fa fa-caret-right"></i>
                             调查员列表
                         </a>
@@ -123,7 +123,7 @@
             </li>
 
         </c:if>
-        <c:if test="${role==1 or role==3}">
+        <c:if test="${sessionScope.user.role==1 or sessionScope.user.role==3}">
             <li class="">
                 <a href="#" class="dropdown-toggle">
                     <i class="menu-icon fa fa-user"></i>
@@ -168,9 +168,9 @@
             <b class="arrow"></b>
 
             <ul class="submenu">
-                <c:if test="${role==2}">
+                <c:if test="${sessionScope.user.role==2}">
                     <li class="">
-                        <a href="javascript:link('/survey/task/addTypeUI')">
+                        <a href="javascript:link('/survey/core/task/addTypeUI')">
                             <i class="menu-icon fa fa-caret-right"></i>
                             添加任务类型
                         </a>
@@ -178,7 +178,7 @@
                         <b class="arrow"></b>
                     </li>
                     <li class="">
-                        <a href="javascript:link('/survey/task/taskType')">
+                        <a href="javascript:link('/survey/core/task/taskType')">
                             <i class="menu-icon fa fa-caret-right"></i>
                             任务类型列表
                         </a>
@@ -219,8 +219,10 @@
 
     </script>
 
-
     <script type="text/javascript">
+
+
+
 
         function link(url) {
             $.ajax({
@@ -232,8 +234,31 @@
             });
         }
 
+        function link_template(router,param) {
+
+            var url=router.url
+
+            for(var property in param){
+                url=url.replace("{"+property+"}",param[property])
+            }
+            $.ajax({
+                url: url,
+                async: true,
+                success: function (data) {
+                    $.get(router.template, function (content) {
+
+                        var compile = juicer(content)
+                        var html = compile.render(data.data)
+                        $(".page-content-area").html(html)
+                    });
+
+                }
+            });
+        }
     </script>
 
+
 </div>
-			
+
+
 

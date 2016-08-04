@@ -9,8 +9,9 @@ public class ReportVO{
 	private Long id;
 	private String name;
 	private Long taskId;
-	private Date createTime;
 	private String content;
+	private Date createTime;
+	private Long templateId;
 		
 	public void setId(Long id){
 		this.id = id;
@@ -36,6 +37,14 @@ public class ReportVO{
 		return this.taskId;
 	}
 		
+	public void setContent(String content){
+		this.content = content;
+	}
+	
+	public String getContent(){
+		return this.content;
+	}
+		
 	public void setCreateTime(Date createTime){
 		this.createTime = createTime;
 	}
@@ -44,12 +53,12 @@ public class ReportVO{
 		return this.createTime;
 	}
 		
-	public void setContent(String content){
-		this.content = content;
+	public void setTemplateId(Long templateId){
+		this.templateId = templateId;
 	}
 	
-	public String getContent(){
-		return this.content;
+	public Long getTemplateId(){
+		return this.templateId;
 	}
 		
 		

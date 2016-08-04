@@ -22,9 +22,9 @@ public class TaskDetailModel {
 	private Date endTime;
 
 	private CustomerModel customer;
-	private List<ReportModel> reports;
+	private Map<String, ReportConfModel> reports;
 	private List<AudioModel> audios;
-	private Map<String,List<PhotoModel>> photos;
+	private Map<String,PhotoConfModel> photos;
 		
 	public void setId(Long id){
 		this.id = id;
@@ -122,20 +122,21 @@ public class TaskDetailModel {
 		this.audios = audios;
 	}
 
-	public Map<String, List<PhotoModel>> getPhotos() {
-		return photos;
-	}
-
-	public void setPhotos(Map<String, List<PhotoModel>> photos) {
+	public void setPhotos(Map<String, PhotoConfModel> photos) {
 		this.photos = photos;
 	}
 
-	public List<ReportModel> getReports() {
-		return reports;
+
+	public Map<String, PhotoConfModel> getPhotos() {
+		return photos;
 	}
 
-	public void setReports(List<ReportModel> reports) {
+	public void setReports(Map<String, ReportConfModel> reports) {
 		this.reports = reports;
+	}
+
+	public Map<String, ReportConfModel> getReports() {
+		return reports;
 	}
 
 	public void setCustomer(CustomerModel customer) {

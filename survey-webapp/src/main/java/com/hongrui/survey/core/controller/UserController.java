@@ -21,6 +21,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
+
 @Controller
 @RequestMapping("/survey/core")
 public class UserController {
@@ -37,7 +39,7 @@ public class UserController {
     private Cache<String, Long> sessionCache;
 
     @PostMapping(value = "/user/login")
-    public String userLogin(UserVO userVO, Model model) {
+    public String userLogin(UserVO userVO, HttpSession session, Model model) {
 
         UserModel userModel = beanMapper.map(userVO, UserModel.class);
         UserModel existedUser = null;
@@ -48,8 +50,8 @@ public class UserController {
             return "login";
         }
 
-        model.addAttribute("role", userModel.getRole());
-        return "common/index";
+        session.setAttribute("user",existedUser);
+        return "redirect:/index";
     }
 
 }

@@ -43,7 +43,7 @@ public class SurveyorController {
         long count = userService.selectCount(param);
         Page<UserModel> page = new PageImpl<>(userModelModels, pageable, count);
         model.addAttribute("data", page);
-        return "surveyor/surveyor_list";
+        return "surveyor/surveyor_list.html";
     }
 
 }

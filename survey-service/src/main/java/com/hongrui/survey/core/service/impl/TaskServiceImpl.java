@@ -6,6 +6,7 @@ import com.hongrui.survey.core.HRErrorCode;
 import com.hongrui.survey.core.TaskStatus;
 import com.hongrui.survey.core.model.*;
 import com.hongrui.survey.core.service.*;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -19,10 +20,7 @@ import com.hongrui.survey.core.entity.Task;
 import com.hongrui.survey.core.repository.TaskRepository;
 import com.wlw.pylon.core.beans.mapping.BeanMapper;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class TaskServiceImpl implements TaskService {
@@ -88,20 +86,50 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public Page searchPage(TaskModel taskModel, Pageable pageable) {
-        String sql = "select t.id,t.start_time as startTime,t.end_time as endTime,t.comment,t.point,t.status," +
+        StringBuffer sb = new StringBuffer();
+        sb.append("select t.id,t.start_time as startTime,t.end_time as endTime,t.comment,t.point,t.status," +
                 "u.account,c.name as customerName,c.id as customerId," +
                 "c.company,c.address,c.id_card as idCard ,c.mobile_number as mobileNumber,c.telephone_number as telephoneNumber" +
                 " from task t,user u,customer c\n" +
                 "where t.customer_id=c.id\n" +
-                "and t.surveyor_id=u.id\n" +
-                "order by t.create_time desc\n" +
-                "limit ?,?";
+                "and t.surveyor_id=u.id\n");
 
-        String countSql = "SELECT count(1)  from task t,user u,customer c\n" +
+        StringBuffer countSql = new StringBuffer();
+        countSql.append("SELECT count(1)  from task t,user u,customer c\n" +
                 "where t.customer_id=c.id\n" +
-                "and t.surveyor_id=u.id\n";
-        List<Map<String, Object>> content = jdbcTemplate.queryForList(sql, pageable.getPageNumber(), pageable.getPageSize());
-        Long count = jdbcTemplate.queryForObject(countSql, Long.class);
+                "and t.surveyor_id=u.id\n");
+
+        if (null != taskModel.getStatus()) {
+            sb.append("and t.status = ?\n");
+            countSql.append("and t.status = ?\n");
+        }
+
+        if (null != taskModel.getSurveyorId()) {
+            sb.append("and t.surveyor_id = ?\n");
+            countSql.append("and t.surveyor_id = ?\n");
+        }
+
+        sb.append("order by t.id desc\n" +
+                "limit ?,?");
+
+
+        List<Object> pageParam = new ArrayList<>();
+        List<Object> countParam = new ArrayList<>();
+        if(null != taskModel.getStatus()){
+            pageParam.add(taskModel.getStatus());
+            countParam.add(taskModel.getStatus());
+        }
+
+        if(null != taskModel.getSurveyorId()){
+            pageParam.add(taskModel.getSurveyorId());
+            countParam.add(taskModel.getSurveyorId());
+        }
+
+        pageParam.add(pageable.getOffset());
+        pageParam.add(pageable.getPageSize());
+
+        List<Map<String, Object>> content  = jdbcTemplate.queryForList(sb.toString(),pageParam.toArray());
+        Long count = jdbcTemplate.queryForObject(countSql.toString(), Long.class,countParam.toArray());
         Page page = new PageImpl(content, pageable, count);
         return page;
     }
@@ -127,10 +155,7 @@ public class TaskServiceImpl implements TaskService {
         TaskDetailModel taskDetailModel = beanMapper.map(taskModel, TaskDetailModel.class);
 
         //reports
-        ReportModel reportParam = new ReportModel();
-        reportParam.setTaskId(id);
-        List<ReportModel> reports = reportService.selectPage(reportParam, new PageRequest(0, Integer.MAX_VALUE));
-        taskDetailModel.setReports(reports);
+        taskDetailModel.setReports(findReports(id, taskModel.getType()));
 
         //audios
         AudioModel audioParam = new AudioModel();
@@ -151,33 +176,63 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public Map<Long, Integer> taskStatus(List<Long> taskIds) {
         String sql = "select status from task where id = ?";
-        Map<Long,Integer> statuses = new HashMap<>();
-        for(Long taskId:taskIds){
+        Map<Long, Integer> statuses = new HashMap<>();
+        for (Long taskId : taskIds) {
             Integer status = jdbcTemplate.queryForObject(sql, Integer.class, taskId);
-            statuses.put(taskId,status);
+            statuses.put(taskId, status);
         }
         return statuses;
     }
 
 
-    private Map<String, List<PhotoModel>> findPhotos(Long taskId, String type) {
+    private Map<String, PhotoConfModel> findPhotos(Long taskId, String type) {
         String sql = "SELECT photo_type from conf where name = ? and type = 0";
         String photoTypes = jdbcTemplate.queryForObject(sql, String.class, type);
         JSONArray jsonArray = JSON.parseArray(photoTypes);
 
-        Map<String, List<PhotoModel>> photos = new HashMap<>();
+        Map<String, PhotoConfModel> photos = new HashMap<>();
         for (int i = 0; i < jsonArray.size(); i++) {
             Long photoTypeId = jsonArray.getLong(i);
             String name = jdbcTemplate.queryForObject("select name from conf where id = ?", String.class, photoTypeId);
+            String pixel = jdbcTemplate.queryForObject("select pixel from conf where id = ?", String.class, photoTypeId);
+            PhotoConfModel photoConfModel = new PhotoConfModel();
+            photoConfModel.setPixel(pixel);
             PhotoModel photoParam = new PhotoModel();
             photoParam.setTaskId(taskId);
             photoParam.setPhotoType(photoTypeId);
             List<PhotoModel> photoModels = photoService.selectPage(photoParam, new PageRequest(0, Integer.MAX_VALUE));
-            photos.put(name, photoModels);
+            photoConfModel.setContents(photoModels);
+            photos.put(name, photoConfModel);
         }
 
         return photos;
+    }
 
+
+    private Map<String, ReportConfModel> findReports(Long taskId, String type) {
+        String sql = "SELECT template from conf where name = ? and type = 0";
+        String templateIds = jdbcTemplate.queryForObject(sql, String.class, type);
+        JSONArray jsonArray = JSON.parseArray(templateIds);
+        Map<String, ReportConfModel> reports = new HashMap<>();
+        for (int i = 0; i < jsonArray.size(); i++) {
+            Long templateId = jsonArray.getLong(i);
+            String name = jdbcTemplate.queryForObject("select name from conf where id = ?", String.class, templateId);
+            String template = jdbcTemplate.queryForObject("select content from conf where id = ?", String.class, templateId);
+            ReportConfModel reportConfModel = new ReportConfModel();
+            reportConfModel.setTemplate(template);
+
+
+            ReportModel reportParam = new ReportModel();
+            reportParam.setTaskId(taskId);
+            reportParam.setTemplateId(templateId);
+            List<ReportModel> reportModels = reportService.selectPage(reportParam, new PageRequest(0, Integer.MAX_VALUE));
+            if (!CollectionUtils.isEmpty(reportModels)) {
+                reportConfModel.setContent(reportModels.get(0));
+            }
+            reports.put(name, reportConfModel);
+        }
+
+        return reports;
     }
 
 
