@@ -30,6 +30,7 @@
                     + '</div>'
                     + '</div>'
                     + '</div>';
+            alert($newPhotoType)
             $("#photoTypeContainer").after($newPhotoType);
 
             $(".photoTypeCls").on("click", function () {
@@ -41,7 +42,7 @@
 </script>
 <div class="page-header">
     <h1>调查任务管理
-        <small><i class="ace-icon fa fa-angle-double-right"></i> &nbsp;添加任务类型</small>
+        <small><i class="ace-icon fa fa-angle-double-right"></i> &nbsp;编辑任务类型</small>
     </h1>
 </div>
 <div class="row">
@@ -63,41 +64,58 @@
 
                 <div class="col-sm-8">
                     <div class="col-sm-6 no-padding-left">
-                        <input type="text" class="form-control" name="name" value=""/>
+                        <input type="text" class="form-control" name="name" value="${data.name}"/>
                     </div>
                 </div>
             </div>
 
-            <div class="form-group" id="photoTypeContainer">
-                <label class="col-sm-4 control-label no-padding-right" for="form-field-1">照片类型<label
-                        style="color: red;">&nbsp;*</label> </label>
+            <c:forEach items="${data.photos}" var="photo" begin="0" varStatus="i">
 
-                <div class="col-sm-8">
-                    <div class="col-sm-3 no-padding-left">
-                        <input type="text" class="form-control" name="photoTypes" value=""/>
-                    </div>
-                    <div class="col-sm-3 no-padding-left">
-                        <select name="pixels"
-                                class="form-control col-sm-5"
-                                data-placeholder="选择一个调查员...">
-                            <option value="1920*1680">1920*1680</option>
-                            <option value="副总经理">李四</option>
-                            <option value="主管">王麻子</option>
-                            <option value="WY">吴旗</option>
-                        </select>
-                    </div>
-                    <div class="col-sm-2" style="margin-top: 8px">
+                <div class="form-group" id="photoTypeContainer">
+                    <label class="col-sm-4 control-label no-padding-right" for="form-field-1">
+                        <c:if test="${i.first}"
+                                >照片类型</c:if>
+                    </label>
 
-                        <a href="javascript:void(0)" class="tooltip-success" data-rel="tooltip" title=""
-                           data-original-title="Add">
-                            <span class="black" id="addPhotoType">
+                    <div class="col-sm-8">
+                        <div class="col-sm-3 no-padding-left">
+                            <input type="text" class="form-control" name="photoTypes" value="${photo.name}"/>
+                        </div>
+                        <div class="col-sm-3 no-padding-left">
+                            <select name="pixels"
+                                    class="form-control col-sm-5"
+                                    data-placeholder="选择一个调查员...">
+                                <option value="1920*1680" <c:if test="${photo.pixel=='1920*1680'}">selected</c:if>>1920*1680</option>
+                                <option value="1920*1080" <c:if test="${photo.pixel=='1920*1080'}">selected</c:if>>1920*1080</option>
+                                <option value="1366*768"  <c:if test="${photo.pixel=='1366*768'}">selected</c:if>>1366*768</option>
+                                <option value="1440*900"  <c:if test="${photo.pixel=='1440*900'}">selected</c:if>>1440*900</option>
+                                <option value="1600*900"  <c:if test="${photo.pixel=='1600*900'}">selected</c:if>>1600*900</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-2" style="margin-top: 8px">
+
+                            <a href="javascript:void(0)" class="tooltip-success" data-rel="tooltip" title=""
+                               data-original-title="Add">
+                                <c:if test="${i.first}">
+                                    <span class="black" id="addPhotoType">
                                 <i class="ace-icon fa fa-plus-circle bigger-120"></i>
                             </span>
-                        </a>
+                                </c:if>
+
+                                <c:if test="${!i.first}">
+                                    <span class="black photoTypeCls">
+                                    <i class="ace-icon fa fa-minus bigger-120"></i>
+                                </span>
+                                </c:if>
+
+                            </a>
+                        </div>
                     </div>
+
                 </div>
 
-            </div>
+            </c:forEach>
+
 
             <div class="form-group" id="templateContainer">
                 <label class="col-sm-4 control-label no-padding-right" for="form-field-1-2">模板 <label
@@ -109,7 +127,11 @@
                                 id="form-field-select-4"
                                 data-placeholder="选择一个模版..." name="templates">
                             <c:forEach items="${templates}" var="item">
-                                <option value="${item.id}">${item.name}</option>
+                                <option value="${item.id}"
+                                        <c:forEach items="${data.templates}" var="template">
+                                            <c:if test="${template.id==item.id}">selected</c:if>
+                                        </c:forEach>
+                                        >${item.name}</option>
                             </c:forEach>
                         </select>
                     </div>
@@ -160,6 +182,16 @@
 
     });
 
+    //    function onSubmit() {
+    //        $('.form-horizontal').ajaxSubmit({
+    //            success: function (data) {
+    //                if (data.status) {
+    //                    alert(JSON.stringify(data))
+    //                    link_template(routers.template_list, {page: 0})
+    //                }
+    //            }
+    //        });
+    //    }
 
     $.fn.serializeObject = function () {
         var o = {};

@@ -119,4 +119,14 @@ public class UserRestApiController {
         return responseEnv;
     }
 
+    @PutMapping(value = "/user/{id}")
+    public ResponseEnvelope<String> updateUser(@PathVariable Long id,
+                                               UserVO userVO) {
+        UserModel userModel = beanMapper.map(userVO, UserModel.class);
+        userModel.setId(id);
+        userService.updateUser(userModel);
+        ResponseEnvelope<String> responseEnv = new ResponseEnvelope<>("ok", true);
+        return responseEnv;
+    }
+
 }

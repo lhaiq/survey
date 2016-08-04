@@ -143,12 +143,7 @@ window.jQuery || document.write("<script src='assets/js/jquery1x.min.js'>"+"<"+"
 				});
 			})
 		}).trigger('resize.chosen');
-       //浏览导航 例：主页/系统管理/用户管理
-		var breadvalues=$('#breadvalue112').val().split('/');
-		$('#breadcrumbli').append('	<li class="active"></li>');
-		for(var v in breadvalues){
-			$('#breadcrumbli').append('	<li class="active">'+breadvalues[v]+'</li>');
-		}
+
 
 	})
 </script>

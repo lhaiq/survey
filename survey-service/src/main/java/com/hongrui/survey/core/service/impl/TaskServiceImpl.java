@@ -87,8 +87,8 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public Page searchPage(TaskModel taskModel, Pageable pageable) {
         StringBuffer sb = new StringBuffer();
-        sb.append("select t.id,t.start_time as startTime,t.end_time as endTime,t.comment,t.point,t.status," +
-                "u.account,c.name as customerName,c.id as customerId," +
+        sb.append("select t.id,t.start_time as startTime,t.end_time as endTime,t.comment,t.point,t.status,t.type," +
+                "u.account,u.nick_name as nickName,c.name as customerName,c.id as customerId," +
                 "c.company,c.address,c.id_card as idCard ,c.mobile_number as mobileNumber,c.telephone_number as telephoneNumber" +
                 " from task t,user u,customer c\n" +
                 "where t.customer_id=c.id\n" +

@@ -18,7 +18,7 @@
             <%--</div>--%>
 
         <!-- PAGE CONTENT BEGINS -->
-        <form class="form-horizontal" action="rest/user/creat" method="post" onsubmit="return false;">
+        <form class="form-horizontal" action="/survey/user" method="post" onsubmit="return false;">
             <!-- #section:elements.form -->
             <div class="form-group">
                 <label class="col-sm-4 control-label no-padding-right" for="form-field-1">登录名<label
@@ -26,19 +26,19 @@
 
                 <div class="col-sm-8">
                     <div class="col-sm-5 no-padding-left">
-                        <input type="text" class="form-control" name="username"/>
+                        <input type="text" class="form-control" name="account"/>
                         ${isSameUser }
                     </div>
                 </div>
             </div>
-
+            <input type="hidden" name="role" value="1"/>
             <div class="form-group">
                 <label class="col-sm-4 control-label no-padding-right" for="form-field-1-2">登录密码 <label
                         style="color: red;">&nbsp;*</label> </label>
 
                 <div class="col-sm-8">
                     <div class="col-sm-5 no-padding-left">
-                        <input type="password" name="chinaName" class="form-control col-sm-5"/>
+                        <input type="password" name="password" class="form-control col-sm-5"/>
                     </div>
                 </div>
             </div>
@@ -48,7 +48,7 @@
 
                 <div class="col-sm-8">
                     <div class="col-sm-5 no-padding-left">
-                        <input type="password" name="chinaName" class="form-control col-sm-5"/>
+                        <input type="password" name="confirmPass" class="form-control col-sm-5"/>
                     </div>
                 </div>
             </div>
@@ -75,8 +75,21 @@
 </div>
 <script type="text/javascript">
 
-    function onSubmit(){
-        var data = $("form-horizontal").serializeArray();
-        console.log(data)
+    function onSubmit() {
+        var account = $("#account").val()
+        var password = $("#password").val()
+        var confirmPass = $("#confirmPass").val()
+        if (password != confirmPass) {
+            alert("两次密码不一致")
+//            $("#password-label").html("两次密码不一致")
+        }
+
+        $('.form-horizontal').ajaxSubmit({
+            success: function (data) {
+                if (data.status) {
+                    javascript:link('/survey/syndic')
+                }
+            }
+        });
     }
 </script>

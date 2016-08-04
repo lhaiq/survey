@@ -10,6 +10,7 @@ public class UserModel{
 	private String account;
 	private String password;
 	private Date createTime;
+	private String nickName;
 	private Integer role;
 		
 	public void setId(Long id){
@@ -51,6 +52,12 @@ public class UserModel{
 	public Integer getRole(){
 		return this.role;
 	}
-		
-		
+
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
+	}
+
+	public String getNickName() {
+		return nickName;
+	}
 }

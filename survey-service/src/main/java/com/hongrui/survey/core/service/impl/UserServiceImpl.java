@@ -95,7 +95,15 @@ public class UserServiceImpl implements UserService {
         }
 
         userModel.setCreateTime(new Date());
+        userModel.setPassword(DigestUtils.md5Hex(userModel.getPassword()));
         createSelective(userModel);
+    }
+
+    @Transactional
+    @Override
+    public void updateUser(UserModel userModel) {
+        userModel.setPassword(DigestUtils.md5Hex(userModel.getPassword()));
+        updateByPrimaryKeySelective(userModel);
     }
 
     @Transactional

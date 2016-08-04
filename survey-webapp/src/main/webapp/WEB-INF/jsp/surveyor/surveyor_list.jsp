@@ -52,27 +52,19 @@
 
                     <tbody>
 
-                    <c:forEach var="item" varStatus="i" items="${data.content}" begin="0" end="10">
-                        <c:choose>
-                            <c:when test="${i.count%2==0}">
-                                <tr role="row" class="odd">
-                            </c:when>
-                            <c:otherwise>
-                                <tr role="row" class="even">
-                            </c:otherwise>
-                        </c:choose>
+                    <c:forEach var="item" items="${data.content}">
                         <td class="hidden-480">${item.account}</td>
-                        <td class="hidden-480">李四</td>
-                        <td class="hidden-480"><fmt:formatDate value="${item.createTime}"
+                        <td class="hidden-480">${item.nickName}</td>
+                        <td class="hidden-480"><fmt:formatDate value="${item.startTime}"
                                                                pattern="yyyy-MM-dd HH:mm:SS"/></td>
                         <td>
                             <div class="hidden-sm hidden-xs action-buttons">
 
-                                <a class="green" href="#">
+                                <a class="green" href="javascript:link('/survey/editSurveyorUI/${item.id}')">
                                     <i class="ace-icon fa fa-pencil bigger-130"></i>
                                 </a>
 
-                                <a class="red" href="javascript:link('/su')">
+                                <a class="red" href="javascript:deleteById(${item.id})">
                                     <i class="ace-icon fa fa-trash-o bigger-130"></i>
                                 </a>
                             </div>
@@ -142,3 +134,16 @@
     </div>
 </div>
 
+<script type="text/javascript">
+    function deleteById(id) {
+        $.ajax({
+            type: "delete",
+            url: "/survey/user/" + id,
+            success: function (data) {
+                if (data.status) {
+                    javascript:link('/survey/surveyor?page=${data.number}&name=${name}')
+                }
+            }
+        });
+    }
+</script>

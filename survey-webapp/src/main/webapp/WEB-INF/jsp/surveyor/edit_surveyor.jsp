@@ -18,7 +18,8 @@
             <%--</div>--%>
 
         <!-- PAGE CONTENT BEGINS -->
-        <form class="form-horizontal"  method="post" onsubmit="return false;">
+        <form class="form-horizontal"  action="/survey/user/${data.id}" method="post" onsubmit="return false;">
+            <input type="hidden" name="_method" value="put" />
             <!-- #section:elements.form -->
             <div class="form-group">
                 <label class="col-sm-4 control-label no-padding-right" for="form-field-1">登录名<label
@@ -26,7 +27,7 @@
 
                 <div class="col-sm-8">
                     <div class="col-sm-5 no-padding-left">
-                        <input type="text" class="form-control" name="account" id="account"/>
+                        <input type="text" class="form-control" name="account" id="account" value="${data.account}" disabled/>
                     </div>
                     <div class="col-sm-5"><font color="red" id="account-label"></font></div>
                 </div>
@@ -38,11 +39,11 @@
 
                 <div class="col-sm-8">
                     <div class="col-sm-5 no-padding-left">
-                        <input type="text" class="form-control" name="nickName" id="nickName"/>
+                        <input type="text" class="form-control" name="nickName" id="nickName" value="${data.nickName}"/>
                     </div>
                 </div>
             </div>
-
+            <input type="hidden" name="role" value="0"/>
             <div class="form-group">
                 <label class="col-sm-4 control-label no-padding-right" for="form-field-1-2">登录密码 <label
                         style="color: red;">&nbsp;*</label> </label>
@@ -96,22 +97,13 @@
             $("#password-label").html("两次密码不一致")
         }
 
-        $.ajax({
-            type:"post",
-            url:"/survey/user",
-            data:{
-                account:account,
-                password:password
-            },
-            success:function(data){
-                if(!data.status){
-                    $("#account-label").html(data.error.message)
-                }else{
-                    link("/survey/surveyor")
+        $('.form-horizontal').ajaxSubmit({
+            success: function (data) {
+                if (data.status) {
+                    javascript:link('/survey/surveyor')
                 }
             }
         });
-
 
     }
 </script>

@@ -5,7 +5,7 @@
     <div class="col-xs-12">
         <div class="page-header">
             <h1>客户管理
-                <small><i class="ace-icon fa fa-angle-double-right"></i> &nbsp;添加客户</small>
+                <small><i class="ace-icon fa fa-angle-double-right"></i> &nbsp;编辑客户</small>
             </h1>
         </div>
         <c:if test="${addFlag == 'Y' }">
@@ -17,7 +17,8 @@
             </div>
         </c:if>
         <!-- PAGE CONTENT BEGINS -->
-        <form class="form-horizontal" action="/survey/customer" method="post" onsubmit="return false;">
+        <form class="form-horizontal" action="/survey/customer/${data.id}" method="post" onsubmit="return false;">
+            <input type="hidden" name="_method" value="put" />
             <!-- #section:elements.form -->
             <div class="form-group">
                 <label class="col-sm-4 control-label no-padding-right" for="form-field-1">姓名<label
@@ -25,7 +26,7 @@
 
                 <div class="col-sm-8">
                     <div class="col-sm-5 no-padding-left">
-                        <input type="text" class="form-control" name="name"/>
+                        <input type="text" class="form-control" name="name" value="${data.name}"/>
                     </div>
                 </div>
             </div>
@@ -36,7 +37,7 @@
 
                 <div class="col-sm-8">
                     <div class="col-sm-5 no-padding-left">
-                        <input type="text" class="form-control" name="mobileNumber"/>
+                        <input type="text" class="form-control" name="mobileNumber" value="${data.mobileNumber}"/>
                     </div>
                 </div>
             </div>
@@ -47,7 +48,7 @@
 
                 <div class="col-sm-8">
                     <div class="col-sm-5 no-padding-left">
-                        <input type="text" class="form-control" name="telephoneNumber"/>
+                        <input type="text" class="form-control" name="telephoneNumber" value="${data.telephoneNumber}"/>
                     </div>
                 </div>
             </div>
@@ -58,7 +59,7 @@
 
                 <div class="col-sm-8">
                     <div class="col-sm-5 no-padding-left">
-                        <input type="text" name="idCard" class="form-control col-sm-5"/>
+                        <input type="text" name="idCard" class="form-control col-sm-5" value="${data.idCard}"/>
                     </div>
                 </div>
             </div>
@@ -68,7 +69,7 @@
 
                 <div class="col-sm-8">
                     <div class="col-sm-5 no-padding-left">
-                        <input type="text" name="company" class="form-control col-sm-5"/>
+                        <input type="text" name="company" class="form-control col-sm-5" value="${data.company}"/>
                     </div>
                 </div>
             </div>
@@ -79,7 +80,7 @@
 
                 <div class="col-sm-8">
                     <div class="col-sm-5 no-padding-left">
-                        <input type="text" name="address" class="form-control col-sm-5"/>
+                        <input type="text" name="address" class="form-control col-sm-5" value="${data.address}"/>
                     </div>
                 </div>
             </div>

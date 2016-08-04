@@ -35,4 +35,6 @@ public interface ConfService {
 
     public Map<String, Object> findConfById(Long id);
 
+    public List<Map<String,Object>> selectTemplateList();
+
 }

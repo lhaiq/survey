@@ -17,9 +17,6 @@
         <li><i class="ace-icon fa fa-home home-icon"></i> <a href="#">主页</a>
         </li>
 
-
-        <li class="active">控制面板111</li>
-        <li class="active">控制面板</li>
     </ul>
     <!-- /.breadcrumb -->
 

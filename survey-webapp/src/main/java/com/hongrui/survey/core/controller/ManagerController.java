@@ -5,14 +5,15 @@ import com.hongrui.survey.core.model.UserModel;
 import com.hongrui.survey.core.service.UserService;
 import com.hongrui.survey.core.vo.UserVO;
 import com.wlw.pylon.core.beans.mapping.BeanMapper;
-import com.wlw.pylon.web.rest.ResponseEnvelope;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
@@ -21,7 +22,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping(value = "/survey")
-public class SyndicController {
+public class ManagerController {
 
     @Autowired
     private BeanMapper beanMapper;
@@ -29,28 +30,29 @@ public class SyndicController {
     @Autowired
     private UserService userService;
 
-    @GetMapping(value = "/addSyndicUI")
-    public String addSyndicUI() {
-        return "syndic/add_syndic";
+    @GetMapping(value = "/addManagerUI")
+    public String addManagerUI() {
+        return "manager/add_manager";
     }
 
-    @GetMapping(value = "/editSyndicUI/{id}")
+    @GetMapping(value = "/editManagerUI/{id}")
     public String editSyndicUI(@PathVariable Long id,Model model) {
         UserModel userModel = userService.findByPrimaryKey(id);
         model.addAttribute("data",userModel);
-        return "syndic/edit_syndic";
+        return "manager/edit_manager";
     }
 
-    @GetMapping(value = "/syndic")
+
+    @GetMapping(value = "/manager")
     public String listSyndic(UserVO userVO, Pageable pageable, Model model) {
 
         UserModel param = beanMapper.map(userVO, UserModel.class);
-        param.setRole(UserRole.SYNDIC.getCode());
+        param.setRole(UserRole.MANAGER.getCode());
         List<UserModel> userModelModels = userService.selectPage(param, pageable);
         long count = userService.selectCount(param);
         Page<UserModel> page = new PageImpl<>(userModelModels, pageable, count);
         model.addAttribute("data", page);
-        return "syndic/syndic_list";
+        return "manager/manager_list";
     }
 
 

@@ -53,14 +53,6 @@
     <!-- /.sidebar-shortcuts -->
     <!--下拉导航开始-->
     <ul class="nav nav-list">
-        <li class="active">
-            <a href="index.html">
-                <i class="menu-icon fa fa-tachometer"></i>
-                <span class="menu-text"> 控制面板 </span>
-            </a>
-
-            <b class="arrow"></b>
-        </li>
         <c:if test="${sessionScope.user.role==2}">
             <li class="">
                 <a href="#" class="dropdown-toggle">
@@ -74,7 +66,7 @@
 
                 <ul class="submenu">
                     <li class="">
-                        <a href="javascript:link('/survey/syndic_ui')">
+                        <a href="javascript:link('/survey/addSyndicUI')">
                             <i class="menu-icon fa fa-caret-right"></i>
                             添加评审员
                         </a>
@@ -104,7 +96,7 @@
 
                 <ul class="submenu">
                     <li class="">
-                        <a href="javascript:link('/survey/surveyor_ui')">
+                        <a href="javascript:link('/survey/addSurveyorUI')">
                             <i class="menu-icon fa fa-caret-right"></i>
                             添加调查员
                         </a>
@@ -112,9 +104,39 @@
                     </li>
 
                     <li class="">
-                        <a href="javascript:link_template(routers.surveyor_list,{page:0})">
+                        <a href="javascript:link('/survey/surveyor')">
                             <i class="menu-icon fa fa-caret-right"></i>
                             调查员列表
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="">
+                <a href="#" class="dropdown-toggle">
+                    <i class="menu-icon fa fa-user"></i>
+                    <span class="menu-text">调查主管管理</span>
+
+                    <b class="arrow fa fa-angle-down"></b>
+                </a>
+
+                <b class="arrow"></b>
+
+                <ul class="submenu">
+                    <li class="">
+                        <a href="javascript:link('/survey/addManagerUI')">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            添加主管
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="">
+                        <a href="javascript:link('/survey/manager')">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            主管列表
                         </a>
 
                         <b class="arrow"></b>
@@ -135,7 +157,7 @@
                 <b class="arrow"></b>
 
                 <ul class="submenu">
-                    <c:if test="${role==1}">
+                    <c:if test="${sessionScope.user.role==1}">
                         <li class="">
                             <a href="javascript:link('/survey/addCustomerUI')">
                                 <i class="menu-icon fa fa-user-plus"></i>
@@ -213,7 +235,7 @@
                 <ul class="submenu">
 
                     <li class="">
-                        <a href="javascript:link('/survey/core/task/addTypeUI')">
+                        <a href="javascript:link('/survey/core/template/addUI')">
                             <i class="menu-icon fa fa-caret-right"></i>
                             添加模板
                         </a>
@@ -221,7 +243,7 @@
                         <b class="arrow"></b>
                     </li>
                     <li class="">
-                        <a href="javascript:link_template(routers.template_list,{page:0,type:2})">
+                        <a href="javascript:link_template(routers.template_list,{page:0})">
                             <i class="menu-icon fa fa-caret-right"></i>
                             模板列表
                         </a>

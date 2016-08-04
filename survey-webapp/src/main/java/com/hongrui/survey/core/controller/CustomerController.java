@@ -40,6 +40,12 @@ public class CustomerController {
         return "customer/add_customer";
     }
 
+    @GetMapping(value = "/editCustomerUI/{id}")
+    public String editCustomerUI(@PathVariable Long id,Model model) {
+        model.addAttribute("data",customerService.findByPrimaryKey(id));
+        return "customer/edit_customer";
+    }
+
     @GetMapping(value = "/surveyCustomerUI/{id}")
     public String surveyCustomerUI(@PathVariable Long id) {
         return "task/add_task";
@@ -56,15 +62,15 @@ public class CustomerController {
         return "customer/customer_list";
     }
 
-    @PostMapping(value = "/core/customer")
+    @PostMapping(value = "/customer")
     public ResponseEnvelope<Integer> createCustomer(@RequestBody CustomerVO customerVO) {
         CustomerModel customerModel = beanMapper.map(customerVO, CustomerModel.class);
-        Integer result = customerService.create(customerModel);
+        Integer result = customerService.createSelective(customerModel);
         ResponseEnvelope<Integer> responseEnv = new ResponseEnvelope<>(result, true);
         return responseEnv;
     }
 
-    @DeleteMapping(value = "/core/customer/{id}")
+    @DeleteMapping(value = "/customer/{id}")
     public ResponseEnvelope<Integer> deleteCustomerByPrimaryKey(@PathVariable Long id) {
         Integer result = customerService.deleteByPrimaryKey(id);
         ResponseEnvelope<Integer> responseEnv = new ResponseEnvelope<>(result, true);
@@ -72,7 +78,7 @@ public class CustomerController {
     }
 
 
-    @PutMapping(value = "/core/customer/{id}")
+    @PutMapping(value = "/customer/{id}")
     public ResponseEnvelope<Integer> updateCustomerByPrimaryKeySelective(@PathVariable Long id,
                                                                          @RequestBody CustomerVO customerVO) {
         CustomerModel customerModel = beanMapper.map(customerVO, CustomerModel.class);

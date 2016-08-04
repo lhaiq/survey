@@ -1,5 +1,6 @@
 package com.hongrui.survey.core.controller;
 
+import com.hongrui.survey.core.UserRole;
 import com.hongrui.survey.core.model.UserModel;
 import com.hongrui.survey.core.service.UserService;
 import com.hongrui.survey.core.vo.UserVO;
@@ -12,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -30,20 +32,29 @@ public class SurveyorController {
     @Autowired
     private UserService userService;
 
-    @GetMapping(value = "/surveyor_ui")
-    public String index() {
+    @GetMapping(value = "/addSurveyorUI")
+    public String addSurveyorUI() {
         return "surveyor/add_surveyor";
     }
 
-    @GetMapping(value = "/surveyor")
-    public String listSurvey(UserVO userVO, Pageable pageable, Model model) {
+    @GetMapping(value = "/editSurveyorUI/{id}")
+    public String editSurveyorUI(@PathVariable Long id, Model model) {
+        UserModel userModel = userService.findByPrimaryKey(id);
+        model.addAttribute("data", userModel);
+        return "surveyor/edit_surveyor";
+    }
 
-        UserModel param = beanMapper.map(userVO, UserModel.class);
+
+    @GetMapping(value = "/surveyor")
+    public String listSurvey(Pageable pageable, Model model) {
+
+        UserModel param = new UserModel();
+        param.setRole(UserRole.SURVEYOR.getCode());
         List<UserModel> userModelModels = userService.selectPage(param, pageable);
         long count = userService.selectCount(param);
         Page<UserModel> page = new PageImpl<>(userModelModels, pageable, count);
         model.addAttribute("data", page);
-        return "surveyor/template_list.html";
+        return "surveyor/surveyor_list";
     }
 
 }

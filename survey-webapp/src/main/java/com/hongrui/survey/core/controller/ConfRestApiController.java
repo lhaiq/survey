@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/survey/")
+@RequestMapping("/survey")
 public class ConfRestApiController {
 
     private final Logger logger = LoggerFactory.getLogger(ConfRestApiController.class);
@@ -49,14 +49,7 @@ public class ConfRestApiController {
     }
 
 
-    @PostMapping(value = "/conf")
-    public ResponseEnvelope<String> createTaskType(@RequestBody TaskTypeModel taskTypeModel) {
-        confService.createTaskType(taskTypeModel);
-        ResponseEnvelope<String> responseEnv = new ResponseEnvelope<>("ok", true);
-        return responseEnv;
-    }
-
-    @DeleteMapping(value = "/core/conf/{id}")
+    @DeleteMapping(value = "/conf/{id}")
     public ResponseEnvelope<Integer> deleteConfByPrimaryKey(@PathVariable Long id) {
         Integer result = confService.deleteByPrimaryKey(id);
         ResponseEnvelope<Integer> responseEnv = new ResponseEnvelope<>(result, true);
@@ -93,7 +86,6 @@ public class ConfRestApiController {
         return responseEnv;
     }
 
-
     @GetMapping(value = "/template")
     public ResponseEnvelope<Page<ConfModel>> selectTemplate(Pageable pageable) {
         ConfModel param = new ConfModel();
@@ -104,5 +96,6 @@ public class ConfRestApiController {
         ResponseEnvelope<Page<ConfModel>> responseEnv = new ResponseEnvelope<>(page, true);
         return responseEnv;
     }
+
 
 }

@@ -42,7 +42,10 @@ public class ConfServiceImpl implements ConfService {
     @Transactional
     @Override
     public int createSelective(ConfModel confModel) {
-        return confRepo.insertSelective(beanMapper.map(confModel, Conf.class));
+        Conf conf = beanMapper.map(confModel, Conf.class);
+        int retVal = confRepo.insertSelective(conf);
+        confModel.setId(conf.getId());
+        return retVal;
     }
 
     @Transactional
@@ -66,7 +69,7 @@ public class ConfServiceImpl implements ConfService {
 
     @Override
     public long selectConfCount() {
-        return 0;
+        return jdbcTemplate.queryForObject("select count(1) from conf where type=0", Long.class);
     }
 
     @Transactional(readOnly = true)
@@ -81,12 +84,7 @@ public class ConfServiceImpl implements ConfService {
         String sql = "select * from conf where type = 0 order by id limit ?,?";
         List<Map<String, Object>> maps = jdbcTemplate.queryForList(sql, pageable.getOffset(), pageable.getPageSize());
         for (Map<String, Object> map : maps) {
-            List<Long> photoTypeIds = JSON.parseArray(map.get("photo_type").toString(), Long.class);
-            List<Long> templateIds = JSON.parseArray(map.get("template").toString(), Long.class);
-            String photoTypeSql = "select * from conf where id in (" + StringUtils.collectionToCommaDelimitedString(photoTypeIds) + ")";
-            String templateSql = "select * from conf where id in (" + StringUtils.collectionToCommaDelimitedString(photoTypeIds) + ")";
-            map.put("photos", jdbcTemplate.queryForList(photoTypeSql));
-            map.put("templates", jdbcTemplate.queryForList(templateSql));
+            fillPhotoAndTemplate(map);
         }
 
         return maps;
@@ -95,7 +93,25 @@ public class ConfServiceImpl implements ConfService {
 
     @Override
     public Map<String, Object> findConfById(Long id) {
-        return null;
+        String sql = "select * from conf where id = ?";
+        Map<String, Object> map = jdbcTemplate.queryForMap(sql, id);
+        fillPhotoAndTemplate(map);
+        return map;
+    }
+
+    private void fillPhotoAndTemplate(Map<String, Object> map){
+        List<Long> photoTypeIds = JSON.parseArray(map.get("photo_type").toString(), Long.class);
+        List<Long> templateIds = JSON.parseArray(map.get("template").toString(), Long.class);
+        String photoTypeSql = "select * from conf where id in (" + StringUtils.collectionToCommaDelimitedString(photoTypeIds) + ")";
+        String templateSql = "select id,name from conf where id in (" + StringUtils.collectionToCommaDelimitedString(templateIds) + ")";
+        map.put("photos", jdbcTemplate.queryForList(photoTypeSql));
+        map.put("templates", jdbcTemplate.queryForList(templateSql));
+    }
+
+    @Override
+    public List<Map<String, Object>> selectTemplateList() {
+        String sql = "select id,name from conf where type = 2";
+        return jdbcTemplate.queryForList(sql);
     }
 
     @Transactional
@@ -116,25 +132,10 @@ public class ConfServiceImpl implements ConfService {
             photoTypeIds.add(confModel.getId());
         }
 
-        //template
-        List<String> templateNames = taskTypeModel.getTemplateNames();
-        List<String> templateContents = taskTypeModel.getTemplateContents();
-        List<Long> templateIds = new ArrayList<>();
-
-        for (int i = 0; i < templateNames.size(); i++) {
-            ConfModel confModel = new ConfModel();
-            confModel.setName(templateNames.get(i));
-            confModel.setContent(templateContents.get(i));
-            confModel.setType(ConfType.TEMPLATE.getType());
-            createSelective(confModel);
-            templateIds.add(confModel.getId());
-        }
-
-
         ConfModel confModel = new ConfModel();
         confModel.setName(taskTypeModel.getName().get(0));
         confModel.setPhotoType(JSON.toJSONString(photoTypeIds));
-        confModel.setTemplate(JSON.toJSONString(templateIds));
+        confModel.setTemplate(JSON.toJSONString(taskTypeModel.getTemplates()));
         confModel.setType(ConfType.SURVEY.getType());
         createSelective(confModel);
     }

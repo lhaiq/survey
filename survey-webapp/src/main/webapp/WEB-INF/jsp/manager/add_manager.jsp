@@ -1,13 +1,24 @@
+<%@ page language="java" import="java.util.*" pageEncoding="utf-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
+
 <div class="row">
     <div class="col-xs-12">
+
         <div class="page-header">
-            <h1>调查元管理
-                <small><i class="ace-icon fa fa-angle-double-right"></i> &nbsp;编辑调查员</small>
+            <h1>调查主管管理
+                <small><i class="ace-icon fa fa-angle-double-right"></i> &nbsp;添加主管</small>
             </h1>
         </div>
+            <%--<div class="alert alert-block alert-success">--%>
+                <%--<button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i>--%>
+                <%--</button>--%>
+                <%--<i class="ace-icon fa fa-check green"></i>--%>
+                <%--<strong class="green">添加成功</strong>--%>
+            <%--</div>--%>
 
         <!-- PAGE CONTENT BEGINS -->
-        <form class="form-horizontal" action="rest/user/creat" method="post" onsubmit="return false;">
+        <form class="form-horizontal" action="/survey/user" method="post" onsubmit="return false;">
             <!-- #section:elements.form -->
             <div class="form-group">
                 <label class="col-sm-4 control-label no-padding-right" for="form-field-1">登录名<label
@@ -15,20 +26,8 @@
 
                 <div class="col-sm-8">
                     <div class="col-sm-5 no-padding-left">
-                        <input type="text" class="form-control disabled" name="account" id="account"
-                               value="${account}"/>
-                    </div>
-                    <div class="col-sm-5"><font color="red" id="account-label"></font></div>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label class="col-sm-4 control-label no-padding-right" for="form-field-1">姓名<label
-                        style="color: red;">&nbsp;*</label> </label>
-
-                <div class="col-sm-8">
-                    <div class="col-sm-5 no-padding-left">
-                        <input type="text" class="form-control" name="nickName" id="nickName" value="${nickName}"/>
+                        <input type="text" class="form-control" name="account"/>
+                        ${isSameUser }
                     </div>
                 </div>
             </div>
@@ -39,19 +38,18 @@
 
                 <div class="col-sm-8">
                     <div class="col-sm-5 no-padding-left">
-                        <input type="password" name="password" id="password" class="form-control col-sm-5"/>
+                        <input type="password" name="password" class="form-control col-sm-5"/>
                     </div>
-                    <div class="col-sm-5"><font color="red" id="password-label"></font></div>
                 </div>
             </div>
+            <input type="hidden" name="role" value="3"/>
             <div class="form-group">
                 <label class="col-sm-4 control-label no-padding-right" for="form-field-1-2">密码确认 <label
                         style="color: red;">&nbsp;*</label> </label>
 
                 <div class="col-sm-8">
                     <div class="col-sm-5 no-padding-left">
-                        <input type="password" name="confirmPass" id="confirmPass" class="form-control col-sm-5"
-                               value="${}"/>
+                        <input type="password" name="confirmPass" class="form-control col-sm-5"/>
                     </div>
                 </div>
             </div>
@@ -62,8 +60,7 @@
 
                 <div class="col-sm-8">
                     <div class="col-sm-5 no-padding-left">
-                        <button class="btn btn-xs btn-success" onclick="onSubmit()"
-                                style="width: 81px;margin-left: 34px;">
+                        <button class="btn btn-xs btn-success" onclick="onSubmit()" style="width: 81px;margin-left: 34px">
                             <i class="ace-icon fa fa-check bigger-110">提交</i>
                         </button>
 
@@ -84,26 +81,16 @@
         var password = $("#password").val()
         var confirmPass = $("#confirmPass").val()
         if (password != confirmPass) {
-            alert(confirmPass)
-            $("#password-label").html("两次密码不一致")
+            alert("两次密码不一致")
+//            $("#password-label").html("两次密码不一致")
         }
 
-        $.ajax({
-            type: "post",
-            url: "/survey/user",
-            data: {
-                account: account,
-                password: password
-            },
+        $('.form-horizontal').ajaxSubmit({
             success: function (data) {
-                if (!data.status) {
-                    $("#account-label").html(data.error.message)
-                } else {
-                    link_template(routers.surveyor_list,{page:0})
+                if (data.status) {
+                    javascript:link('/survey/manager')
                 }
             }
         });
-
-
     }
 </script>

@@ -9,24 +9,6 @@
             列表
         </div>
         <div id="sample-table-2_wrapper" class="dataTables_wrapper form-inline no-footer">
-            <div class="row ">
-
-                <div class="col-xs-6 pull-right">
-                    <div id="sample-table-2_filter" class="dataTables_filter "><label>Search:<input type="search"
-                                                                                                    id="userSearchInput"
-                                                                                                    class="form-control input-sm"
-                                                                                                    aria-controls="sample-table-2">
-                    </label></div>
-                </div>
-                <div class="col-xs-6">
-                    <a href="javascript:void(0)" class="tooltip-success" data-rel="tooltip" title=""
-                       data-original-title="Search">
-                            <span class="black" id="userSearch">
-                                <i class="fa fa-search bigger-120"></i>
-                            </span>
-                    </a>
-                </div>
-            </div>
             <div class="row">
                 <table id="sample-table-2"
                        class="table table-striped table-bordered table-hover dataTable no-footer"
@@ -53,10 +35,6 @@
                                 <i class="ace-icon fa fa-eye bigger-130"></i>
                             </a>
 
-                            <a class="green" href="javascript:link_template(routers.surveyor_edit,{id:${item.id}})">
-                                <i class="ace-icon fa fa-pencil bigger-130"></i>
-                            </a>
-
                             <a class="red" href="javascript:deleteById(${item.id})">
                                 <i class="ace-icon fa fa-trash-o bigger-130"></i>
                             </a>
@@ -66,32 +44,24 @@
                                     ${item.content}
                                     <div>
 
-                            </div>
-                        </div>
+                                    </div>
+                                </div>
 
-                        <div class="hidden-md hidden-lg">
-                            <div class="inline position-relative">
+                                <div class="hidden-md hidden-lg">
+                                    <div class="inline position-relative">
 
-                                <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
-
-                                    <li>
-                                        <a href="#" class="tooltip-success" data-rel="tooltip" title=""
-                                           data-original-title="Edit">
-                                            <span class="green">
-                                                <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
-                                            </span>
-                                        </a>
-                                    </li>
-
-                                    <li>
-                                        <a href="#" class="tooltip-error" data-rel="tooltip" title=""
-                                           data-original-title="Delete">
+                                        <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
+                                            <li>
+                                                <a href="#" class="tooltip-error" data-rel="tooltip" title=""
+                                                   data-original-title="Delete">
                                             <span class="red">
                                                 <i class="ace-icon fa fa-trash-o bigger-120"></i>
                                             </span>
-                                        </a>
-                                    </li>
-                                </ul>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </td>
@@ -183,10 +153,10 @@
     function deleteById(id) {
         $.ajax({
             type: "delete",
-            url: "/survey/user/" + id,
+            url: "/survey/conf/" + id,
             success: function (data) {
                 if (data.status) {
-                    link_template(routers.surveyor_list, {page:${number}});
+                    link_template(routers.template_list, {page:${number}});
                 }
             }
         });

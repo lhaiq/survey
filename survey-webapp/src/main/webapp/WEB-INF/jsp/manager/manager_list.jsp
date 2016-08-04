@@ -6,11 +6,11 @@
 <div class="row">
     <div class="col-xs-12">
         <div class="page-header">
-            <h1>调查任务管理
-                <small><i class="ace-icon fa fa-angle-double-right"></i> &nbsp;调查任务列表</small>
+            <h1>调查主管管理
+                <small><i class="ace-icon fa fa-angle-double-right"></i> &nbsp;主管列表</small>
             </h1>
         </div>
-        <div class="table-header">
+        <div class="table-header" style="background-color: #438eb9">
             列表
         </div>
         <div id="sample-table-2_wrapper" class="dataTables_wrapper form-inline no-footer">
@@ -37,25 +37,10 @@
                     <tr role="row">
 
                         <th class="sorting" tabindex="0" aria-controls="sample-table-2" rowspan="1" colspan="1"
-                            aria-label="Domain: activate to sort column ascending">客户名
+                            aria-label="Domain: activate to sort column ascending">用户名
                         </th>
                         <th class="sorting" tabindex="0" aria-controls="sample-table-2" rowspan="1" colspan="1"
-                            aria-label="Price: activate to sort column ascending">调查员
-                        </th>
-                        <th class="sorting" tabindex="0" aria-controls="sample-table-2" rowspan="1" colspan="1"
-                            aria-label="Price: activate to sort column ascending">调查类型
-                        </th>
-                        <th class="sorting" tabindex="0" aria-controls="sample-table-2" rowspan="1" colspan="1"
-                            aria-label="Price: activate to sort column ascending">开始时间
-                        </th>
-                        <th class="sorting" tabindex="0" aria-controls="sample-table-2" rowspan="1" colspan="1"
-                            aria-label="Price: activate to sort column ascending">结束时间
-                        </th>
-                        <th class="sorting" tabindex="0" aria-controls="sample-table-2" rowspan="1" colspan="1"
-                            aria-label="Price: activate to sort column ascending">状态
-                        </th>
-                        <th class="sorting" tabindex="0" aria-controls="sample-table-2" rowspan="1" colspan="1"
-                            aria-label="Price: activate to sort column ascending">调查要点
+                            aria-label="Price: activate to sort column ascending">创建时间
                         </th>
 
                         <th class="sorting_disabled" rowspan="1" colspan="1" aria-label="">操作</th>
@@ -64,42 +49,21 @@
 
                     <tbody>
 
-                    <c:forEach var="item" varStatus="i" items="${data.content}" begin="0" end="10">
-                        <c:choose>
-                            <c:when test="${i.count%2==0}">
-                                <tr role="row" class="odd">
-                            </c:when>
-                            <c:otherwise>
-                                <tr role="row" class="even">
-                            </c:otherwise>
-                        </c:choose>
-                        <td class="hidden-480">${item.customerName}</td>
-                        <td class="hidden-480">${item.nickName}</td>
-                        <td class="hidden-480">${item.type}</td>
-                        <td class="hidden-480"><fmt:formatDate value="${item.startTime}"
+                    <c:forEach var="item" varStatus="i" items="${data.content}">
+
+                        <td class="hidden-480">${item.account}</td>
+                        <td class="hidden-480"><fmt:formatDate value="${item.createTime}"
                                                                pattern="yyyy-MM-dd HH:mm:SS"/></td>
-                        <td class="hidden-480"><fmt:formatDate value="${item.endTime}"
-                                                               pattern="yyyy-MM-dd HH:mm:SS"/></td>
-                        <td class="hidden-480">
-                            <c:if test="${item.status==0}">待调查</c:if>
-                            <c:if test="${item.status==1}">开始调查</c:if>
-                            <c:if test="${item.status==2}">待审核</c:if>
-                            <c:if test="${item.status==3}">审核中</c:if>
-                            <c:if test="${item.status==4}">审核成功</c:if>
-                            <c:if test="${item.status==5}">审核失败</c:if>
-                        </td>
-                        <td class="hidden-480">${item.point}</td>
                         <td>
                             <div class="hidden-sm hidden-xs action-buttons">
 
-                                <a class="black" href="javascript:link('/survey/core/task/report/${item.id}')">
-                                    <i class="ace-icon fa fa-eye bigger-130"></i>
+                                <a class="green" href="javascript:link('/survey/editManagerUI/${item.id}')">
+                                    <i class="ace-icon fa fa-pencil bigger-130"></i>
                                 </a>
 
-                                <a class="red" href="#">
-                                    <i class="ace-icon glyphicon glyphicon-repeat bigger-130"></i>
+                                <a class="red" href="javascript:deleteById(${item.id}">
+                                    <i class="ace-icon fa fa-trash-o bigger-130"></i>
                                 </a>
-
                             </div>
 
                             <div class="hidden-md hidden-lg">
@@ -109,23 +73,21 @@
 
                                         <li>
                                             <a href="#" class="tooltip-success" data-rel="tooltip" title=""
-                                               data-original-title="View">
-                                            <span class="black">
-                                                <i class="ace-icon fa fa-eye bigger-120"></i>
+                                               data-original-title="Edit">
+                                            <span class="green">
+                                                <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
                                             </span>
                                             </a>
                                         </li>
 
                                         <li>
-                                            <a href="#" class="tooltip-success" data-rel="tooltip" title=""
-                                               data-original-title="Edit">
+                                            <a href="#" class="tooltip-error" data-rel="tooltip" title=""
+                                               data-original-title="Delete">
                                             <span class="red">
-                                                <i class="ace-icon glyphicon glyphicon-repeat bigger-120"></i>
+                                                <i class="ace-icon fa fa-trash-o bigger-120"></i>
                                             </span>
                                             </a>
                                         </li>
-
-
                                     </ul>
                                 </div>
                             </div>
@@ -149,18 +111,18 @@
                             <li class="paginate_button previous <c:if test="${data.firstPage}">disabled</c:if>"
                                 aria-controls="sample-table-2" tabindex="0"
                                 id="sample-table-2_previous"><a
-                                    href="javascript:link('/survey/core/task?page=${data.number-1}')">上一页</a></li>
+                                    href="javascript:link('/survey/syndic?page=${data.number-1}')">上一页</a></li>
 
                             <c:forEach var="i" begin="1" end="${data.totalPages}">
                                 <li class="paginate_button <c:if test="${i-1==data.number}">active</c:if>"
                                     aria-controls="sample-table-2" tabindex="0"><a
-                                        href="javascript:link('/survey/core/task?page=${i-1}')">${i}</a></li>
+                                        href="javascript:link('/survey/syndic?page=${i-1}')">${i}</a></li>
                             </c:forEach>
 
                             <li class="paginate_button next <c:if test="${data.lastPage}">disabled</c:if>"
                                 aria-controls="sample-table-2" tabindex="0"
                                 id="sample-table-2_next"><a
-                                    href="javascript:link('/survey/core/task?page=${data.number+1}')">下一页</a></li>
+                                    href="javascript:link('/survey/syndic?page=${data.number+1}')">下一页</a></li>
                         </ul>
                     </div>
                 </div>
@@ -168,3 +130,17 @@
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+    function deleteById(id) {
+        $.ajax({
+            type: "delete",
+            url: "/survey/user/" + id,
+            success: function (data) {
+                if (data.status) {
+                    javascript:link('/survey/manager?page=${data.number}&name=${name}')
+                }
+            }
+        });
+    }
+</script>

@@ -31,4 +31,6 @@ public interface UserService {
 
     public void addUser (UserModel userModel);
 
+    public void updateUser (UserModel userModel);
+
 }

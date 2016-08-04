@@ -17,13 +17,11 @@
         <%--导航--%>
         <div class="breadcrumbs" id="breadcrumbs">
             <ul class="breadcrumb" id="breadcrumbli">
-                <li><i class="ace-icon fa fa-home home-icon"></i> <a href="#">主页</a></li>
-                <input type="hidden" id="breadvalue112" value=""/>
+                <li><i class="ace-icon fa fa-home home-icon"></i> <a href="index">主页</a></li>
             </ul>
         </div>
         <!-- /section:basics/content.breadcrumbs-->
         <div class="page-content">
-            <jsp:include page="layout_setting.jsp"/>
             <!-- /.ace-settings-container -->
             <div class="page-content-area">
             </div>

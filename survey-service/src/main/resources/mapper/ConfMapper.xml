@@ -38,7 +38,8 @@
       #{template,jdbcType=VARCHAR}, #{pixel,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
       #{content,jdbcType=LONGVARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.hongrui.survey.core.entity.Conf">
+  <insert id="insertSelective" parameterType="com.hongrui.survey.core.entity.Conf" useGeneratedKeys="true"
+          keyProperty="id">
     insert into conf
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
