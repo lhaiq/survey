@@ -21,7 +21,7 @@
                         <div class="widget-toolbar">
                             <div class="widget-toolbar no-border invoice-info">
                                 <span class="invoice-info-label">调查人员:</span>
-                                <span class="red">小平</span>
+                                <span class="red">小平  </span>
 
                                 <br/>
                                 <span class="invoice-info-label">调研日期:</span>
@@ -41,7 +41,7 @@
 
                                     <div class="col-sm-6">
                                         <img height="250"
-                                             src="http://api.map.baidu.com/staticimage?center=116.403874,39.914889&width=400&height=300&zoom=11&markers=116.288891,40.00426"/>
+                                             src="http://api.map.baidu.com/staticimage?center=${sign.actualLongitude},${sign.actualLatitude}&width=400&height=300&zoom=11&markers=${sign.actualLongitude},${sign.actualLatitude}"/>
                                     </div>
                                 </div>
                                 <!-- /.col -->
@@ -55,7 +55,7 @@
 
                                     <div class="col-sm-6">
                                         <img height="250"
-                                             src="http://api.map.baidu.com/staticimage?center=116.403874,39.914889&width=400&height=300&zoom=11&markers=116.288891,40.00426"/>
+                                             src="http://api.map.baidu.com/staticimage?center=${sign.signLongitude},${sign.signLatitude}&width=400&height=300&zoom=11&markers=${sign.signLongitude},${sign.signLatitude}"/>
                                     </div>
                                 </div>
                             </div>
@@ -78,7 +78,7 @@
                                 <div class="profile-info-name"> 客户名</div>
 
                                 <div class="profile-info-value">
-                                    <span class="editable" id="username">alexdoe</span>
+                                    <span class="editable" id="username">${td.customer.name}</span>
                                 </div>
                             </div>
 
@@ -87,7 +87,7 @@
                                 <div class="profile-info-name"> 调查类型</div>
 
                                 <div class="profile-info-value">
-                                    <span class="editable" id="age">房贷</span>
+                                    <span class="editable" id="age">${td.type}</span>
                                 </div>
                             </div>
 
