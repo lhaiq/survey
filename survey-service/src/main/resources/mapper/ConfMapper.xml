@@ -7,7 +7,7 @@
     <result column="photo_type" jdbcType="VARCHAR" property="photoType" />
     <result column="template" jdbcType="VARCHAR" property="template" />
     <result column="pixel" jdbcType="VARCHAR" property="pixel" />
-    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="type" jdbcType="INTEGER" property="type" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.hongrui.survey.core.entity.Conf">
     <result column="content" jdbcType="LONGVARCHAR" property="content" />
@@ -35,7 +35,7 @@
       template, pixel, type, 
       content)
     values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{photoType,jdbcType=VARCHAR}, 
-      #{template,jdbcType=VARCHAR}, #{pixel,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
+      #{template,jdbcType=VARCHAR}, #{pixel,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
       #{content,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.hongrui.survey.core.entity.Conf">
@@ -80,7 +80,7 @@
         #{pixel,jdbcType=VARCHAR},
       </if>
       <if test="type != null">
-        #{type,jdbcType=VARCHAR},
+        #{type,jdbcType=INTEGER},
       </if>
       <if test="content != null">
         #{content,jdbcType=LONGVARCHAR},
@@ -103,7 +103,7 @@
         pixel = #{pixel,jdbcType=VARCHAR},
       </if>
       <if test="type != null">
-        type = #{type,jdbcType=VARCHAR},
+        type = #{type,jdbcType=INTEGER},
       </if>
       <if test="content != null">
         content = #{content,jdbcType=LONGVARCHAR},
@@ -117,7 +117,7 @@
       photo_type = #{photoType,jdbcType=VARCHAR},
       template = #{template,jdbcType=VARCHAR},
       pixel = #{pixel,jdbcType=VARCHAR},
-      type = #{type,jdbcType=VARCHAR},
+      type = #{type,jdbcType=INTEGER},
       content = #{content,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -127,7 +127,7 @@
       photo_type = #{photoType,jdbcType=VARCHAR},
       template = #{template,jdbcType=VARCHAR},
       pixel = #{pixel,jdbcType=VARCHAR},
-      type = #{type,jdbcType=VARCHAR}
+      type = #{type,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <select id="selectCount" parameterType="com.hongrui.survey.core.entity.Conf" resultType="java.lang.Integer">
@@ -149,7 +149,7 @@
         and pixel = #{pixel,jdbcType=VARCHAR}
       </if>
       <if test="type != null">
-        and type = #{type,jdbcType=VARCHAR}
+        and type = #{type,jdbcType=INTEGER}
       </if>
       <if test="content != null">
         and content = #{content,jdbcType=LONGVARCHAR}
@@ -158,7 +158,7 @@
   </select>
   <select id="selectPage" resultMap="BaseResultMap">
     select 
-    <include refid="Base_Column_List" />
+    *
     from conf where 1 = 1 
     <if test="param1.id != null">
       and id = #{param1.id,jdbcType=BIGINT}
@@ -176,7 +176,7 @@
       and pixel = #{param1.pixel,jdbcType=VARCHAR}
     </if>
     <if test="param1.type != null">
-      and type = #{param1.type,jdbcType=VARCHAR}
+      and type = #{param1.type,jdbcType=INTEGER}
     </if>
     <if test="param1.content != null">
       and content = #{param1.content,jdbcType=LONGVARCHAR}

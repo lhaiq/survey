@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSON;
 import com.hongrui.survey.core.ConfType;
 import com.hongrui.survey.core.model.TaskTypeModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.data.domain.Pageable;
@@ -13,9 +15,11 @@ import com.hongrui.survey.core.repository.ConfRepository;
 import com.hongrui.survey.core.model.ConfModel;
 import com.hongrui.survey.core.service.ConfService;
 import com.wlw.pylon.core.beans.mapping.BeanMapper;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ConfServiceImpl implements ConfService {
@@ -25,6 +29,9 @@ public class ConfServiceImpl implements ConfService {
 
     @Autowired
     private ConfRepository confRepo;
+
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
     @Transactional
     @Override
@@ -57,11 +64,38 @@ public class ConfServiceImpl implements ConfService {
         return confRepo.selectCount(beanMapper.map(confModel, Conf.class));
     }
 
+    @Override
+    public long selectConfCount() {
+        return 0;
+    }
+
     @Transactional(readOnly = true)
     @Override
     public List<ConfModel> selectPage(ConfModel confModel, Pageable pageable) {
         Conf conf = beanMapper.map(confModel, Conf.class);
         return beanMapper.mapAsList(confRepo.selectPage(conf, pageable), ConfModel.class);
+    }
+
+
+    public List<Map<String, Object>> selectConf(Pageable pageable) {
+        String sql = "select * from conf where type = 0 order by id limit ?,?";
+        List<Map<String, Object>> maps = jdbcTemplate.queryForList(sql, pageable.getOffset(), pageable.getPageSize());
+        for (Map<String, Object> map : maps) {
+            List<Long> photoTypeIds = JSON.parseArray(map.get("photo_type").toString(), Long.class);
+            List<Long> templateIds = JSON.parseArray(map.get("template").toString(), Long.class);
+            String photoTypeSql = "select * from conf where id in (" + StringUtils.collectionToCommaDelimitedString(photoTypeIds) + ")";
+            String templateSql = "select * from conf where id in (" + StringUtils.collectionToCommaDelimitedString(photoTypeIds) + ")";
+            map.put("photos", jdbcTemplate.queryForList(photoTypeSql));
+            map.put("templates", jdbcTemplate.queryForList(templateSql));
+        }
+
+        return maps;
+
+    }
+
+    @Override
+    public Map<String, Object> findConfById(Long id) {
+        return null;
     }
 
     @Transactional

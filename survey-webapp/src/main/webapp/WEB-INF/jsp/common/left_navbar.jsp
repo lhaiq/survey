@@ -186,9 +186,9 @@
                         <b class="arrow"></b>
                     </li>
                 </c:if>
-                <c:if test="${role ==1 or role ==3}">
+                <c:if test="${sessionScope.user.role ==1 or sessionScope.user.role ==3}">
                     <li class="">
-                        <a href="javascript:link('/survey/task')">
+                        <a href="javascript:link('/survey/core/task')">
                             <i class="menu-icon fa fa-caret-right"></i>
                             任务列表
                         </a>
@@ -198,6 +198,39 @@
                 </c:if>
             </ul>
         </li>
+
+        <c:if test="${sessionScope.user.role==2}">
+            <li class="">
+                <a href="#" class="dropdown-toggle">
+                    <i class="menu-icon fa fa-paper-plane-o"></i>
+                    <span class="menu-text">模板管理</span>
+
+                    <b class="arrow fa fa-angle-down"></b>
+                </a>
+
+                <b class="arrow"></b>
+
+                <ul class="submenu">
+
+                    <li class="">
+                        <a href="javascript:link('/survey/core/task/addTypeUI')">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            添加模板
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+                    <li class="">
+                        <a href="javascript:link_template(routers.template_list,{page:0,type:2})">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            模板列表
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+                </ul>
+            </li>
+        </c:if>
 
 
     </ul>
@@ -222,8 +255,6 @@
     <script type="text/javascript">
 
 
-
-
         function link(url) {
             $.ajax({
                 url: url,
@@ -234,12 +265,12 @@
             });
         }
 
-        function link_template(router,param) {
+        function link_template(router, param) {
 
-            var url=router.url
+            var url = router.url
 
-            for(var property in param){
-                url=url.replace("{"+property+"}",param[property])
+            for (var property in param) {
+                url = url.replace("{" + property + "}", param[property])
             }
             $.ajax({
                 url: url,

@@ -41,7 +41,7 @@ public class TaskRestApiController {
 
     @GetMapping(value = "/task")
     public ResponseEnvelope<Page<TaskModel>> listTask(@RequestAttribute Long userId,
-                                                      @RequestParam Integer status,
+                                                      @RequestParam(required = false) Integer status,
                                                       Pageable pageable) {
         TaskModel param = new TaskModel();
         param.setSurveyorId(userId);

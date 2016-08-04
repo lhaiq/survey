@@ -3,9 +3,11 @@ package com.hongrui.survey.core.service;
 
 import com.hongrui.survey.core.model.ConfModel;
 import com.hongrui.survey.core.model.TaskTypeModel;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ConfService {
 
@@ -23,8 +25,14 @@ public interface ConfService {
 
     public long selectCount(ConfModel confModel);
 
+    public long selectConfCount();
+
     public List<ConfModel> selectPage(ConfModel confModel, Pageable pageable);
 
     public void createTaskType(TaskTypeModel taskTypeModel);
+
+    public List<Map<String, Object>> selectConf(Pageable pageable);
+
+    public Map<String, Object> findConfById(Long id);
 
 }

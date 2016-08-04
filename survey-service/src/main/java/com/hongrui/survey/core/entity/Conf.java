@@ -2,72 +2,67 @@ package com.hongrui.survey.core.entity;
 
 public class Conf {
     private Long id;
-
     private String name;
-
     private String photoType;
-
     private String template;
-
     private String pixel;
-
-    private String type;
-
+    private Integer type;
     private String content;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
+    public void setId(Long id){
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public Long getId(){
+        return this.id;
     }
 
-    public void setName(String name) {
+    public void setName(String name){
         this.name = name;
     }
 
-    public String getPhotoType() {
-        return photoType;
+    public String getName(){
+        return this.name;
     }
 
-    public void setPhotoType(String photoType) {
+    public void setPhotoType(String photoType){
         this.photoType = photoType;
     }
 
-    public String getTemplate() {
-        return template;
+    public String getPhotoType(){
+        return this.photoType;
     }
 
-    public void setTemplate(String template) {
+    public void setTemplate(String template){
         this.template = template;
     }
 
-    public String getPixel() {
-        return pixel;
+    public String getTemplate(){
+        return this.template;
     }
 
-    public void setPixel(String pixel) {
+    public void setPixel(String pixel){
         this.pixel = pixel;
     }
 
-    public String getType() {
-        return type;
+    public String getPixel(){
+        return this.pixel;
     }
 
-    public void setType(String type) {
+    public void setType(Integer type){
         this.type = type;
     }
 
-    public String getContent() {
-        return content;
+    public Integer getType(){
+        return this.type;
     }
 
-    public void setContent(String content) {
+    public void setContent(String content){
         this.content = content;
     }
+
+    public String getContent(){
+        return this.content;
+    }
+
 }

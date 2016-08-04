@@ -10,7 +10,7 @@ public class ConfModel{
 	private String photoType;
 	private String template;
 	private String pixel;
-	private String type;
+	private Integer type;
 	private String content;
 		
 	public void setId(Long id){
@@ -53,11 +53,11 @@ public class ConfModel{
 		return this.pixel;
 	}
 		
-	public void setType(String type){
+	public void setType(Integer type){
 		this.type = type;
 	}
 	
-	public String getType(){
+	public Integer getType(){
 		return this.type;
 	}
 		
@@ -68,4 +68,6 @@ public class ConfModel{
 	public String getContent(){
 		return this.content;
 	}
+		
+		
 }

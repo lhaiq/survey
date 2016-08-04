@@ -1,0 +1,194 @@
+<div class="row">
+    <div class="col-xs-12">
+        <div class="page-header">
+            <h1>模板管理
+                <small><i class="ace-icon fa fa-angle-double-right"></i> &nbsp;模板列表</small>
+            </h1>
+        </div>
+        <div class="table-header" style="background-color: #438eb9">
+            列表
+        </div>
+        <div id="sample-table-2_wrapper" class="dataTables_wrapper form-inline no-footer">
+            <div class="row ">
+
+                <div class="col-xs-6 pull-right">
+                    <div id="sample-table-2_filter" class="dataTables_filter "><label>Search:<input type="search"
+                                                                                                    id="userSearchInput"
+                                                                                                    class="form-control input-sm"
+                                                                                                    aria-controls="sample-table-2">
+                    </label></div>
+                </div>
+                <div class="col-xs-6">
+                    <a href="javascript:void(0)" class="tooltip-success" data-rel="tooltip" title=""
+                       data-original-title="Search">
+                            <span class="black" id="userSearch">
+                                <i class="fa fa-search bigger-120"></i>
+                            </span>
+                    </a>
+                </div>
+            </div>
+            <div class="row">
+                <table id="sample-table-2"
+                       class="table table-striped table-bordered table-hover dataTable no-footer"
+                       role="grid" aria-describedby="sample-table-2_info">
+                    <thead>
+                    <tr role="row">
+
+                        <th class="sorting" tabindex="0" aria-controls="sample-table-2" rowspan="1" colspan="1"
+                            aria-label="Domain: activate to sort column ascending">模板名
+                        </th>
+
+                        <th class="sorting_disabled" rowspan="1" colspan="1" aria-label="">操作</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+
+                    {@each content as item,i}
+                    <td class="hidden-480">${item.name}</td>
+                    <td>
+                        <div class="hidden-sm hidden-xs action-buttons">
+
+                            <a class="dialogMessage" href="#modal-form" href="#" name="${i}" role="button">
+                                <i class="ace-icon fa fa-eye bigger-130"></i>
+                            </a>
+
+                            <a class="green" href="javascript:link_template(routers.surveyor_edit,{id:${item.id}})">
+                                <i class="ace-icon fa fa-pencil bigger-130"></i>
+                            </a>
+
+                            <a class="red" href="javascript:deleteById(${item.id})">
+                                <i class="ace-icon fa fa-trash-o bigger-130"></i>
+                            </a>
+
+                            <div id="dialog-message${i}" class="hide">
+                                <div>
+                                    ${item.content}
+                                    <div>
+
+                            </div>
+                        </div>
+
+                        <div class="hidden-md hidden-lg">
+                            <div class="inline position-relative">
+
+                                <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
+
+                                    <li>
+                                        <a href="#" class="tooltip-success" data-rel="tooltip" title=""
+                                           data-original-title="Edit">
+                                            <span class="green">
+                                                <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
+                                            </span>
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a href="#" class="tooltip-error" data-rel="tooltip" title=""
+                                           data-original-title="Delete">
+                                            <span class="red">
+                                                <i class="ace-icon fa fa-trash-o bigger-120"></i>
+                                            </span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </td>
+                    </tr>
+
+                    {@/each}
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-6">
+                    <div class="dataTables_info" id="sample-table-2_info" role="status" aria-live="polite">
+                        总条数:${totalElements}
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="dataTables_paginate paging_simple_numbers" id="sample-table-2_paginate">
+                        <ul class="pagination">
+                            <li class="paginate_button previous {@if firstPage}disabled{@/if}"
+                                aria-controls="sample-table-2" tabindex="0"
+                                id="sample-table-2_previous"><a
+                                    href="javascript:link('/survey/syndic?page=${number-1}')">上一页</a></li>
+
+                            {@each i in range(0,totalPages)}
+                            <li class="paginate_button {@if i==number}active{@/if}"
+                                aria-controls="sample-table-2" tabindex="0"><a
+                                    href="javascript:link('/survey/user?page=${i}')">${i+1}</a></li>
+                            {@/each}
+
+                            <li class="paginate_button next {@if lastPage}disabled{@/if}"
+                                aria-controls="sample-table-2" tabindex="0"
+                                id="sample-table-2_next"><a
+                                    href="javascript:link('/survey/syndic?page=${number+1}')">下一页</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+
+    $(function () {
+        $("#").on("click", function () {
+            var account = $("#userSearchInput").val();
+            link_template(routers.surveyor_list, {page:${number}, account: account});
+        });
+    });
+
+    $(function ($) {
+
+        $.widget("ui.dialog", $.extend({}, $.ui.dialog.prototype, {
+            _title: function (title) {
+                var $title = this.options.title || '&nbsp;';
+                if (("title_html" in this.options) && this.options.title_html == true)
+                    title.html($title);
+                else title.text($title);
+            }
+        }));
+        $(".dialogMessage").on('click', function (e) {
+            e.preventDefault();
+            var name = this.name;
+            var dialog = $("#dialog-message" + name).removeClass('hide').dialog({
+                width: 800,
+                modal: true,
+                title: "<div class='widget-header widget-header-small'><h4 class='smaller'><i class='ace-icon fa fa-check'></i>模板预览</h4></div>",
+                title_html: true,
+                buttons: [
+                    {
+                        text: "Ok",
+                        "class": "btn btn-primary btn-xs",
+                        click: function () {
+                            $(this).dialog("close");
+                        }
+                    }
+                ]
+            });
+
+        });
+
+    });
+
+
+    function deleteById(id) {
+        $.ajax({
+            type: "delete",
+            url: "/survey/user/" + id,
+            success: function (data) {
+                if (data.status) {
+                    link_template(routers.surveyor_list, {page:${number}});
+                }
+            }
+        });
+    }
+</script>

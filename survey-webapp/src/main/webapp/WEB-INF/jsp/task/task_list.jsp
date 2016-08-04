@@ -79,7 +79,7 @@
                         <td>
                             <div class="hidden-sm hidden-xs action-buttons">
 
-                                <a class="black" href="javascript:link('/survey/task/report/${item.id}')">
+                                <a class="black" href="javascript:link('/survey/core/task/report/${item.id}')">
                                     <i class="ace-icon fa fa-eye bigger-130"></i>
                                 </a>
 
