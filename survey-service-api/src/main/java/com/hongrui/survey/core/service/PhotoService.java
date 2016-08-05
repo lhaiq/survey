@@ -8,6 +8,7 @@ import java.util.Date;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.Map;
 
 public interface PhotoService {
 
@@ -28,5 +29,22 @@ public interface PhotoService {
     public long selectCount(PhotoModel photoModel);
 
     public List<PhotoModel> selectPage(PhotoModel photoModel, Pageable pageable);
+    
+    
+    public Map<Long,List<PhotoModel>>  getPhotoAndTypeByTaskId(Long taskId);
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
 }

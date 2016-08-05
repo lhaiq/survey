@@ -87,7 +87,7 @@
 									<span class="editable" id="age">${td.type}</span>
 								</div>
 							</div>
-							<!--
+
 							<div class="profile-info-row">
 								<div class="profile-info-name">Joined</div>
 
@@ -96,14 +96,137 @@
 								</div>
 							</div>
 
-							 <div class="profile-info-row">
+							<div class="profile-info-row">
 								<div class="profile-info-name">Last Online</div>
 
 								<div class="profile-info-value">
 									<span class="editable" id="login">3 hours ago</span>
 								</div>
-							</div> -->
+							</div>
 
+						</div>
+					</div>
+
+
+					<div class="row">
+						<div>
+							<h3 class="widget-title grey lighter">调研照片</h3>
+						</div>
+						<div class="hr hr8  hr-dotted"></div>
+						<div id="user-profile-2" class="user-profile">
+							<div class="tabbable">
+								<ul class="nav nav-tabs padding-18">
+									<li class="active"><a data-toggle="tab" href="#pictures1"> <i class="green ace-icon fa fa-picture-o bigger-120"></i> 现场情况
+									</a></li>
+
+									<li><a data-toggle="tab" href="#pictures2"> <i class="orange ace-icon fa fa-picture-o bigger-120"></i> 门面
+									</a></li>
+
+								</ul>
+
+								<div class="tab-content no-border padding-24">
+									<div id="pictures1" class="tab-pane in active">
+										<div>
+											<ul class="ace-thumbnails clearfix">
+												<!-- #section:pages/gallery -->
+												<li><a href="../assets/images/gallery/image-1.jpg" title="Photo Title" data-rel="colorbox"> <img width="150" height="150"
+														alt="150x150" src="../assets/images/gallery/thumb-1.jpg" />
+
+														<div class="text">
+															<div class="inner">点击查看</div>
+														</div>
+												</a></li>
+												<li><a href="../assets/images/gallery/image-2.jpg" data-rel="colorbox"> <img width="150" height="150" alt="150x150"
+														src="../assets/images/gallery/thumb-2.jpg" />
+
+														<div class="text">
+															<div class="inner">Sample Caption on Hover</div>
+														</div>
+												</a></li>
+												<li><a href="../assets/images/gallery/image-3.jpg" data-rel="colorbox"> <img width="150" height="150" alt="150x150"
+														src="../assets/images/gallery/thumb-3.jpg" />
+
+														<div class="text">
+															<div class="inner">Sample Caption on Hover</div>
+														</div>
+												</a></li>
+
+
+												<li><a href="../assets/images/gallery/image-6.jpg" data-rel="colorbox"> <img width="150" height="150" alt="150x150"
+														src="../assets/images/gallery/thumb-6.jpg" />
+												</a></li>
+
+												<li><a href="../assets/images/gallery/image-1.jpg" data-rel="colorbox"> <img width="150" height="150" alt="150x150"
+														src="../assets/images/gallery/thumb-1.jpg" />
+												</a></li>
+
+												<li><a href="../assets/images/gallery/image-2.jpg" data-rel="colorbox"> <img width="150" height="150" alt="150x150"
+														src="../assets/images/gallery/thumb-2.jpg" />
+												</a></li>
+											</ul>
+										</div>
+									</div>
+									<!-- /#home -->
+
+									<div id="pictures2" class="tab-pane">
+										<div>
+											<ul class="ace-thumbnails clearfix">
+												<!-- #section:pages/gallery -->
+												<li><a href="../assets/images/gallery/image-1.jpg" title="Photo Title" data-rel="colorbox"> <img width="150" height="150"
+														alt="150x150" src="../assets/images/gallery/thumb-1.jpg" />
+
+														<div class="text">
+															<div class="inner">点击查看</div>
+														</div>
+												</a></li>
+												<li><a href="../assets/images/gallery/image-2.jpg" data-rel="colorbox"> <img width="150" height="150" alt="150x150"
+														src="../assets/images/gallery/thumb-2.jpg" />
+
+														<div class="text">
+															<div class="inner">Sample Caption on Hover</div>
+														</div>
+												</a></li>
+												<li><a href="../assets/images/gallery/image-3.jpg" data-rel="colorbox"> <img width="150" height="150" alt="150x150"
+														src="../assets/images/gallery/thumb-3.jpg" />
+
+														<div class="text">
+															<div class="inner">Sample Caption on Hover</div>
+														</div>
+												</a></li>
+												<li><a href="../assets/images/gallery/image-4.jpg" data-rel="colorbox"> <img width="150" height="150" alt="150x150"
+														src="../assets/images/gallery/thumb-4.jpg" />
+												</a></li>
+
+												<li>
+													<div>
+														<img width="150" height="150" alt="150x150" src="../assets/images/gallery/thumb-5.jpg" />
+													</div>
+												</li>
+
+												<li><a href="../assets/images/gallery/image-6.jpg" data-rel="colorbox"> <img width="150" height="150" alt="150x150"
+														src="../assets/images/gallery/thumb-6.jpg" />
+												</a></li>
+
+												<li><a href="../assets/images/gallery/image-1.jpg" data-rel="colorbox"> <img width="150" height="150" alt="150x150"
+														src="../assets/images/gallery/thumb-1.jpg" />
+												</a></li>
+
+												<li><a href="../assets/images/gallery/image-2.jpg" data-rel="colorbox"> <img width="150" height="150" alt="150x150"
+														src="../assets/images/gallery/thumb-2.jpg" />
+												</a></li>
+
+											</ul>
+										</div>
+									</div>
+									<!-- /#feed -->
+
+									<div id="pictures3" class="tab-pane"></div>
+									<!-- /#friends -->
+
+									<div id="pictures4" class="tab-pane"></div>
+									<!-- /#pictures -->
+								</div>
+							</div>
 						</div>
 					</div>
 
@@ -117,19 +240,22 @@
 						<div id="user-profile-2" class="user-profile">
 							<div class="tabbable">
 								<ul class="nav nav-tabs padding-18">
-									<c:forEach items="${td.photos}" var="ps1">
-										<li><a data-toggle="tab" href="#pictures${ps1.key}"> <i class="orange ace-icon fa fa-picture-o bigger-120"></i>${ps1.key}</a></li>
-									</c:forEach>
+									<li class="active"><a data-toggle="tab" href="#pictures1"> <i class="green ace-icon fa fa-picture-o bigger-120"></i> 现场情况
+									</a></li>
+
+									<li><a data-toggle="tab" href="#pictures2"> <i class="orange ace-icon fa fa-picture-o bigger-120"></i> 门面
+									</a></li>
+
 								</ul>
 
 								<div class="tab-content no-border padding-24">
-									<c:forEach items="${td.photos}" var="ps2">
-										<div id="pictures${ps2.key}" class="tab-pane in active">
+									<c:forEach items="${pt}" var="entry">
+										<div id="pictures${entry.key}" class="tab-pane in active">
 											<div>
 												<ul class="ace-thumbnails clearfix">
-													<c:forEach items="${ps2.value.contents}" var="pic">
-														<li><a href="/survey/photo/${pic.id}" title="Photo Title" data-rel="colorbox"> <img width="150" height="150" alt="150x150"
-																src="/survey/photo/${pic.id}" />
+													<c:forEach items="${entry.value}" var="pic">
+														<li><a href="${pic.path}" title="Photo Title" data-rel="colorbox"> <img width="150" height="150" alt="150x150"
+																src="${pic.path}" />
 																<div class="text">
 																	<div class="inner">点击查看</div>
 																</div>
@@ -138,7 +264,14 @@
 												</ul>
 											</div>
 										</div>
+
+
+
 									</c:forEach>
+
+
+
+
 								</div>
 							</div>
 						</div>
@@ -159,12 +292,6 @@
 
 									<li><a data-toggle="tab" href="#template2"> <i class="orange ace-icon fa bigger-120"></i> 客户公司资料
 									</a></li>
-									<c:forEach items="${td.reports}" var="report">
-										<li><a data-toggle="tab" href="#template${report.key}"> <i class="orange ace-icon fa bigger-120"></i> ${report.key}
-										</a></li>
-									</c:forEach>
-
-
 
 								</ul>
 
@@ -290,35 +417,59 @@
 						</div>
 						<div class="hr hr8  hr-dotted"></div>
 						<div class="profile-users clearfix">
-							 
+							<div class="itemdiv memberdiv">
+								<div class="inline pos-rel">
+									<div class="user">
+										<a href="#"> <img src="../assets/avatars/sound.png" alt="Bob Doe's avatar" />
+										</a>
+									</div>
 
-							 
+									<div class="body">
+										<div class="name">
+											<a href="#"> <span class="user-status status-online"></span> 录音1
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
 
-								 
-								
-								
-								<c:forEach items="${td.audios}" var="audio">
-								 
+
+							<div class="profile-users clearfix">
+								<div class="itemdiv memberdiv">
+									<div class="inline pos-rel">
+										<div class="user">
+											<a href="#"> <img src="../assets/avatars/sound.png" alt="Bob Doe's avatar" />
+											</a>
+										</div>
+
+										<div class="body">
+											<div class="name">
+												<a href="#"> <span class="user-status status-online"></span> 录音2
+												</a>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="profile-users clearfix">
 									<div class="itemdiv memberdiv">
 										<div class="inline pos-rel">
 											<div class="user">
-												<a href="/survey/audio/${audio.id}"  > <img src="../assets/avatars/sound.png" alt="Bob Doe's avatar" />
-												
+												<a href="#"> <img src="../assets/avatars/sound.png" alt="Bob Doe's avatar" />
 												</a>
 											</div>
 
 											<div class="body">
 												<div class="name">
-													<a href="#"> <span class="user-status status-online"></span>  ${audio.name}
+													<a href="#"> <span class="user-status status-online"></span> 录音3
 													</a>
 												</div>
 											</div>
 										</div>
 									</div>
-							 
-								</c:forEach>
 
 
+								</div>
 
 							</div>
 

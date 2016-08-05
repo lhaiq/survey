@@ -96,18 +96,22 @@ public class SignServiceImpl implements SignService {
 	}
 
 	@Override
-	public SignModel findByTaskId(Long id) {
+	public SignModel getByTaskId(Long id) {
 
 		Sign sign = new Sign();
 		sign.setTaskId(id);
 
 		Pageable pageable = new PageRequest(0, 10);
 
-		Sign sign2 = signRepo.selectPage(sign, pageable).get(0);
+		if (signRepo.selectPage(sign, pageable).size() > 0) {
+			Sign sign2 = signRepo.selectPage(sign, pageable).get(0);
 
-		SignModel sm = beanMapper.map(sign2, SignModel.class);
+			SignModel sm = beanMapper.map(sign2, SignModel.class);
 
-		return sm;
+			return sm;
+		}
+		return null;
+
 	}
 
 }

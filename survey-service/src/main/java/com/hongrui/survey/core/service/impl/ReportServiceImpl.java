@@ -19,84 +19,95 @@ import java.util.List;
 @Service
 public class ReportServiceImpl implements ReportService {
 
-    @Autowired
-    private BeanMapper beanMapper;
+	@Autowired
+	private BeanMapper beanMapper;
 
-    @Autowired
-    private ReportRepository reportRepo;
+	@Autowired
+	private ReportRepository reportRepo;
 
-    @Transactional
-    @Override
-    public int create(ReportModel reportModel) {
-        return reportRepo.insert(beanMapper.map(reportModel, Report.class));
-    }
+	@Transactional
+	@Override
+	public int create(ReportModel reportModel) {
+		return reportRepo.insert(beanMapper.map(reportModel, Report.class));
+	}
 
-    @Transactional
-    @Override
-    public int createSelective(ReportModel reportModel) {
-        return reportRepo.insertSelective(beanMapper.map(reportModel, Report.class));
-    }
+	@Transactional
+	@Override
+	public int createSelective(ReportModel reportModel) {
+		return reportRepo.insertSelective(beanMapper.map(reportModel, Report.class));
+	}
 
-    @Transactional
-    @Override
-    public void submitReports(Long taskId, List<ReportModel> reportModels) {
-        for (ReportModel reportModel : reportModels) {
-            reportModel.setTaskId(taskId);
-            reportModel.setCreateTime(new Date());
+	@Transactional
+	@Override
+	public void submitReports(Long taskId, List<ReportModel> reportModels) {
+		for (ReportModel reportModel : reportModels) {
+			reportModel.setTaskId(taskId);
+			reportModel.setCreateTime(new Date());
 
-            //看是否存在
-            ReportModel param = new ReportModel();
-            param.setTaskId(taskId);
-            param.setTemplateId(reportModel.getTemplateId());
-            List<ReportModel> results = selectPage(param,new PageRequest(0,Integer.MAX_VALUE));
-            if(!CollectionUtils.isEmpty(results)){
-                ReportModel existedReport = results.get(0);
-                param.setId(existedReport.getId());
-                param.setContent(reportModel.getContent());
-                updateByPrimaryKeySelective(param);
-            }else {
-                createSelective(reportModel);
-            }
+			// 看是否存在
+			ReportModel param = new ReportModel();
+			param.setTaskId(taskId);
+			param.setTemplateId(reportModel.getTemplateId());
+			List<ReportModel> results = selectPage(param, new PageRequest(0, Integer.MAX_VALUE));
+			if (!CollectionUtils.isEmpty(results)) {
+				ReportModel existedReport = results.get(0);
+				param.setId(existedReport.getId());
+				param.setContent(reportModel.getContent());
+				updateByPrimaryKeySelective(param);
+			} else {
+				createSelective(reportModel);
+			}
 
-        }
-    }
+		}
+	}
 
-    @Transactional
-    @Override
-    public int deleteByPrimaryKey(Long id) {
-        return reportRepo.deleteByPrimaryKey(id);
-    }
+	@Transactional
+	@Override
+	public int deleteByPrimaryKey(Long id) {
+		return reportRepo.deleteByPrimaryKey(id);
+	}
 
-    @Transactional(readOnly = true)
-    @Override
-    public ReportModel findByPrimaryKey(Long id) {
-        Report report = reportRepo.selectByPrimaryKey(id);
-        return beanMapper.map(report, ReportModel.class);
-    }
+	@Transactional(readOnly = true)
+	@Override
+	public ReportModel findByPrimaryKey(Long id) {
+		Report report = reportRepo.selectByPrimaryKey(id);
+		return beanMapper.map(report, ReportModel.class);
+	}
 
-    @Transactional(readOnly = true)
-    @Override
-    public long selectCount(ReportModel reportModel) {
-        return reportRepo.selectCount(beanMapper.map(reportModel, Report.class));
-    }
+	@Transactional(readOnly = true)
+	@Override
+	public long selectCount(ReportModel reportModel) {
+		return reportRepo.selectCount(beanMapper.map(reportModel, Report.class));
+	}
 
-    @Transactional(readOnly = true)
-    @Override
-    public List<ReportModel> selectPage(ReportModel reportModel, Pageable pageable) {
-        Report report = beanMapper.map(reportModel, Report.class);
-        return beanMapper.mapAsList(reportRepo.selectPage(report, pageable), ReportModel.class);
-    }
+	@Transactional(readOnly = true)
+	@Override
+	public List<ReportModel> selectPage(ReportModel reportModel, Pageable pageable) {
+		Report report = beanMapper.map(reportModel, Report.class);
+		return beanMapper.mapAsList(reportRepo.selectPage(report, pageable), ReportModel.class);
+	}
 
-    @Transactional
-    @Override
-    public int updateByPrimaryKey(ReportModel reportModel) {
-        return reportRepo.updateByPrimaryKey(beanMapper.map(reportModel, Report.class));
-    }
+	@Transactional
+	@Override
+	public int updateByPrimaryKey(ReportModel reportModel) {
+		return reportRepo.updateByPrimaryKey(beanMapper.map(reportModel, Report.class));
+	}
 
-    @Transactional
-    @Override
-    public int updateByPrimaryKeySelective(ReportModel reportModel) {
-        return reportRepo.updateByPrimaryKeySelective(beanMapper.map(reportModel, Report.class));
-    }
+	@Transactional
+	@Override
+	public int updateByPrimaryKeySelective(ReportModel reportModel) {
+		return reportRepo.updateByPrimaryKeySelective(beanMapper.map(reportModel, Report.class));
+	}
+
+	@Override
+	public List<ReportModel> findByTaskId(Long id) {
+
+		Pageable pageable = new PageRequest(0, 1000);
+		Report report = new Report();
+		report.setTaskId(id);
+		List<Report> reps = reportRepo.selectPage(report, pageable);
+
+		return beanMapper.mapAsList(reps, ReportModel.class);
+	}
 
 }

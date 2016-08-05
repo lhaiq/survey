@@ -28,5 +28,10 @@ public interface ReportService {
     public long selectCount(ReportModel reportModel);
 
     public List<ReportModel> selectPage(ReportModel reportModel, Pageable pageable);
+    
+    
+    public List<ReportModel> findByTaskId(Long id);
+
+    
 
 }

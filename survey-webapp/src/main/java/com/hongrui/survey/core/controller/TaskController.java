@@ -31,114 +31,123 @@ import java.util.Map;
 @RequestMapping("/survey")
 public class TaskController {
 
-    private final Logger logger = LoggerFactory.getLogger(TaskController.class);
+	private final Logger logger = LoggerFactory.getLogger(TaskController.class);
 
-    @Autowired
-    private BeanMapper beanMapper;
+	@Autowired
+	private BeanMapper beanMapper;
 
-    @Autowired
-    private TaskService taskService;
+	@Autowired
+	private TaskService taskService;
 
-    @Autowired
-    private SignService signService;
+	@Autowired
+	private SignService signService;
 
-    @Autowired
-    private ConfService confService;
+	@Autowired
+	private ConfService confService;
 
-    @Autowired
-    private UserService userService;
+	@Autowired
+	private UserService userService;
 
-    @Autowired
-    private CustomerService customerService;
+	@Autowired
+	private CustomerService customerService;
 
+	@Autowired
+	private PhotoService photoService;
 
-    @GetMapping(value = "/task/addTypeUI")
-    public String addTypeUI(Model model) {
-        model.addAttribute("templates", confService.selectTemplateList());
-        return "task/add_task_type";
-    }
+	@Autowired
+	private ReportService reportService;
 
-    @GetMapping(value = "/task/editTypeUI/{id}")
-    public String editTypeUI(@PathVariable Long id, Model model) {
-        model.addAttribute("templates", confService.selectTemplateList());
-        model.addAttribute("data", confService.findConfById(id));
-        return "task/edit_task_type";
-    }
+	@GetMapping(value = "/task/addTypeUI")
+	public String addTypeUI(Model model) {
+		model.addAttribute("templates", confService.selectTemplateList());
+		return "task/add_task_type";
+	}
 
-    @GetMapping(value = "/template/addUI")
-    public String addTemplateUI() {
-        return "template/add_template";
-    }
+	@GetMapping(value = "/task/editTypeUI/{id}")
+	public String editTypeUI(@PathVariable Long id, Model model) {
+		model.addAttribute("templates", confService.selectTemplateList());
+		model.addAttribute("data", confService.findConfById(id));
+		return "task/edit_task_type";
+	}
 
+	@GetMapping(value = "/template/addUI")
+	public String addTemplateUI() {
+		return "template/add_template";
+	}
 
-    @GetMapping(value = "/task/taskType")
-    public String listTaskType(Pageable pageable, Model model) {
-        List<Map<String, Object>> maps = confService.selectConf(pageable);
-        long count = confService.selectConfCount();
-        Page<Map<String, Object>> page = new PageImpl<>(maps, pageable, count);
-        model.addAttribute("data", page);
-        return "task/task_type_list";
-    }
+	@GetMapping(value = "/task/taskType")
+	public String listTaskType(Pageable pageable, Model model) {
+		List<Map<String, Object>> maps = confService.selectConf(pageable);
+		long count = confService.selectConfCount();
+		Page<Map<String, Object>> page = new PageImpl<>(maps, pageable, count);
+		model.addAttribute("data", page);
+		return "task/task_type_list";
+	}
 
-    @GetMapping(value = "/task/report/{id}")
-    public String taskReport(@PathVariable Long id, Model model) {
+	@GetMapping(value = "/task/report/{id}")
+	public String taskReport(@PathVariable Long id, Model model) {
 
-        //task details
-        TaskDetailModel td = taskService.taskDetail(id);
-        model.addAttribute("td", td);
+		// task details
+		TaskDetailModel td = taskService.taskDetail(id);
+		model.addAttribute("td", td);
 
-        //sign
-        //signService.findByPrimaryKey(id);
-        SignModel sign = signService.findByTaskId(id);
+		// sign
+		SignModel sign = signService.getByTaskId(id);
+		model.addAttribute("sign", sign);
 
-        model.addAttribute("sign", sign);
-        return "task/task_report";
-    }
+		// photo
+		// Map<Long, List<PhotoModel>> pt = photoService.getPhotoAndTypeByTaskId(id);
+		// model.addAttribute("pt", pt);
 
+		// reports
 
-    @GetMapping(value = "/core/task")
-    public String listTask(TaskVO taskVO, Pageable pageable, Model model) {
-        TaskModel param = beanMapper.map(taskVO, TaskModel.class);
-        model.addAttribute("data", taskService.searchPage(param, pageable));
-        return "task/task_list";
-    }
+		// model.addAttribute("fms", fms);
 
+		return "task/task_report";
+	}
 
-    @GetMapping(value = "/addTaskUI/{customerId}")
-    public String addTaskUI(@PathVariable Long customerId, Model model) {
-        ConfModel confParam = new ConfModel();
-        confParam.setType(ConfType.SURVEY.getType());
-        model.addAttribute("types", confService.selectPage(confParam, new PageRequest(0, Integer.MAX_VALUE)));
+	@GetMapping(value = "/core/task")
+	public String listTask(TaskVO taskVO, Pageable pageable, Model model) {
+		TaskModel param = beanMapper.map(taskVO, TaskModel.class);
+		model.addAttribute("data", taskService.searchPage(param, pageable));
+		return "task/task_list";
+	}
 
-        UserModel userParam = new UserModel();
-        userParam.setRole(UserRole.SURVEYOR.getCode());
-        model.addAttribute("surveyors", userService.selectPage(userParam, new PageRequest(0, Integer.MAX_VALUE)));
+	@GetMapping(value = "/addTaskUI/{customerId}")
+	public String addTaskUI(@PathVariable Long customerId, Model model) {
+		ConfModel confParam = new ConfModel();
+		confParam.setType(ConfType.SURVEY.getType());
+		model.addAttribute("types", confService.selectPage(confParam, new PageRequest(0, Integer.MAX_VALUE)));
 
-        model.addAttribute("customer", customerService.findByPrimaryKey(customerId));
-        return "task/add_task";
-    }
+		UserModel userParam = new UserModel();
+		userParam.setRole(UserRole.SURVEYOR.getCode());
+		model.addAttribute("surveyors", userService.selectPage(userParam, new PageRequest(0, Integer.MAX_VALUE)));
 
-    @GetMapping(value = "/core/task/template/{id}")
-    public String taskTemplate(@PathVariable Long id, Model model) {
-        model.addAttribute("data", taskService.taskTemplate(id));
-        return "task/task_list";
-    }
+		model.addAttribute("customer", customerService.findByPrimaryKey(customerId));
+		return "task/add_task";
+	}
 
-    @GetMapping(value = "/editTaskUI/{id}")
-    public String editTaskUI(@PathVariable Long id, Model model) {
-        ConfModel confParam = new ConfModel();
-        confParam.setType(ConfType.SURVEY.getType());
-        model.addAttribute("types", confService.selectPage(confParam, new PageRequest(0, Integer.MAX_VALUE)));
+	@GetMapping(value = "/core/task/template/{id}")
+	public String taskTemplate(@PathVariable Long id, Model model) {
+		model.addAttribute("data", taskService.taskTemplate(id));
+		return "task/task_list";
+	}
 
-        UserModel userParam = new UserModel();
-        userParam.setRole(UserRole.SURVEYOR.getCode());
-        model.addAttribute("surveyors", userService.selectPage(userParam, new PageRequest(0, Integer.MAX_VALUE)));
+	@GetMapping(value = "/editTaskUI/{id}")
+	public String editTaskUI(@PathVariable Long id, Model model) {
+		ConfModel confParam = new ConfModel();
+		confParam.setType(ConfType.SURVEY.getType());
+		model.addAttribute("types", confService.selectPage(confParam, new PageRequest(0, Integer.MAX_VALUE)));
 
-        TaskModel taskModel = taskService.findByPrimaryKey(id);
-        model.addAttribute("task", taskModel);
+		UserModel userParam = new UserModel();
+		userParam.setRole(UserRole.SURVEYOR.getCode());
+		model.addAttribute("surveyors", userService.selectPage(userParam, new PageRequest(0, Integer.MAX_VALUE)));
 
-        model.addAttribute("customer", customerService.findByPrimaryKey(taskModel.getCustomerId()));
-        return "task/edit_task";
-    }
+		TaskModel taskModel = taskService.findByPrimaryKey(id);
+		model.addAttribute("task", taskModel);
+
+		model.addAttribute("customer", customerService.findByPrimaryKey(taskModel.getCustomerId()));
+		return "task/edit_task";
+	}
 
 }
