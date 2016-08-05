@@ -70,7 +70,7 @@
 
                         <li class="divider"></li>
 
-                        <li><a href="rest/user/logout"> <i class="ace-icon fa fa-power-off"></i>
+                        <li><a href="/survey/core/user/logout"> <i class="ace-icon fa fa-power-off"></i>
                             注销
                         </a></li>
                     </ul>

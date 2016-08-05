@@ -130,7 +130,7 @@ public class TaskController {
 	@GetMapping(value = "/core/task/template/{id}")
 	public String taskTemplate(@PathVariable Long id, Model model) {
 		model.addAttribute("data", taskService.taskTemplate(id));
-		return "task/task_list";
+		return "task/template";
 	}
 
 	@GetMapping(value = "/editTaskUI/{id}")

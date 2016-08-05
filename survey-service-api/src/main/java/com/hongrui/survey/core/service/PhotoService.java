@@ -29,8 +29,7 @@ public interface PhotoService {
     public long selectCount(PhotoModel photoModel);
 
     public List<PhotoModel> selectPage(PhotoModel photoModel, Pageable pageable);
-    
-    
+
     public Map<Long,List<PhotoModel>>  getPhotoAndTypeByTaskId(Long taskId);
     
     

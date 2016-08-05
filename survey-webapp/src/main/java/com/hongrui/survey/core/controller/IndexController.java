@@ -19,7 +19,6 @@ public class IndexController {
 
     @GetMapping(value = "login")
     public String login(Model model){
-        model.addAttribute("admin",false);
         return "login";
     }
 

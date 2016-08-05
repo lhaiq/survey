@@ -65,47 +65,6 @@ window.jQuery || document.write("<script src='assets/js/jquery1x.min.js'>"+"<"+"
 
 
 <script type="text/javascript">
-	/**
-	 * 通过url返回json数据
-	 * @param url
-	 * @returns
-	 */
-	function  ajaxByurl(url){
-		var json;
-		$.ajax({
-			dataType : "json",
-			url : url,
-			//data : params,
-			cache:false,
-			async: false,
-			success : function(data){
-				json=data;
-			}
-		});
-		return json;
-	}
-	/**
-	 * String 转bool
-	 * @param bool
-	 * @returns {boolean}
-	 */
-    function boolConvert(bool){
-		if(bool=="true")
-			return true;
-		else
-			return false;
-	}
-	/**
-	 * bool反转
-	 * @param bool
-	 * @returns {boolean}
-	 */
-	function boolReve(bool){
-		if(bool)
-			return false;
-		else
-			return true;
-	}
 
 	jQuery(function($) {
 		//改变皮肤录入事件

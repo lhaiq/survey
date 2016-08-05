@@ -50,8 +50,14 @@ public class UserController {
             return "login";
         }
 
-        session.setAttribute("user",existedUser);
+        session.setAttribute("user", existedUser);
         return "redirect:/index";
+    }
+
+    @PostMapping(value = "/user/logout")
+    public String logout(HttpSession session) {
+        session.removeAttribute("user");
+        return "redirect:/login";
     }
 
 }

@@ -55,7 +55,7 @@
                     <c:forEach var="item" items="${data.content}">
                         <td class="hidden-480">${item.account}</td>
                         <td class="hidden-480">${item.nickName}</td>
-                        <td class="hidden-480"><fmt:formatDate value="${item.startTime}"
+                        <td class="hidden-480"><fmt:formatDate value="${item.createTime}"
                                                                pattern="yyyy-MM-dd HH:mm:SS"/></td>
                         <td>
                             <div class="hidden-sm hidden-xs action-buttons">
