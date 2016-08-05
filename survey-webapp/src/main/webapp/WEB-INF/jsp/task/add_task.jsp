@@ -40,7 +40,7 @@
                     <div class="col-sm-5 no-padding-left">
                         <select
                                 class="form-control col-sm-5"
-                                data-placeholder="选择一个调查员...">
+                                data-placeholder="选择一个调查员..." name="surveyorId">
                             <c:forEach items="${surveyors}" var="item">
                                 <option value="${item.id}">${item.account}</option>
                             </c:forEach>
@@ -57,7 +57,7 @@
                     <div class="col-sm-5 no-padding-left">
                         <select
                                 class="form-control col-sm-5"
-                                data-placeholder="选择一个调查类型">
+                                data-placeholder="选择一个调查类型" name="type">
                             <c:forEach items="${types}" var="item">
                                 <option value="${item.name}">${item.name}</option>
                             </c:forEach>
@@ -71,7 +71,7 @@
 
                 <div class="col-sm-8">
                     <div class="col-sm-5 no-padding-left">
-                        <input type="text" name="chinaName" class="form-control col-sm-5"/>
+                        <textarea name="point" class="form-control"/>
                     </div>
                 </div>
             </div>

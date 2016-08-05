@@ -114,18 +114,18 @@
                             <li class="paginate_button previous <c:if test="${data.firstPage}">disabled</c:if>"
                                 aria-controls="sample-table-2" tabindex="0"
                                 id="sample-table-2_previous"><a
-                                    href="javascript:link('/survey/syndic?page=${data.number-1}')">上一页</a></li>
+                                    href="javascript:link('/survey/surveyor?page=${data.number-1}')">上一页</a></li>
 
                             <c:forEach var="i" begin="1" end="${data.totalPages}">
                                 <li class="paginate_button <c:if test="${i-1==data.number}">active</c:if>"
                                     aria-controls="sample-table-2" tabindex="0"><a
-                                        href="javascript:link('/survey/syndic?page=${i-1}')">${i}</a></li>
+                                        href="javascript:link('/survey/surveyor?page=${i-1}')">${i}</a></li>
                             </c:forEach>
 
                             <li class="paginate_button next <c:if test="${data.lastPage}">disabled</c:if>"
                                 aria-controls="sample-table-2" tabindex="0"
                                 id="sample-table-2_next"><a
-                                    href="javascript:link('/survey/syndic?page=${data.number+1}')">下一页</a></li>
+                                    href="javascript:link('/survey/surveyor?page=${data.number+1}')">下一页</a></li>
                         </ul>
                     </div>
                 </div>

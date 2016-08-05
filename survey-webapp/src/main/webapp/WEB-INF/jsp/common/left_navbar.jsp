@@ -192,7 +192,7 @@
             <ul class="submenu">
                 <c:if test="${sessionScope.user.role==2}">
                     <li class="">
-                        <a href="javascript:link('/survey/core/task/addTypeUI')">
+                        <a href="javascript:link('/survey/task/addTypeUI')">
                             <i class="menu-icon fa fa-caret-right"></i>
                             添加任务类型
                         </a>
@@ -200,7 +200,7 @@
                         <b class="arrow"></b>
                     </li>
                     <li class="">
-                        <a href="javascript:link('/survey/core/task/taskType')">
+                        <a href="javascript:link('/survey/task/taskType')">
                             <i class="menu-icon fa fa-caret-right"></i>
                             任务类型列表
                         </a>
@@ -235,7 +235,7 @@
                 <ul class="submenu">
 
                     <li class="">
-                        <a href="javascript:link('/survey/core/template/addUI')">
+                        <a href="javascript:link('/survey/template/addUI')">
                             <i class="menu-icon fa fa-caret-right"></i>
                             添加模板
                         </a>

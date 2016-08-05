@@ -26,7 +26,9 @@
                         </select> records</label></div>
                 </div>
                 <div class="col-xs-6">
-                    <div id="sample-table-2_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control input-sm" aria-controls="sample-table-2">
+                    <div id="sample-table-2_filter" class="dataTables_filter"><label>Search:<input type="search"
+                                                                                                   class="form-control input-sm"
+                                                                                                   aria-controls="sample-table-2">
                     </label></div>
                 </div>
             </div>
@@ -65,16 +67,8 @@
                     <tbody>
 
                     <c:forEach var="item" varStatus="i" items="${data.content}" begin="0" end="10">
-                        <c:choose>
-                            <c:when test="${i.count%2==0}">
-                                <tr role="row" class="odd">
-                            </c:when>
-                            <c:otherwise>
-                                <tr role="row" class="even">
-                            </c:otherwise>
-                        </c:choose>
                         <td class="hidden-480">${item.customerName}</td>
-                        <td class="hidden-480">${item.nickName}</td>
+                        <td class="hidden-480">${item.account}</td>
                         <td class="hidden-480">${item.type}</td>
                         <td class="hidden-480"><fmt:formatDate value="${item.startTime}"
                                                                pattern="yyyy-MM-dd HH:mm:SS"/></td>
@@ -87,22 +81,31 @@
                             <c:if test="${item.status==3}">审核中</c:if>
                             <c:if test="${item.status==4}">审核成功</c:if>
                             <c:if test="${item.status==5}">审核失败</c:if>
+                            <c:if test="${item.status==6}">废弃</c:if>
                         </td>
                         <td class="hidden-480">${item.point}</td>
                         <td>
                             <div class="hidden-sm hidden-xs action-buttons">
+                                <c:if test="${sessionScope.user.role==1}">
+                                    <a class="black" href="javascript:link('/survey/task/report/${item.id}')">
+                                        <i class="ace-icon fa fa-eye bigger-130" title="查看报告"></i>
+                                    </a>
 
-                                <a class="black" href="javascript:link('/survey/core/task/report/${item.id}')">
-                                    <i class="ace-icon fa fa-eye bigger-130"></i>
-                                </a>
+                                </c:if>
+                                <c:if test="${sessionScope.user.role==3}">
+                                    <a class="blue" href="javascript:deleteById(${item.id})">
+                                        <i class="ace-icon glyphicon glyphicon-repeat bigger-130" title="重新分配"></i>
+                                    </a>
+                                    <a class="green"
+                                       <c:if test="${item.status==0}">href="javascript:link('/survey/editTaskUI/${item.id}')"</c:if>>
+                                        <i class="ace-icon fa fa-pencil bigger-130" title="编辑"></i>
+                                    </a>
 
-                                <a class="green" href="javascript:link('/survey/task/${item.id}')">
-                                    <i class="ace-icon fa fa-pencil bigger-130" title="编辑"></i>
-                                </a>
-
-                                <a class="red" href="javascript:deleteById(${item.id})">
-                                    <i class="ace-icon glyphicon glyphicon-repeat bigger-130"></i>
-                                </a>
+                                    <a class="red"
+                                       <c:if test="${item.status==0 or item.status==6}">href=href="javascript:deleteById(${item.id})"</c:if>>
+                                        <i class="ace-icon fa fa-trash-o bigger-130"></i>
+                                    </a>
+                                </c:if>
 
                             </div>
                         </td>
@@ -152,7 +155,7 @@
             url: "/survey/task/" + id,
             success: function (data) {
                 if (data.status) {
-                    javascript:link('/survey/task?page=${data.number}')
+                    javascript:link('/survey/core/task?page=${data.number}')
                 }
             }
         });

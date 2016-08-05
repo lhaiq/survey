@@ -73,17 +73,21 @@
                         <td class="hidden-480">${item.address}</td>
                         <td>
                             <div class="hidden-sm hidden-xs action-buttons">
-                                <a class="blue" href="javascript:link('/survey/core/addTaskUI/${item.id}')">
-                                    <i class="ace-icon fa fa-search-plus bigger-130" title="调查该客户"></i>
-                                </a>
+                                <c:if test="${sessionScope.user.role==3}">
+                                    <a class="blue" href="javascript:link('/survey/addTaskUI/${item.id}')">
+                                        <i class="ace-icon fa fa-search-plus bigger-130" title="调查该客户"></i>
+                                    </a>
+                                </c:if>
 
-                                <a class="green" href="javascript:link('/survey/core/editCustomerUI/${item.id}')">
-                                    <i class="ace-icon fa fa-pencil bigger-130" title="编辑"></i>
-                                </a>
+                                <c:if test="${sessionScope.user.role==1}">
+                                    <a class="green" disabled href="javascript:link('/survey/editCustomerUI/${item.id}')">
+                                        <i class="ace-icon fa fa-pencil bigger-130" title="编辑"></i>
+                                    </a>
 
-                                <a class="red" href="javascript:deleteById(${item.id})">
-                                    <i class="ace-icon fa fa-trash-o bigger-130"></i>
-                                </a>
+                                    <a class="red" disabled="true" href="javascript:deleteById(${item.id})">
+                                        <i class="ace-icon fa fa-trash-o bigger-130"></i>
+                                    </a>
+                                </c:if>
                             </div>
 
 

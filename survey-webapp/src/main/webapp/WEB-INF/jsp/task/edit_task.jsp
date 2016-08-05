@@ -3,7 +3,7 @@
 
 <div class="page-header">
     <h1>调查任务管理
-        <small><i class="ace-icon fa fa-angle-double-right"></i> &nbsp;添加调查任务</small>
+        <small><i class="ace-icon fa fa-angle-double-right"></i> &nbsp;编辑调查任务</small>
     </h1>
 </div>
 <div class="row">
@@ -17,7 +17,8 @@
             </div>
         </c:if>
         <!-- PAGE CONTENT BEGINS -->
-        <form class="form-horizontal" action="/survey/task" method="post" onsubmit="return false;">
+        <form class="form-horizontal" action="/survey/task/${task.id}" method="post" onsubmit="return false;">
+            <input type="hidden" name="_method" value="put" />
             <!-- #section:elements.form -->
             <div class="form-group">
                 <label class="col-sm-4 control-label no-padding-right" for="form-field-1">客户姓名<label
@@ -40,9 +41,9 @@
                     <div class="col-sm-5 no-padding-left">
                         <select
                                 class="form-control col-sm-5"
-                                data-placeholder="选择一个调查员...">
+                                data-placeholder="选择一个调查员..." name="surveyorId">
                             <c:forEach items="${surveyors}" var="item">
-                                <option value="${item.id}">${item.account}</option>
+                                <option value="${item.id}" <c:if test="${item.id==task.surveyorId}">selected</c:if>>${item.account}</option>
                             </c:forEach>
                         </select>
                     </div>
@@ -57,9 +58,9 @@
                     <div class="col-sm-5 no-padding-left">
                         <select
                                 class="form-control col-sm-5"
-                                data-placeholder="选择一个调查类型">
+                                data-placeholder="选择一个调查类型" name="type">
                             <c:forEach items="${types}" var="item">
-                                <option value="${item.name}">${item.name}</option>
+                                <option value="${item.name}" <c:if test="${item.name==task.type}">selected</c:if>>${item.name}</option>
                             </c:forEach>
                         </select>
                     </div>
@@ -71,7 +72,7 @@
 
                 <div class="col-sm-8">
                     <div class="col-sm-5 no-padding-left">
-                        <input type="text" name="chinaName" class="form-control col-sm-5"/>
+                        <textarea name="point" class="form-control">${task.point}</textarea>
                     </div>
                 </div>
             </div>
@@ -82,7 +83,8 @@
 
                 <div class="col-sm-8">
                     <div class="col-sm-5 no-padding-left">
-                        <button class="btn btn-xs btn-success" onclick="onSubmit()" style="width: 81px;margin-left: 34px">
+                        <button class="btn btn-xs btn-success" onclick="onSubmit()"
+                                style="width: 81px;margin-left: 34px">
                             <i class="ace-icon fa fa-check bigger-110">提交</i>
                         </button>
 
@@ -102,7 +104,7 @@
         $('.form-horizontal').ajaxSubmit({
             success: function (data) {
                 if (data.status) {
-                    javascript:link('/survey/customer')
+                    javascript:link('/survey/core/task')
                 }
             }
         });

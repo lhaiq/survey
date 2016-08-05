@@ -2,6 +2,8 @@ package com.hongrui.survey.core.controller;
 
 import com.hongrui.survey.core.model.TaskDetailModel;
 import com.hongrui.survey.core.model.TaskModel;
+import com.hongrui.survey.core.model.TaskTypeModel;
+import com.hongrui.survey.core.service.ConfService;
 import com.hongrui.survey.core.service.TaskService;
 import com.hongrui.survey.core.vo.TaskVO;
 import com.wlw.pylon.core.beans.mapping.BeanMapper;
@@ -31,6 +33,9 @@ public class TaskRestApiController {
 
     @Autowired
     private TaskService taskService;
+
+    @Autowired
+    private ConfService confService;
 
     @GetMapping(value = "/task/{id}")
     public ResponseEnvelope<TaskDetailModel> taskDetail(@PathVariable Long id) {
@@ -96,6 +101,14 @@ public class TaskRestApiController {
     public ResponseEnvelope<Map<Long, Integer>> tastStatus(@RequestBody List<Long> taskIds) {
         Map<Long, Integer> statuses = taskService.taskStatus(taskIds);
         ResponseEnvelope<Map<Long, Integer>> responseEnv = new ResponseEnvelope<>(statuses, true);
+        return responseEnv;
+    }
+
+
+    @PostMapping(value = "/task/taskType")
+    public ResponseEnvelope<String> createTaskType(@RequestBody TaskTypeModel taskTypeModel) {
+        confService.createTaskType(taskTypeModel);
+        ResponseEnvelope<String> responseEnv = new ResponseEnvelope<>("ok", true);
         return responseEnv;
     }
 
