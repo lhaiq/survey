@@ -6,8 +6,12 @@ package com.hongrui.survey.core;
 public enum TaskStatus {
 
     CREATED(0),
-    STARTED(1)
-    ;
+    STARTED(1),
+    COMMIT(2),
+    CHECKING(3),
+    SUCCESS(4),
+    FAILURE(5),
+    DISCARD(6),;
 
     private int code;
 

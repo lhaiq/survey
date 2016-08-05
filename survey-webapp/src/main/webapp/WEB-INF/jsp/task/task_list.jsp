@@ -96,38 +96,14 @@
                                     <i class="ace-icon fa fa-eye bigger-130"></i>
                                 </a>
 
-                                <a class="red" href="#">
+                                <a class="green" href="javascript:link('/survey/task/${item.id}')">
+                                    <i class="ace-icon fa fa-pencil bigger-130" title="编辑"></i>
+                                </a>
+
+                                <a class="red" href="javascript:deleteById(${item.id})">
                                     <i class="ace-icon glyphicon glyphicon-repeat bigger-130"></i>
                                 </a>
 
-                            </div>
-
-                            <div class="hidden-md hidden-lg">
-                                <div class="inline position-relative">
-
-                                    <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
-
-                                        <li>
-                                            <a href="#" class="tooltip-success" data-rel="tooltip" title=""
-                                               data-original-title="View">
-                                            <span class="black">
-                                                <i class="ace-icon fa fa-eye bigger-120"></i>
-                                            </span>
-                                            </a>
-                                        </li>
-
-                                        <li>
-                                            <a href="#" class="tooltip-success" data-rel="tooltip" title=""
-                                               data-original-title="Edit">
-                                            <span class="red">
-                                                <i class="ace-icon glyphicon glyphicon-repeat bigger-120"></i>
-                                            </span>
-                                            </a>
-                                        </li>
-
-
-                                    </ul>
-                                </div>
                             </div>
                         </td>
                         </tr>
@@ -168,3 +144,17 @@
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+    function deleteById(id) {
+        $.ajax({
+            type: "delete",
+            url: "/survey/task/" + id,
+            success: function (data) {
+                if (data.status) {
+                    javascript:link('/survey/task?page=${data.number}')
+                }
+            }
+        });
+    }
+</script>

@@ -115,12 +115,12 @@ public class TaskServiceImpl implements TaskService {
 
         List<Object> pageParam = new ArrayList<>();
         List<Object> countParam = new ArrayList<>();
-        if(null != taskModel.getStatus()){
+        if (null != taskModel.getStatus()) {
             pageParam.add(taskModel.getStatus());
             countParam.add(taskModel.getStatus());
         }
 
-        if(null != taskModel.getSurveyorId()){
+        if (null != taskModel.getSurveyorId()) {
             pageParam.add(taskModel.getSurveyorId());
             countParam.add(taskModel.getSurveyorId());
         }
@@ -128,8 +128,8 @@ public class TaskServiceImpl implements TaskService {
         pageParam.add(pageable.getOffset());
         pageParam.add(pageable.getPageSize());
 
-        List<Map<String, Object>> content  = jdbcTemplate.queryForList(sb.toString(),pageParam.toArray());
-        Long count = jdbcTemplate.queryForObject(countSql.toString(), Long.class,countParam.toArray());
+        List<Map<String, Object>> content = jdbcTemplate.queryForList(sb.toString(), pageParam.toArray());
+        Long count = jdbcTemplate.queryForObject(countSql.toString(), Long.class, countParam.toArray());
         Page page = new PageImpl(content, pageable, count);
         return page;
     }
@@ -150,12 +150,33 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
+    public void commitTask(Long id) {
+        TaskModel taskModel = findByPrimaryKey(id);
+        if (TaskStatus.STARTED.getCode() != taskModel.getStatus()) {
+            HRErrorCode.throwBusinessException(HRErrorCode.TASK_STATUS_INCORRECT);
+        }
+
+        TaskModel param = new TaskModel();
+        param.setId(id);
+        param.setEndTime(new Date());
+        param.setStatus(TaskStatus.COMMIT.getCode());
+        updateByPrimaryKeySelective(param);
+    }
+
+    @Transactional
+    @Override
+    public void addTask(TaskModel taskModel) {
+        taskModel.setStatus(TaskStatus.CREATED.getCode());
+        createSelective(taskModel);
+    }
+
+    @Override
     public TaskDetailModel taskDetail(Long id) {
         TaskModel taskModel = findByPrimaryKey(id);
         TaskDetailModel taskDetailModel = beanMapper.map(taskModel, TaskDetailModel.class);
 
         //reports
-        taskDetailModel.setReports(findReports(id, taskModel.getType()));
+        taskDetailModel.setReports(findReportsNoTemplate(id, taskModel.getType()));
 
         //audios
         AudioModel audioParam = new AudioModel();
@@ -184,6 +205,12 @@ public class TaskServiceImpl implements TaskService {
         return statuses;
     }
 
+    @Override
+    public Map<String, ReportConfModel> taskTemplate(Long id) {
+        TaskModel taskModel = findByPrimaryKey(id);
+        return findReports(id, taskModel.getType());
+    }
+
 
     private Map<String, PhotoConfModel> findPhotos(Long taskId, String type) {
         String sql = "SELECT photo_type from conf where name = ? and type = 0";
@@ -208,6 +235,28 @@ public class TaskServiceImpl implements TaskService {
         return photos;
     }
 
+    private Map<String, ReportConfModel> findReportsNoTemplate(Long taskId, String type) {
+        String sql = "SELECT template from conf where name = ? and type = 0";
+        String templateIds = jdbcTemplate.queryForObject(sql, String.class, type);
+        JSONArray jsonArray = JSON.parseArray(templateIds);
+        Map<String, ReportConfModel> reports = new HashMap<>();
+        for (int i = 0; i < jsonArray.size(); i++) {
+            Long templateId = jsonArray.getLong(i);
+            String name = jdbcTemplate.queryForObject("select name from conf where id = ?", String.class, templateId);
+            ReportConfModel reportConfModel = new ReportConfModel();
+
+            ReportModel reportParam = new ReportModel();
+            reportParam.setTaskId(taskId);
+            reportParam.setTemplateId(templateId);
+            List<ReportModel> reportModels = reportService.selectPage(reportParam, new PageRequest(0, Integer.MAX_VALUE));
+            if (!CollectionUtils.isEmpty(reportModels)) {
+                reportConfModel.setContent(reportModels.get(0));
+            }
+            reports.put(name, reportConfModel);
+        }
+
+        return reports;
+    }
 
     private Map<String, ReportConfModel> findReports(Long taskId, String type) {
         String sql = "SELECT template from conf where name = ? and type = 0";

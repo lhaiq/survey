@@ -8,14 +8,7 @@
                 <small><i class="ace-icon fa fa-angle-double-right"></i> &nbsp;编辑客户</small>
             </h1>
         </div>
-        <c:if test="${addFlag == 'Y' }">
-            <div class="alert alert-block alert-success">
-                <button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i>
-                </button>
-                <i class="ace-icon fa fa-check green"></i>
-                <strong class="green">添加成功。</strong>
-            </div>
-        </c:if>
+
         <!-- PAGE CONTENT BEGINS -->
         <form class="form-horizontal" action="/survey/customer/${data.id}" method="post" onsubmit="return false;">
             <input type="hidden" name="_method" value="put" />

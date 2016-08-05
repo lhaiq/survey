@@ -32,7 +32,7 @@
       #{path,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{contentType,jdbcType=VARCHAR}, 
       #{type,jdbcType=INTEGER}, #{sequence,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.hongrui.survey.core.entity.Audio">
+  <insert id="insertSelective" parameterType="com.hongrui.survey.core.entity.Audio" useGeneratedKeys="true" keyProperty="id">
     insert into audio
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

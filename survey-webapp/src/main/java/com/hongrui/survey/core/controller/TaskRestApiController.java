@@ -39,6 +39,32 @@ public class TaskRestApiController {
         return responseEnv;
     }
 
+
+    @PostMapping(value = "/task")
+    public ResponseEnvelope<String> createTask(TaskVO taskVO) {
+        TaskModel taskModel = beanMapper.map(taskVO,TaskModel.class);
+        taskService.addTask(taskModel);
+        ResponseEnvelope<String> responseEnv = new ResponseEnvelope<>("ok", true);
+        return responseEnv;
+    }
+
+    @PutMapping(value = "/task/{id}")
+    public ResponseEnvelope<String> updateTask(@PathVariable Long id,TaskVO taskVO) {
+        TaskModel taskModel = beanMapper.map(taskVO,TaskModel.class);
+        taskModel.setId(id);
+        taskService.updateByPrimaryKeySelective(taskModel);
+        ResponseEnvelope<String> responseEnv = new ResponseEnvelope<>("ok", true);
+        return responseEnv;
+    }
+
+    @DeleteMapping(value = "/task/{id}")
+    public ResponseEnvelope<String> deleteTask(@PathVariable Long id) {
+        taskService.deleteByPrimaryKey(id);
+        ResponseEnvelope<String> responseEnv = new ResponseEnvelope<>("ok", true);
+        return responseEnv;
+    }
+
+
     @GetMapping(value = "/task")
     public ResponseEnvelope<Page<TaskModel>> listTask(@RequestAttribute Long userId,
                                                       @RequestParam(required = false) Integer status,
@@ -51,9 +77,17 @@ public class TaskRestApiController {
         return responseEnv;
     }
 
+
     @GetMapping(value = "/start/task/{id}")
-    public ResponseEnvelope<String> startTask(@PathVariable Long id) {
+     public ResponseEnvelope<String> startTask(@PathVariable Long id) {
         taskService.startTask(id);
+        ResponseEnvelope<String> responseEnv = new ResponseEnvelope<>("ok", true);
+        return responseEnv;
+    }
+
+    @GetMapping(value = "/commit/task/{id}")
+    public ResponseEnvelope<String> commitTask(@PathVariable Long id) {
+        taskService.commitTask(id);
         ResponseEnvelope<String> responseEnv = new ResponseEnvelope<>("ok", true);
         return responseEnv;
     }

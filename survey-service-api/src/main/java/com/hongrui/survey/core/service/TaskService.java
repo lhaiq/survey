@@ -1,6 +1,8 @@
 
 package com.hongrui.survey.core.service;
 
+import com.hongrui.survey.core.model.PhotoConfModel;
+import com.hongrui.survey.core.model.ReportConfModel;
 import com.hongrui.survey.core.model.TaskDetailModel;
 import com.hongrui.survey.core.model.TaskModel;
 
@@ -34,9 +36,17 @@ public interface TaskService {
 
     public void startTask(Long id);
 
+    public void commitTask(Long id);
+
+    public void addTask(TaskModel taskModel);
+
     public TaskDetailModel taskDetail(Long id);
 
     public Map<Long,Integer> taskStatus(List<Long> taskIds);
+
+    public Map<String, ReportConfModel> taskTemplate(Long id);
+
+
 
 
 }

@@ -73,11 +73,11 @@
                         <td class="hidden-480">${item.address}</td>
                         <td>
                             <div class="hidden-sm hidden-xs action-buttons">
-                                <a class="blue" href="javascript:link('/survey/surveyCustomerUI/${item.id}')">
+                                <a class="blue" href="javascript:link('/survey/core/addTaskUI/${item.id}')">
                                     <i class="ace-icon fa fa-search-plus bigger-130" title="调查该客户"></i>
                                 </a>
 
-                                <a class="green" href="javascript:link('/survey/editCustomerUI/${item.id}')">
+                                <a class="green" href="javascript:link('/survey/core/editCustomerUI/${item.id}')">
                                     <i class="ace-icon fa fa-pencil bigger-130" title="编辑"></i>
                                 </a>
 
@@ -133,7 +133,7 @@
             url: "/survey/customer/" + id,
             success: function (data) {
                 if (data.status) {
-                    javascript:link('/survey/customer?page=${data.number}&name=${name}')
+                    javascript:link('/survey/customer?page=${data.number}')
                 }
             }
         });

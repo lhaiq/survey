@@ -31,7 +31,7 @@
       #{photoType,jdbcType=BIGINT}, #{path,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
       #{contentType,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.hongrui.survey.core.entity.Photo">
+  <insert id="insertSelective" parameterType="com.hongrui.survey.core.entity.Photo" useGeneratedKeys="true" keyProperty="id">
     insert into photo
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

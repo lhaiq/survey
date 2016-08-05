@@ -42,7 +42,10 @@ public class AudioServiceImpl implements AudioService {
     @Transactional
     @Override
     public int createSelective(AudioModel audioModel) {
-        return audioRepo.insertSelective(beanMapper.map(audioModel, Audio.class));
+        Audio audio = beanMapper.map(audioModel,Audio.class);
+        int retVal = audioRepo.insertSelective(audio);
+        audioModel.setId(audio.getId());
+        return retVal;
     }
 
     @Transactional

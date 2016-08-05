@@ -43,7 +43,10 @@ public class PhotoServiceImpl implements PhotoService {
     @Transactional
     @Override
     public int createSelective(PhotoModel photoModel) {
-        return photoRepo.insertSelective(beanMapper.map(photoModel, Photo.class));
+        Photo photo = beanMapper.map(photoModel,Photo.class);
+        int retVal = photoRepo.insertSelective(photo);
+        photoModel.setId(photo.getId());
+        return retVal;
     }
 
     @Transactional

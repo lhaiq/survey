@@ -41,15 +41,11 @@ public class CustomerController {
     }
 
     @GetMapping(value = "/editCustomerUI/{id}")
-    public String editCustomerUI(@PathVariable Long id,Model model) {
-        model.addAttribute("data",customerService.findByPrimaryKey(id));
+    public String editCustomerUI(@PathVariable Long id, Model model) {
+        model.addAttribute("data", customerService.findByPrimaryKey(id));
         return "customer/edit_customer";
     }
 
-    @GetMapping(value = "/surveyCustomerUI/{id}")
-    public String surveyCustomerUI(@PathVariable Long id) {
-        return "task/add_task";
-    }
 
     @GetMapping(value = "/customer")
     public String listCustomer(CustomerVO customerVO, Pageable pageable, Model model) {
@@ -62,30 +58,5 @@ public class CustomerController {
         return "customer/customer_list";
     }
 
-    @PostMapping(value = "/customer")
-    public ResponseEnvelope<Integer> createCustomer(@RequestBody CustomerVO customerVO) {
-        CustomerModel customerModel = beanMapper.map(customerVO, CustomerModel.class);
-        Integer result = customerService.createSelective(customerModel);
-        ResponseEnvelope<Integer> responseEnv = new ResponseEnvelope<>(result, true);
-        return responseEnv;
-    }
-
-    @DeleteMapping(value = "/customer/{id}")
-    public ResponseEnvelope<Integer> deleteCustomerByPrimaryKey(@PathVariable Long id) {
-        Integer result = customerService.deleteByPrimaryKey(id);
-        ResponseEnvelope<Integer> responseEnv = new ResponseEnvelope<>(result, true);
-        return responseEnv;
-    }
-
-
-    @PutMapping(value = "/customer/{id}")
-    public ResponseEnvelope<Integer> updateCustomerByPrimaryKeySelective(@PathVariable Long id,
-                                                                         @RequestBody CustomerVO customerVO) {
-        CustomerModel customerModel = beanMapper.map(customerVO, CustomerModel.class);
-        customerModel.setId(id);
-        Integer result = customerService.updateByPrimaryKeySelective(customerModel);
-        ResponseEnvelope<Integer> responseEnv = new ResponseEnvelope<Integer>(result, true);
-        return responseEnv;
-    }
 
 }

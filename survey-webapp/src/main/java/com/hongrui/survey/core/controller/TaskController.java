@@ -1,9 +1,16 @@
 package com.hongrui.survey.core.controller;
 
+import com.hongrui.survey.core.ConfType;
+import com.hongrui.survey.core.UserRole;
+import com.hongrui.survey.core.model.ConfModel;
 import com.hongrui.survey.core.model.TaskTypeModel;
+import com.hongrui.survey.core.model.UserModel;
 import com.hongrui.survey.core.service.ConfService;
+import com.hongrui.survey.core.service.CustomerService;
+import com.hongrui.survey.core.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +47,12 @@ public class TaskController {
 
     @Autowired
     private ConfService confService;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private CustomerService customerService;
 
     @GetMapping(value = "/core/task/{id}")
     public ResponseEnvelope<TaskVO> getTaskById(@PathVariable Long id) {
@@ -89,14 +102,6 @@ public class TaskController {
         return "task/task_report";
     }
 
-    @PostMapping(value = "/core/task")
-    public ResponseEnvelope<Integer> createTask(@RequestBody TaskVO taskVO) {
-        TaskModel taskModel = beanMapper.map(taskVO, TaskModel.class);
-        Integer result = taskService.create(taskModel);
-        ResponseEnvelope<Integer> responseEnv = new ResponseEnvelope<>(result, true);
-        return responseEnv;
-    }
-
 
     @GetMapping(value = "/task")
     public String listTask(TaskVO taskVO, Pageable pageable, Model model) {
@@ -105,22 +110,25 @@ public class TaskController {
         return "task/task_list";
     }
 
-    @DeleteMapping(value = "/core/task/{id}")
-    public ResponseEnvelope<Integer> deleteTaskByPrimaryKey(@PathVariable Long id) {
-        Integer result = taskService.deleteByPrimaryKey(id);
-        ResponseEnvelope<Integer> responseEnv = new ResponseEnvelope<>(result, true);
-        return responseEnv;
+    @GetMapping(value = "/task/template/{id}")
+    public String taskTemplate(@PathVariable Long id, Model model) {
+        model.addAttribute("data", taskService.taskTemplate(id));
+        return "task/template";
     }
 
 
-    @PutMapping(value = "/core/task/{id}")
-    public ResponseEnvelope<Integer> updateTaskByPrimaryKeySelective(@PathVariable Long id,
-                                                                     @RequestBody TaskVO taskVO) {
-        TaskModel taskModel = beanMapper.map(taskVO, TaskModel.class);
-        taskModel.setId(id);
-        Integer result = taskService.updateByPrimaryKeySelective(taskModel);
-        ResponseEnvelope<Integer> responseEnv = new ResponseEnvelope<Integer>(result, true);
-        return responseEnv;
+    @GetMapping(value = "/addTaskUI/{id}")
+    public String addTaskUI(@PathVariable Long id,Model model) {
+        ConfModel confParam = new ConfModel();
+        confParam.setType(ConfType.SURVEY.getType());
+        model.addAttribute("types",confService.selectPage(confParam,new PageRequest(0,Integer.MAX_VALUE)));
+
+        UserModel userParam = new UserModel();
+        userParam.setRole(UserRole.SURVEYOR.getCode());
+        model.addAttribute("surveyors", userService.selectPage(userParam, new PageRequest(0, Integer.MAX_VALUE)));
+
+        model.addAttribute("customer",customerService.findByPrimaryKey(id));
+        return "task/add_task";
     }
 
 }
