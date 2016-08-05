@@ -26,4 +26,11 @@ public long selectCount(SignModel signModel);
 
 public List<SignModel> selectPage(SignModel signModel, Pageable pageable);
 
+
+public SignModel findByTaskId(Long id);
+
+
+
+
+
 }

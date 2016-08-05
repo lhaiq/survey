@@ -3,7 +3,7 @@
 
 <div class="page-header">
     <h1>调查任务管理
-        <small><i class="ace-icon fa fa-angle-double-right"></i> &nbsp;编辑调查任务</small>
+        <small><i class="ace-icon fa fa-angle-double-right"></i> &nbsp;添加调查任务</small>
     </h1>
 </div>
 <div class="row">
@@ -23,9 +23,11 @@
                 <label class="col-sm-4 control-label no-padding-right" for="form-field-1">客户姓名<label
                         style="color: red;">&nbsp;*</label> </label>
 
+                <input type="hidden" name="customerId" value="${customer.id}"/>
+
                 <div class="col-sm-8">
                     <div class="col-sm-5 no-padding-left">
-                        <input type="text" class="form-control" name="username" value="haiquan"/>
+                        <input type="text" class="form-control" name="customerName" value="${customer.name}" disabled/>
                     </div>
                 </div>
             </div>
@@ -40,7 +42,7 @@
                                 class="form-control col-sm-5"
                                 data-placeholder="选择一个调查员...">
                             <c:forEach items="${surveyors}" var="item">
-                                <option value="${item.id}">${item.name}</option>
+                                <option value="${item.id}">${item.account}</option>
                             </c:forEach>
                         </select>
                     </div>
