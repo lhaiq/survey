@@ -7,6 +7,8 @@ public class ReportConfModel {
 
     private String template;
 
+    private Long templateId;
+
     private ReportModel content;
 
     public ReportModel getContent() {
@@ -23,5 +25,13 @@ public class ReportConfModel {
 
     public void setTemplate(String template) {
         this.template = template;
+    }
+
+    public void setTemplateId(Long templateId) {
+        this.templateId = templateId;
+    }
+
+    public Long getTemplateId() {
+        return templateId;
     }
 }

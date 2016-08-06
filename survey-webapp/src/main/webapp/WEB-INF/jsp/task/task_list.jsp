@@ -7,10 +7,10 @@
     <div class="col-xs-12">
         <div class="page-header">
             <h1>调查任务管理
-                <small><i class="ace-icon fa fa-angle-double-right"></i> &nbsp;调查任务列表${data.size}</small>
+                <small><i class="ace-icon fa fa-angle-double-right"></i> &nbsp;调查任务列表</small>
             </h1>
         </div>
-        <div class="table-header">
+        <div class="table-header" style="background-color: #438eb9">
             列表
         </div>
         <div id="sample-table-2_wrapper" class="dataTables_wrapper form-inline no-footer">
@@ -24,14 +24,10 @@
                                 <option value="20" <c:if test="${data.size==20}">selected</c:if>>20</option>
                                 <option value="50" <c:if test="${data.size==50}">selected</c:if>>50</option>
                                 <option value="100" <c:if test="${data.size==100}">selected</c:if>>100</option>
-                            </select> records</label></div>
+                            </select> records</label>
+                    </div>
                 </div>
-                <div class="col-xs-6">
-                    <div id="sample-table-2_filter" class="dataTables_filter"><label>Search:<input type="search"
-                                                                                                   class="form-control input-sm"
-                                                                                                   aria-controls="sample-table-2">
-                    </label></div>
-                </div>
+
             </div>
             <div class="row">
                 <table id="sample-table-2" class="table table-striped table-bordered table-hover dataTable no-footer"
@@ -81,7 +77,7 @@
                             <c:if test="${item.status==2}">待审核</c:if>
                             <c:if test="${item.status==3}">审核中</c:if>
                             <c:if test="${item.status==4}">审核成功</c:if>
-                            <c:if test="${item.status==5}">审核失败</c:if>
+                            <c:if test="${item.status==5}">重新调查</c:if>
                             <c:if test="${item.status==6}">废弃</c:if>
                         </td>
                         <td class="hidden-480">${item.point}</td>

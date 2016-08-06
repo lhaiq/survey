@@ -155,8 +155,8 @@
                                                 class="orange ace-icon fa bigger-120"></i> ${report.key}
                                         </a>
                                         </li>
-                                        <div id="dialog-message${i.count}" class="hide" name="${report.key}">
-                                                <p>sadasdasdasdasdsadas</p>
+                                        <div id="dialog-message${i.count}" templateId="${report.value.templateId}"
+                                             reportId="${report.value.content.id}" class="hide" name="${report.key}">
                                         </div>
                                     </c:forEach>
                                 </ul>
@@ -208,18 +208,23 @@
                     </div>
                     <div class="hr hr8  hr-dotted"></div>
                     <div>
-                        <textarea class="autosize-transition form-control"></textarea>
+                        <textarea class="autosize-transition form-control" id="textarea_comment"></textarea>
                     </div>
                     <br/>
 
                     <div class="col-md-offset-3 col-md-9">
-                        <button class="btn btn-info" type="button">
+                        <button class="btn btn-info" type="button" onclick="comment('pass');">
                             <i class="ace-icon fa fa-thumbs-o-up bigger-110"></i> 通过
                         </button>
 
                         &nbsp; &nbsp; &nbsp;
-                        <button class="btn" type="reset">
-                            <i class="ace-icon fa fa-thumbs-o-down bigger-110"></i> 拒绝
+                        <button class="btn btn-warning" type="button" onclick="comment('refuse');">
+                            <i class="ace-icon fa fa-thumbs-o-down bigger-110"></i> 重新调查
+                        </button>
+
+                        &nbsp; &nbsp; &nbsp;
+                        <button class="btn btn-danger" type="button" onclick="comment('discard');">
+                            <i class="ace-icon fa fa-times bigger-110"></i> 废弃
                         </button>
                     </div>
                 </div>
@@ -266,6 +271,75 @@
         $("#cboxLoadingGraphic").html("<i class='ace-icon fa fa-spinner orange'></i>");//let's add a custom loading icon
     });
 
+
+    function comment(type){
+        var comment=$("#textarea_comment").val();
+        $.ajax({
+            type: "get",
+            url: "/survey/comment/task/"+${td.id},
+            data:{
+                comment:comment,
+                type:type
+            },
+            success: function (data) {
+                if (data.status) {
+                    console.log(data)
+                }
+            }
+        });
+    }
+
+    function getTemplateAndReport(reportDiv) {
+        $.ajax({
+            type: "get",
+            url: "/survey/conf/" + reportDiv.attr("templateId"),
+            success: function (data) {
+                if (data.status) {
+                    reportDiv.html(data.data.content);
+                    fileReport(reportDiv)
+                }
+            }
+        });
+    }
+
+    function fileReport(reportDiv) {
+        var reportId = reportDiv.attr("reportId");
+        alert(reportId)
+        if (reportId != '') {
+            $.ajax({
+                type: "get",
+                url: "/survey/report/" + reportId,
+                success: function (data) {
+                    if (data.status) {
+                        var content = data.data.content.parseJSON();
+                        $.each(content, function (key, value) {
+                            var element = $("#" + key);
+                            if (element.is('input')) {
+                                var type = element[0].type;
+                                if (type == 'text') {
+                                    element.attr('value', value);
+                                } else if (type == 'radio' || type == 'checkbox') {
+                                    if (value == 'true') {
+                                        element.attr('checked', true);
+                                    }
+                                }
+                            } else if (element.is('textarea')) {
+                                element.val(value)
+                            } else if (element.is('select')) {
+                                element.val(value)
+                            }
+
+                            element.attr("disabled", true);
+
+                        });
+                    }
+                }
+            });
+        }
+
+    }
+
+
     $(function ($) {
         $.widget("ui.dialog", $.extend({}, $.ui.dialog.prototype, {
             _title: function (title) {
@@ -278,10 +352,11 @@
         $(".dialogMessage").on('click', function (e) {
             e.preventDefault();
             var name = this.name;
+            getTemplateAndReport($("#dialog-message" + name));
             var dialog = $("#dialog-message" + name).removeClass('hide').dialog({
                 width: 800,
                 modal: true,
-                title: "<div class='widget-header widget-header-small'><h4 class='smaller'><i class='ace-icon fa fa-check'>"+name+"</i></h4></div>",
+                title: "<div class='widget-header widget-header-small'><h4 class='smaller'><i class='ace-icon fa fa-check'>" + name + "</i></h4></div>",
                 title_html: true,
                 buttons: [
                     {

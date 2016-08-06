@@ -56,6 +56,13 @@ public class ConfRestApiController {
         return responseEnv;
     }
 
+    @GetMapping(value = "/conf/{id}")
+    public ResponseEnvelope<ConfModel> findByPrimaryKey(@PathVariable Long id) {
+        ConfModel confModel = confService.findByPrimaryKey(id);
+        ResponseEnvelope<ConfModel> responseEnv = new ResponseEnvelope<>(confModel, true);
+        return responseEnv;
+    }
+
 
     @PutMapping(value = "/core/conf/{id}")
     public ResponseEnvelope<Integer> updateConfByPrimaryKeySelective(@PathVariable Long id,

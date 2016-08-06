@@ -16,19 +16,25 @@
             <div class="row">
                 <div class="col-xs-6">
                     <div class="dataTables_length" id="sample-table-2_length">
-                        <label>Display <select name="sample-table-2_length" aria-controls="sample-table-2"
-                                               class="form-control input-sm">
-                            <option value="10">10</option>
-                            <option value="25">25</option>
-                            <option value="50">50</option>
-                            <option value="100">100</option>
-                        </select> records</label></div>
+                        <label>Display
+                            <select name="sample-table-2_length" aria-controls="sample-table-2" id="select_size"
+                                    onchange="query()" class="form-control input-sm">
+                                <option value="10" <c:if test="${data.size==10}">selected</c:if>>10</option>
+                                <option value="20" <c:if test="${data.size==20}">selected</c:if>>20</option>
+                                <option value="50" <c:if test="${data.size==50}">selected</c:if>>50</option>
+                                <option value="100" <c:if test="${data.size==100}">selected</c:if>>100</option>
+                            </select> records</label></div>
                 </div>
                 <div class="col-xs-6">
-                    <div id="sample-table-2_filter" class="dataTables_filter"><label>Search:<input type="search"
-                                                                                                   class="form-control input-sm"
-                                                                                                   aria-controls="sample-table-2">
+                    <div id="sample-table-2_filter" class="dataTables_filter"><label>
+                        <input type="search" class="form-control input-sm" aria-controls="sample-table-2"
+                               id="input_search" value="${param.name}">
+                        <a class="black" href="javascript:query();">
+                            <i class="fa fa-search bigger-130" aria-hidden="true"></i>
+                        </a>
+
                     </label></div>
+
                 </div>
             </div>
             <div class="row">
@@ -80,7 +86,8 @@
                                 </c:if>
 
                                 <c:if test="${sessionScope.user.role==1}">
-                                    <a class="green" disabled href="javascript:link('/survey/editCustomerUI/${item.id}')">
+                                    <a class="green" disabled
+                                       href="javascript:link('/survey/editCustomerUI/${item.id}')">
                                         <i class="ace-icon fa fa-pencil bigger-130" title="编辑"></i>
                                     </a>
 
@@ -111,18 +118,18 @@
                             <li class="paginate_button previous <c:if test="${data.firstPage}">disabled</c:if>"
                                 aria-controls="sample-table-2" tabindex="0"
                                 id="sample-table-2_previous"><a
-                                    href="javascript:link('/survey/customer?page=${data.number-1}')">上一页</a></li>
+                                    href="javascript:link('/survey/customer?page=${data.number-1}&size=${data.size}&name=${param.name}')">上一页</a></li>
 
                             <c:forEach var="i" begin="1" end="${data.totalPages}">
                                 <li class="paginate_button <c:if test="${i-1==data.number}">active</c:if>"
                                     aria-controls="sample-table-2" tabindex="0"><a
-                                        href="javascript:link('/survey/customer?page=${i-1}')">${i}</a></li>
+                                        href="javascript:link('/survey/customer?page=${i-1}&size=${data.size}&name=${param.name}')">${i}</a></li>
                             </c:forEach>
 
                             <li class="paginate_button next <c:if test="${data.lastPage}">disabled</c:if>"
                                 aria-controls="sample-table-2" tabindex="0"
                                 id="sample-table-2_next"><a
-                                    href="javascript:link('/survey/customer?page=${data.number+1}')">下一页</a></li>
+                                    href="javascript:link('/survey/customer?page=${data.number+1}&size=${data.size}&name=${param.name}')">下一页</a></li>
                         </ul>
                     </div>
                 </div>
@@ -141,5 +148,11 @@
                 }
             }
         });
+    }
+
+    function query() {
+        var size = $("#select_size").children('option:selected').val();
+        var name = $("#input_search").val();
+        link('/survey/customer?page=${data.number}&size=' + size + '&name=' + name)
     }
 </script>

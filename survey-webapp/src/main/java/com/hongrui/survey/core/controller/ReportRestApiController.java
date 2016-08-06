@@ -33,7 +33,7 @@ public class ReportRestApiController {
     @Autowired
     private ReportService reportService;
 
-    @GetMapping(value = "/core/report/{id}")
+    @GetMapping(value = "/report/{id}")
     public ResponseEnvelope<ReportVO> getReportById(@PathVariable Long id) {
         ReportModel reportModel = reportService.findByPrimaryKey(id);
         ReportVO reportVO = beanMapper.map(reportModel, ReportVO.class);

@@ -8,6 +8,7 @@ import java.util.List;
 public class PhotoConfModel {
 
     private String pixel;
+    private Long photoType;
     private List<PhotoModel> contents;
 
     public void setPixel(String pixel) {
@@ -25,5 +26,13 @@ public class PhotoConfModel {
 
     public void setContents(List<PhotoModel> contents) {
         this.contents = contents;
+    }
+
+    public void setPhotoType(Long photoType) {
+        this.photoType = photoType;
+    }
+
+    public Long getPhotoType() {
+        return photoType;
     }
 }

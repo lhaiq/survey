@@ -224,6 +224,7 @@ public class TaskServiceImpl implements TaskService {
             String pixel = jdbcTemplate.queryForObject("select pixel from conf where id = ?", String.class, photoTypeId);
             PhotoConfModel photoConfModel = new PhotoConfModel();
             photoConfModel.setPixel(pixel);
+            photoConfModel.setPhotoType(photoTypeId);
             PhotoModel photoParam = new PhotoModel();
             photoParam.setTaskId(taskId);
             photoParam.setPhotoType(photoTypeId);
@@ -244,6 +245,7 @@ public class TaskServiceImpl implements TaskService {
             Long templateId = jsonArray.getLong(i);
             String name = jdbcTemplate.queryForObject("select name from conf where id = ?", String.class, templateId);
             ReportConfModel reportConfModel = new ReportConfModel();
+            reportConfModel.setTemplateId(templateId);
 
             ReportModel reportParam = new ReportModel();
             reportParam.setTaskId(taskId);
@@ -269,7 +271,7 @@ public class TaskServiceImpl implements TaskService {
             String template = jdbcTemplate.queryForObject("select content from conf where id = ?", String.class, templateId);
             ReportConfModel reportConfModel = new ReportConfModel();
             reportConfModel.setTemplate(template);
-
+            reportConfModel.setTemplateId(templateId);
 
             ReportModel reportParam = new ReportModel();
             reportParam.setTaskId(taskId);

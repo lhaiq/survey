@@ -25,7 +25,7 @@
 <div id="myTabContent" class="tab-content">
     <c:forEach items="${data}" var="item" varStatus="i">
         <div class="tab-pane fade <c:if test="${i.first}">in active</c:if>" id="tab${item.value.content.id}">
-            <input type="hidden" name="templateId" value="${item.value.content.templateId}"/>
+            <input type="hidden" name="templateId" value="${item.value.templateId}"/>
                 ${item.value.template}
         </div>
     </c:forEach>

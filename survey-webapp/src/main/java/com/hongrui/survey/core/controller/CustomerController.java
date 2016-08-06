@@ -21,6 +21,8 @@ import com.hongrui.survey.core.service.CustomerService;
 import com.hongrui.survey.core.model.CustomerModel;
 import com.hongrui.survey.core.vo.CustomerVO;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -46,15 +48,24 @@ public class CustomerController {
         return "customer/edit_customer";
     }
 
+    @GetMapping(value = "/customer/validate")
+    public void validateName(@RequestParam(required = false) String name, HttpServletResponse response) {
+        try {
+            response.getWriter().write("false");
+            response.getWriter().close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     @GetMapping(value = "/customer")
     public String listCustomer(CustomerVO customerVO, Pageable pageable, Model model) {
 
         CustomerModel param = beanMapper.map(customerVO, CustomerModel.class);
-        List<CustomerModel> customerModelModels = customerService.selectPage(param, pageable);
-        long count = customerService.selectCount(param);
-        Page<CustomerModel> page = new PageImpl<>(customerModelModels, pageable, count);
+        Page<CustomerModel> page = customerService.searchPage(param, pageable);
         model.addAttribute("data", page);
+        model.addAttribute("param", param);
         return "customer/customer_list";
     }
 

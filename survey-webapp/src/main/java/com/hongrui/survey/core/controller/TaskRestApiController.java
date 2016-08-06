@@ -19,6 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.ws.rs.PathParam;
 import java.util.List;
 import java.util.Map;
 
@@ -47,15 +48,15 @@ public class TaskRestApiController {
 
     @PostMapping(value = "/task")
     public ResponseEnvelope<String> createTask(TaskVO taskVO) {
-        TaskModel taskModel = beanMapper.map(taskVO,TaskModel.class);
+        TaskModel taskModel = beanMapper.map(taskVO, TaskModel.class);
         taskService.addTask(taskModel);
         ResponseEnvelope<String> responseEnv = new ResponseEnvelope<>("ok", true);
         return responseEnv;
     }
 
     @PutMapping(value = "/task/{id}")
-    public ResponseEnvelope<String> updateTask(@PathVariable Long id,TaskVO taskVO) {
-        TaskModel taskModel = beanMapper.map(taskVO,TaskModel.class);
+    public ResponseEnvelope<String> updateTask(@PathVariable Long id, TaskVO taskVO) {
+        TaskModel taskModel = beanMapper.map(taskVO, TaskModel.class);
         taskModel.setId(id);
         taskService.updateByPrimaryKeySelective(taskModel);
         ResponseEnvelope<String> responseEnv = new ResponseEnvelope<>("ok", true);
@@ -84,7 +85,7 @@ public class TaskRestApiController {
 
 
     @GetMapping(value = "/start/task/{id}")
-     public ResponseEnvelope<String> startTask(@PathVariable Long id) {
+    public ResponseEnvelope<String> startTask(@PathVariable Long id) {
         taskService.startTask(id);
         ResponseEnvelope<String> responseEnv = new ResponseEnvelope<>("ok", true);
         return responseEnv;
@@ -96,6 +97,29 @@ public class TaskRestApiController {
         ResponseEnvelope<String> responseEnv = new ResponseEnvelope<>("ok", true);
         return responseEnv;
     }
+
+    @GetMapping(value = "/comment/task/{id}")
+    public ResponseEnvelope<String> commentTask(@PathVariable Long id,
+                                             @RequestParam(required = false) String comment,
+                                             @RequestParam String type) {
+        ResponseEnvelope<String> responseEnv = new ResponseEnvelope<>("ok", true);
+        return responseEnv;
+    }
+
+    @GetMapping(value = "/refuse/task/{id}")
+    public ResponseEnvelope<String> refuseTask(@PathVariable Long id) {
+        taskService.commitTask(id);
+        ResponseEnvelope<String> responseEnv = new ResponseEnvelope<>("ok", true);
+        return responseEnv;
+    }
+
+    @GetMapping(value = "/discard/task/{id}")
+    public ResponseEnvelope<String> discardTask(@PathVariable Long id) {
+        taskService.commitTask(id);
+        ResponseEnvelope<String> responseEnv = new ResponseEnvelope<>("ok", true);
+        return responseEnv;
+    }
+
 
     @PostMapping(value = "/task/status")
     public ResponseEnvelope<Map<Long, Integer>> tastStatus(@RequestBody List<Long> taskIds) {
