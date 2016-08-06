@@ -25,6 +25,8 @@ public class Task {
 
     private Date endTime;
 
+    private Date commitTime;
+
     public Long getId() {
         return id;
     }
@@ -111,5 +113,13 @@ public class Task {
 
     public void setEndTime(Date endTime) {
         this.endTime = endTime;
+    }
+
+    public Date getCommitTime() {
+        return commitTime;
+    }
+
+    public void setCommitTime(Date commitTime) {
+        this.commitTime = commitTime;
     }
 }

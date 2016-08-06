@@ -13,6 +13,7 @@ public class PhotoModel{
 	private String path;
 	private Date createTime;
 	private String contentType;
+	private String extension;
 		
 	public void setId(Long id){
 		this.id = id;
@@ -68,6 +69,14 @@ public class PhotoModel{
 	
 	public String getContentType(){
 		return this.contentType;
+	}
+		
+	public void setExtension(String extension){
+		this.extension = extension;
+	}
+	
+	public String getExtension(){
+		return this.extension;
 	}
 		
 		

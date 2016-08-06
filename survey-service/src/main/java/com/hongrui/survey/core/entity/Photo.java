@@ -17,6 +17,8 @@ public class Photo {
 
     private String contentType;
 
+    private String extension;
+
     public Long getId() {
         return id;
     }
@@ -71,5 +73,13 @@ public class Photo {
 
     public void setContentType(String contentType) {
         this.contentType = contentType;
+    }
+
+    public String getExtension() {
+        return extension;
+    }
+
+    public void setExtension(String extension) {
+        this.extension = extension;
     }
 }

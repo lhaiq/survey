@@ -19,6 +19,8 @@ public class Audio {
 
     private Integer sequence;
 
+    private String extension;
+
     public Long getId() {
         return id;
     }
@@ -81,5 +83,13 @@ public class Audio {
 
     public void setSequence(Integer sequence) {
         this.sequence = sequence;
+    }
+
+    public String getExtension() {
+        return extension;
+    }
+
+    public void setExtension(String extension) {
+        this.extension = extension;
     }
 }

@@ -108,6 +108,7 @@ project("survey-service-api") {
 	dependencies {
 		compile(libraries.pylon_core)
         compile(libraries.pylon_data)
+		compile(libraries.thumbnailator)
 	}
 }
 

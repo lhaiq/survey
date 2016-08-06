@@ -9,9 +9,10 @@
     <result column="path" jdbcType="VARCHAR" property="path" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="content_type" jdbcType="VARCHAR" property="contentType" />
+    <result column="extension" jdbcType="VARCHAR" property="extension" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, name, task_id, photo_type, path, create_time, content_type
+    id, name, task_id, photo_type, path, create_time, content_type, extension
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
@@ -26,12 +27,12 @@
   <insert id="insert" parameterType="com.hongrui.survey.core.entity.Photo">
     insert into photo (id, name, task_id, 
       photo_type, path, create_time, 
-      content_type)
+      content_type, extension)
     values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{taskId,jdbcType=BIGINT}, 
       #{photoType,jdbcType=BIGINT}, #{path,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{contentType,jdbcType=VARCHAR})
+      #{contentType,jdbcType=VARCHAR}, #{extension,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.hongrui.survey.core.entity.Photo" useGeneratedKeys="true" keyProperty="id">
+  <insert id="insertSelective" parameterType="com.hongrui.survey.core.entity.Photo">
     insert into photo
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -54,6 +55,9 @@
       </if>
       <if test="contentType != null">
         content_type,
+      </if>
+      <if test="extension != null">
+        extension,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -78,6 +82,9 @@
       <if test="contentType != null">
         #{contentType,jdbcType=VARCHAR},
       </if>
+      <if test="extension != null">
+        #{extension,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.hongrui.survey.core.entity.Photo">
@@ -101,6 +108,9 @@
       <if test="contentType != null">
         content_type = #{contentType,jdbcType=VARCHAR},
       </if>
+      <if test="extension != null">
+        extension = #{extension,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -111,7 +121,8 @@
       photo_type = #{photoType,jdbcType=BIGINT},
       path = #{path,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
-      content_type = #{contentType,jdbcType=VARCHAR}
+      content_type = #{contentType,jdbcType=VARCHAR},
+      extension = #{extension,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <select id="selectCount" parameterType="com.hongrui.survey.core.entity.Photo" resultType="java.lang.Integer">
@@ -137,6 +148,9 @@
       </if>
       <if test="contentType != null">
         and content_type = #{contentType,jdbcType=VARCHAR}
+      </if>
+      <if test="extension != null">
+        and extension = #{extension,jdbcType=VARCHAR}
       </if>
     </where>
   </select>
@@ -164,6 +178,9 @@
     </if>
     <if test="param1.contentType != null">
       and content_type = #{param1.contentType,jdbcType=VARCHAR}
+    </if>
+    <if test="param1.extension != null">
+      and extension = #{param1.extension,jdbcType=VARCHAR}
     </if>
     <if test="param2.sort != null">
       order by 

@@ -10,9 +10,10 @@
     <result column="content_type" jdbcType="VARCHAR" property="contentType" />
     <result column="type" jdbcType="INTEGER" property="type" />
     <result column="sequence" jdbcType="INTEGER" property="sequence" />
+    <result column="extension" jdbcType="VARCHAR" property="extension" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, name, task_id, path, create_time, content_type, type, sequence
+    id, name, task_id, path, create_time, content_type, type, sequence, extension
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
@@ -27,12 +28,14 @@
   <insert id="insert" parameterType="com.hongrui.survey.core.entity.Audio">
     insert into audio (id, name, task_id, 
       path, create_time, content_type, 
-      type, sequence)
+      type, sequence, extension
+      )
     values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{taskId,jdbcType=BIGINT}, 
       #{path,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{contentType,jdbcType=VARCHAR}, 
-      #{type,jdbcType=INTEGER}, #{sequence,jdbcType=INTEGER})
+      #{type,jdbcType=INTEGER}, #{sequence,jdbcType=INTEGER}, #{extension,jdbcType=VARCHAR}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="com.hongrui.survey.core.entity.Audio" useGeneratedKeys="true" keyProperty="id">
+  <insert id="insertSelective" parameterType="com.hongrui.survey.core.entity.Audio">
     insert into audio
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -58,6 +61,9 @@
       </if>
       <if test="sequence != null">
         sequence,
+      </if>
+      <if test="extension != null">
+        extension,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -85,6 +91,9 @@
       <if test="sequence != null">
         #{sequence,jdbcType=INTEGER},
       </if>
+      <if test="extension != null">
+        #{extension,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.hongrui.survey.core.entity.Audio">
@@ -111,6 +120,9 @@
       <if test="sequence != null">
         sequence = #{sequence,jdbcType=INTEGER},
       </if>
+      <if test="extension != null">
+        extension = #{extension,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -122,7 +134,8 @@
       create_time = #{createTime,jdbcType=TIMESTAMP},
       content_type = #{contentType,jdbcType=VARCHAR},
       type = #{type,jdbcType=INTEGER},
-      sequence = #{sequence,jdbcType=INTEGER}
+      sequence = #{sequence,jdbcType=INTEGER},
+      extension = #{extension,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <select id="selectCount" parameterType="com.hongrui.survey.core.entity.Audio" resultType="java.lang.Integer">
@@ -151,6 +164,9 @@
       </if>
       <if test="sequence != null">
         and sequence = #{sequence,jdbcType=INTEGER}
+      </if>
+      <if test="extension != null">
+        and extension = #{extension,jdbcType=VARCHAR}
       </if>
     </where>
   </select>
@@ -181,6 +197,9 @@
     </if>
     <if test="param1.sequence != null">
       and sequence = #{param1.sequence,jdbcType=INTEGER}
+    </if>
+    <if test="param1.extension != null">
+      and extension = #{param1.extension,jdbcType=VARCHAR}
     </if>
     <if test="param2.sort != null">
       order by 

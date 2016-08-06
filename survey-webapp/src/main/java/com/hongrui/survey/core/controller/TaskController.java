@@ -91,6 +91,8 @@ public class TaskController {
 		TaskDetailModel td = taskService.taskDetail(id);
 		model.addAttribute("td", td);
 
+		model.addAttribute("surveyor",userService.findByPrimaryKey(td.getSurveyorId()));
+
 		// sign
 		SignModel sign = signService.getByTaskId(id);
 		model.addAttribute("sign", sign);

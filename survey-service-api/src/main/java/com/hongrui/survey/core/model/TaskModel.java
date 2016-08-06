@@ -17,7 +17,7 @@ public class TaskModel{
 	private Integer status;
 	private Date startTime;
 	private Date endTime;
-	private String pixel;
+	private Date commitTime;
 		
 	public void setId(Long id){
 		this.id = id;
@@ -106,13 +106,14 @@ public class TaskModel{
 	public Date getEndTime(){
 		return this.endTime;
 	}
-
-
-	public void setPixel(String pixel) {
-		this.pixel = pixel;
+		
+	public void setCommitTime(Date commitTime){
+		this.commitTime = commitTime;
 	}
-
-	public String getPixel() {
-		return pixel;
+	
+	public Date getCommitTime(){
+		return this.commitTime;
 	}
+		
+		
 }

@@ -1,7 +1,9 @@
 package com.hongrui.survey.core.controller;
 
 import com.hongrui.survey.core.RandomUtil;
+import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,6 +51,8 @@ public class PhotoRestApiController {
 
     @GetMapping(value = "/photo/{id}")
     public void getPhotoById(@PathVariable Long id,
+                             @RequestParam(value = "width", required = false) Integer width,
+                             @RequestParam(value = "height", required = false) Integer height,
                              HttpServletResponse response) {
 
         PhotoModel photoModel = photoService.findByPrimaryKey(id);
@@ -58,7 +62,44 @@ public class PhotoRestApiController {
         try {
             outputStream = response.getOutputStream();
             inputStream = FileUtils.openInputStream(new File(baseDirectory + "/" + photoModel.getPath()));
-            IOUtils.copy(inputStream, outputStream);
+            if (null == width && null == height) {
+                IOUtils.copy(inputStream, outputStream);
+            } else {
+                Thumbnails.of(inputStream)
+                        .size(width, height)
+                        .toOutputStream(outputStream);
+            }
+
+        } catch (IOException e) {
+            logger.error("expected error ", e);
+        } finally {
+            IOUtils.closeQuietly(inputStream);
+            IOUtils.closeQuietly(outputStream);
+        }
+
+    }
+
+    @GetMapping(value = "/photo/jpg/{path:.+}")
+    public void getPhotoExtensionById(@PathVariable String path,
+                             @RequestParam(value = "width", required = false) Integer width,
+                             @RequestParam(value = "height", required = false) Integer height,
+                             HttpServletResponse response) {
+
+        path=path.substring(0,path.indexOf("."));
+        PhotoModel photoModel = photoService.findByPrimaryKey(Long.parseLong(path));
+        response.setContentType(photoModel.getContentType());
+        OutputStream outputStream = null;
+        InputStream inputStream = null;
+        try {
+            outputStream = response.getOutputStream();
+            inputStream = FileUtils.openInputStream(new File(baseDirectory + "/" + photoModel.getPath()));
+            if (null == width && null == height) {
+                IOUtils.copy(inputStream, outputStream);
+            } else {
+                Thumbnails.of(inputStream)
+                        .size(width, height)
+                        .toOutputStream(outputStream);
+            }
 
         } catch (IOException e) {
             logger.error("expected error ", e);
@@ -71,9 +112,9 @@ public class PhotoRestApiController {
 
 
     @PostMapping(value = "/{taskId}/{photoType}/photo")
-    public ResponseEnvelope<Integer> uploadPhoto(@RequestParam MultipartFile file,
-                                                 @PathVariable Long taskId,
-                                                 @PathVariable Long photoType) {
+    public ResponseEnvelope<Long> uploadPhoto(@RequestParam MultipartFile file,
+                                              @PathVariable Long taskId,
+                                              @PathVariable Long photoType) {
         PhotoModel photoModel = new PhotoModel();
         photoModel.setCreateTime(new Date());
         photoModel.setName(file.getName());
@@ -83,6 +124,7 @@ public class PhotoRestApiController {
         String filename = RandomUtil.createRandom(true, 12);
         String path = baseDirectory + "/" + filename;
         photoModel.setPath(filename);
+        photoModel.setExtension(FilenameUtils.getExtension(file.getOriginalFilename()));
         OutputStream outputStream = null;
         InputStream inputStream = null;
         try {
@@ -97,8 +139,8 @@ public class PhotoRestApiController {
             IOUtils.closeQuietly(outputStream);
         }
 
-        Integer result = photoService.createSelective(photoModel);
-        ResponseEnvelope<Integer> responseEnv = new ResponseEnvelope<>(result, true);
+        photoService.createSelective(photoModel);
+        ResponseEnvelope<Long> responseEnv = new ResponseEnvelope<>(photoModel.getId(), true);
         return responseEnv;
     }
 
@@ -108,6 +150,7 @@ public class PhotoRestApiController {
         ResponseEnvelope<String> responseEnv = new ResponseEnvelope<>("ok", true);
         return responseEnv;
     }
+
 
 
 }

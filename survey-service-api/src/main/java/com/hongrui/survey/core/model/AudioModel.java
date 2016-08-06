@@ -14,6 +14,7 @@ public class AudioModel{
 	private String contentType;
 	private Integer type;
 	private Integer sequence;
+	private String extension;
 		
 	public void setId(Long id){
 		this.id = id;
@@ -77,6 +78,14 @@ public class AudioModel{
 	
 	public Integer getSequence(){
 		return this.sequence;
+	}
+		
+	public void setExtension(String extension){
+		this.extension = extension;
+	}
+	
+	public String getExtension(){
+		return this.extension;
 	}
 		
 		

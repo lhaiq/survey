@@ -7,7 +7,7 @@
     <div class="col-xs-12">
         <div class="page-header">
             <h1>调查任务管理
-                <small><i class="ace-icon fa fa-angle-double-right"></i> &nbsp;调查任务列表</small>
+                <small><i class="ace-icon fa fa-angle-double-right"></i> &nbsp;调查任务列表${data.size}</small>
             </h1>
         </div>
         <div class="table-header">
@@ -17,13 +17,14 @@
             <div class="row">
                 <div class="col-xs-6">
                     <div class="dataTables_length" id="sample-table-2_length">
-                        <label>Display <select name="sample-table-2_length" aria-controls="sample-table-2"
-                                               class="form-control input-sm">
-                            <option value="10">10</option>
-                            <option value="25">25</option>
-                            <option value="50">50</option>
-                            <option value="100">100</option>
-                        </select> records</label></div>
+                        <label>Display
+                            <select id="page_size" name="sample-table-2_length" aria-controls="sample-table-2"
+                                    class="form-control input-sm">
+                                <option value="10" <c:if test="${data.size==10}">selected</c:if>>10</option>
+                                <option value="20" <c:if test="${data.size==20}">selected</c:if>>20</option>
+                                <option value="50" <c:if test="${data.size==50}">selected</c:if>>50</option>
+                                <option value="100" <c:if test="${data.size==100}">selected</c:if>>100</option>
+                            </select> records</label></div>
                 </div>
                 <div class="col-xs-6">
                     <div id="sample-table-2_filter" class="dataTables_filter"><label>Search:<input type="search"
@@ -66,7 +67,7 @@
 
                     <tbody>
 
-                    <c:forEach var="item" varStatus="i" items="${data.content}" begin="0" end="10">
+                    <c:forEach var="item" items="${data.content}">
                         <td class="hidden-480">${item.customerName}</td>
                         <td class="hidden-480">${item.account}</td>
                         <td class="hidden-480">${item.type}</td>
@@ -86,12 +87,12 @@
                         <td class="hidden-480">${item.point}</td>
                         <td>
                             <div class="hidden-sm hidden-xs action-buttons">
-                                <c:if test="${sessionScope.user.role==1}">
+                                <%--<c:if test="${sessionScope.user.role==1}">--%>
                                     <a class="black" href="javascript:link('/survey/task/report/${item.id}')">
                                         <i class="ace-icon fa fa-eye bigger-130" title="查看报告"></i>
                                     </a>
 
-                                </c:if>
+                                <%--</c:if>--%>
                                 <c:if test="${sessionScope.user.role==3}">
                                     <a class="blue" href="javascript:deleteById(${item.id})">
                                         <i class="ace-icon glyphicon glyphicon-repeat bigger-130" title="重新分配"></i>
@@ -128,18 +129,18 @@
                             <li class="paginate_button previous <c:if test="${data.firstPage}">disabled</c:if>"
                                 aria-controls="sample-table-2" tabindex="0"
                                 id="sample-table-2_previous"><a
-                                    href="javascript:link('/survey/core/task?page=${data.number-1}')">上一页</a></li>
+                                    href="javascript:link('/survey/core/task?page=${data.number-1}&size=${data.size}')">上一页</a></li>
 
                             <c:forEach var="i" begin="1" end="${data.totalPages}">
                                 <li class="paginate_button <c:if test="${i-1==data.number}">active</c:if>"
                                     aria-controls="sample-table-2" tabindex="0"><a
-                                        href="javascript:link('/survey/core/task?page=${i-1}')">${i}</a></li>
+                                        href="javascript:link('/survey/core/task?page=${i-1}&size=${data.size}')">${i}</a></li>
                             </c:forEach>
 
                             <li class="paginate_button next <c:if test="${data.lastPage}">disabled</c:if>"
                                 aria-controls="sample-table-2" tabindex="0"
                                 id="sample-table-2_next"><a
-                                    href="javascript:link('/survey/core/task?page=${data.number+1}')">下一页</a></li>
+                                    href="javascript:link('/survey/core/task?page=${data.number+1}&size=${data.size}')">下一页</a></li>
                         </ul>
                     </div>
                 </div>
@@ -155,9 +156,17 @@
             url: "/survey/task/" + id,
             success: function (data) {
                 if (data.status) {
-                    javascript:link('/survey/core/task?page=${data.number}')
+                    link('/survey/core/task?page=${data.number}')
                 }
             }
         });
     }
+
+    $(document).ready(function () {
+        $('#page_size').change(function () {
+            var size = $(this).children('option:selected').val();//这就是selected的值
+            link('/survey/core/task?page=${data.number}&size=' + size)
+        })
+    })
+
 </script>

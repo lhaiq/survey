@@ -13,10 +13,11 @@
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
     <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="commit_time" jdbcType="TIMESTAMP" property="commitTime" />
   </resultMap>
   <sql id="Base_Column_List">
     id, surveyor_id, customer_id, create_time, check_time, comment, point, type, status, 
-    start_time, end_time
+    start_time, end_time, commit_time
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
@@ -32,11 +33,13 @@
     insert into task (id, surveyor_id, customer_id, 
       create_time, check_time, comment, 
       point, type, status, 
-      start_time, end_time)
+      start_time, end_time, commit_time
+      )
     values (#{id,jdbcType=BIGINT}, #{surveyorId,jdbcType=BIGINT}, #{customerId,jdbcType=BIGINT}, 
       #{createTime,jdbcType=TIMESTAMP}, #{checkTime,jdbcType=TIMESTAMP}, #{comment,jdbcType=VARCHAR}, 
       #{point,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
-      #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP})
+      #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{commitTime,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.hongrui.survey.core.entity.Task">
     insert into task
@@ -74,6 +77,9 @@
       <if test="endTime != null">
         end_time,
       </if>
+      <if test="commitTime != null">
+        commit_time,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -108,6 +114,9 @@
       </if>
       <if test="endTime != null">
         #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="commitTime != null">
+        #{commitTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -144,6 +153,9 @@
       <if test="endTime != null">
         end_time = #{endTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="commitTime != null">
+        commit_time = #{commitTime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -158,7 +170,8 @@
       type = #{type,jdbcType=VARCHAR},
       status = #{status,jdbcType=INTEGER},
       start_time = #{startTime,jdbcType=TIMESTAMP},
-      end_time = #{endTime,jdbcType=TIMESTAMP}
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      commit_time = #{commitTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <select id="selectCount" parameterType="com.hongrui.survey.core.entity.Task" resultType="java.lang.Integer">
@@ -196,6 +209,9 @@
       </if>
       <if test="endTime != null">
         and end_time = #{endTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="commitTime != null">
+        and commit_time = #{commitTime,jdbcType=TIMESTAMP}
       </if>
     </where>
   </select>
@@ -235,6 +251,9 @@
     </if>
     <if test="param1.endTime != null">
       and end_time = #{param1.endTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="param1.commitTime != null">
+      and commit_time = #{param1.commitTime,jdbcType=TIMESTAMP}
     </if>
     <if test="param2.sort != null">
       order by 
