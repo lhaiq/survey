@@ -52,9 +52,9 @@
     </div>
     <!-- /.sidebar-shortcuts -->
     <!--下拉导航开始-->
-    <ul class="nav nav-list">
+    <ul class="nav nav-list" id="nav-list">
         <c:if test="${sessionScope.user.role==2}">
-            <li class="">
+            <li class="active">
                 <a href="#" class="dropdown-toggle">
                     <i class="menu-icon fa fa-user"></i>
                     <span class="menu-text">评审员管理</span>
@@ -191,7 +191,7 @@
 
             <ul class="submenu">
                 <c:if test="${sessionScope.user.role==2}">
-                    <li class="">
+                    <li class="active">
                         <a href="javascript:link('/survey/task/addTypeUI')">
                             <i class="menu-icon fa fa-caret-right"></i>
                             添加任务类型
@@ -265,7 +265,7 @@
 
                 <ul class="submenu">
 
-                    <li class="">
+                    <li class="active">
                         <a href="javascript:link('/survey/photoType/addUI')">
                             <i class="menu-icon fa fa-caret-right"></i>
                             添加照片类型
@@ -306,7 +306,6 @@
     </script>
 
     <script type="text/javascript">
-
 
 
         function link(url) {

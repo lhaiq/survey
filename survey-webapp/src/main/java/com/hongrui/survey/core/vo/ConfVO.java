@@ -10,6 +10,7 @@ public class ConfVO{
 	private String photoType;
 	private String template;
 	private String type;
+	private String pixel;
 	private String content;
 		
 	public void setId(Long id){
@@ -59,6 +60,12 @@ public class ConfVO{
 	public String getContent(){
 		return this.content;
 	}
-		
 
+	public void setPixel(String pixel) {
+		this.pixel = pixel;
+	}
+
+	public String getPixel() {
+		return pixel;
+	}
 }

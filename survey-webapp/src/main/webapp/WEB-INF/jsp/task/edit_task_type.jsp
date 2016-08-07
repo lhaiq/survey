@@ -126,7 +126,7 @@
                         </button>
 
                         &nbsp; &nbsp; &nbsp;
-                        <button class="btn btn-xs btn-success" onclick="doUndoAll()">
+                        <button class="btn btn-xs btn-success" onclick="rest()">
                             <i class="ace-icon fa fa-undo bigger-110">重置</i>
                         </button>
                     </div>
@@ -201,7 +201,7 @@
     }
 
     function reset() {
-        ('.form-horizontal')[0].reset()
+        $('.form-horizontal')[0].reset()
     }
 
     function validate() {

@@ -3,7 +3,7 @@
 
 <div class="page-header">
     <h1>调查任务管理
-        <small><i class="ace-icon fa fa-angle-double-right"></i> &nbsp;重新调查任务</small>
+        <small><i class="ace-icon fa fa-angle-double-right"></i> &nbsp;重新分配调查任务</small>
     </h1>
 </div>
 <div class="row">
@@ -87,7 +87,7 @@
                         </button>
 
                         &nbsp; &nbsp; &nbsp;
-                        <button class="btn btn-xs btn-success" onclick="doUndoAll()">
+                        <button class="btn btn-xs btn-success" onclick="reset()">
                             <i class="ace-icon fa fa-undo bigger-110">重置</i>
                         </button>
                     </div>
@@ -97,6 +97,10 @@
     </div>
 </div>
 <script type="text/javascript">
+
+    function reset() {
+        $('.form-horizontal')[0].reset()
+    }
     function onSubmit() {
 
         $('.form-horizontal').ajaxSubmit({

@@ -1,6 +1,7 @@
 package com.hongrui.survey.core.controller;
 
 import com.hongrui.survey.core.ConfType;
+import com.hongrui.survey.core.annotation.IgnoreAuth;
 import com.hongrui.survey.core.model.ConfModel;
 import com.hongrui.survey.core.service.ConfService;
 import com.hongrui.survey.core.service.TaskService;
@@ -41,6 +42,7 @@ public class TemplateController {
         return "template/add_template";
     }
 
+    @IgnoreAuth
     @GetMapping(value = "/core/task/template/{id}")
     public String taskTemplate(@PathVariable Long id, Model model) {
         model.addAttribute("data", taskService.taskTemplate(id));

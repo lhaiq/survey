@@ -22,6 +22,7 @@
                 </div>
             </div>
             <input type="hidden" class="form-control" name="type" value="1"/>
+
             <div class="form-group">
                 <label class="col-sm-4 control-label no-padding-right" for="form-field-1">像素<label
                         style="color: red;">&nbsp;*</label> </label>
@@ -67,17 +68,22 @@
 
 <script type="text/javascript">
 
+    $(document).ready(function () {
+        validate();
+    });
+
 
     function reset() {
-        ('.form-horizontal')[0].reset()
+        $('.form-horizontal')[0].reset()
     }
+
 
     function validate() {
         return $(".form-horizontal").validate({
             rules: {
                 name: {
                     required: true,
-                    remote: "/survey/conf/validate/2"
+                    remote: "/survey/conf/validate/1"
                 },
                 file: {
                     required: true
@@ -96,9 +102,6 @@
         });
     }
 
-    $(document).ready(function () {
-        validate();
-    });
 
     function onSubmit() {
 

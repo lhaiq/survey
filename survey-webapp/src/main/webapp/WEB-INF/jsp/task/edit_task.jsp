@@ -89,7 +89,7 @@
                         </button>
 
                         &nbsp; &nbsp; &nbsp;
-                        <button class="btn btn-xs btn-success" onclick="doUndoAll()">
+                        <button class="btn btn-xs btn-success" onclick="reset()">
                             <i class="ace-icon fa fa-undo bigger-110">重置</i>
                         </button>
                     </div>
@@ -99,6 +99,11 @@
     </div>
 </div>
 <script type="text/javascript">
+
+    function reset() {
+        $('.form-horizontal')[0].reset()
+    }
+
     function onSubmit() {
 
         $('.form-horizontal').ajaxSubmit({

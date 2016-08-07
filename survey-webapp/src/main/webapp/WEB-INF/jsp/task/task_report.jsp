@@ -22,7 +22,8 @@
                                 <span class="invoice-info-label">调查人员:</span> <span
                                     class="red">${surveyor.account} </span> <br/> <span
                                     class="invoice-info-label">调研日期:</span> <span
-                                    class="blue">2018</span>
+                                    class="blue"><fmt:formatDate value="${td.startTime}"
+                                                                 pattern="yyyy-MM-dd"/></span>
                             </div>
                         </div>
                     </div>
@@ -68,7 +69,7 @@
 
 
                         <div>
-                            <h3 class="widget-title grey lighter">调研报告及结论</h3>
+                            <h3 class="widget-title grey lighter">客户信息</h3>
                         </div>
                         <div class="hr hr8  hr-dotted"></div>
 
@@ -86,7 +87,43 @@
                                 <div class="profile-info-name">调查类型</div>
 
                                 <div class="profile-info-value">
-                                    <span class="editable" id="age">${td.type}</span>
+                                    <span class="editable">${td.type}</span>
+                                </div>
+                            </div>
+
+                            <div class="profile-info-row">
+                                <div class="profile-info-name">客户手机</div>
+
+                                <div class="profile-info-value">
+                                    <span class="editable">${td.customer.mobileNumber}</span>
+                                </div>
+                            </div>
+                            <div class="profile-info-row">
+                                <div class="profile-info-name">客户座机</div>
+
+                                <div class="profile-info-value">
+                                    <span class="editable">${td.customer.telephoneNumber}</span>
+                                </div>
+                            </div>
+                            <div class="profile-info-row">
+                                <div class="profile-info-name">客户身份证</div>
+
+                                <div class="profile-info-value">
+                                    <span class="editable">${td.customer.idCard}</span>
+                                </div>
+                            </div>
+                            <div class="profile-info-row">
+                                <div class="profile-info-name">客户公司</div>
+
+                                <div class="profile-info-value">
+                                    <span class="editable">${td.customer.company}</span>
+                                </div>
+                            </div>
+                            <div class="profile-info-row">
+                                <div class="profile-info-name">客户地址</div>
+
+                                <div class="profile-info-value">
+                                    <span class="editable">${td.customer.address}</span>
                                 </div>
                             </div>
                         </div>
@@ -191,7 +228,7 @@
                     </div>
                     <div class="hr hr8  hr-dotted"></div>
                     <div>
-                        <textarea class="autosize-transition form-control" id="textarea_comment"></textarea>
+                        <textarea class="autosize-transition form-control" id="textarea_comment">${td.comment}</textarea>
                     </div>
                     <br/>
 
@@ -287,14 +324,14 @@
 
     function fileReport(reportDiv) {
         var reportId = reportDiv.attr("reportId");
-        alert(reportId)
         if (reportId != '') {
             $.ajax({
                 type: "get",
                 url: "/survey/report/" + reportId,
                 success: function (data) {
                     if (data.status) {
-                        var content = data.data.content.parseJSON();
+                        var content = JSON.parse(data.data.content);
+                        console.log(content)
                         $.each(content, function (key, value) {
                             var element = $("#" + key);
                             if (element.is('input')) {
@@ -339,7 +376,7 @@
             var dialog = $("#dialog-message" + name).removeClass('hide').dialog({
                 width: 800,
                 modal: true,
-                title: "<div class='widget-header widget-header-small'><h4 class='smaller'><i class='ace-icon fa fa-check'>" + name + "</i></h4></div>",
+                title: "<div class='widget-header widget-header-small'><h4 class='smaller'><i class='ace-icon fa fa-check'>" + 表格预览 + "</i></h4></div>",
                 title_html: true,
                 buttons: [
                     {

@@ -58,4 +58,7 @@
 	<script src="assets/js/html5shiv.min.js"></script>
 	<script src="assets/js/respond.min.js"></script>
 	<![endif]-->
+	<style>
+		label.error{margin-left: 10px; color: red;}
+	</style>
 </head>

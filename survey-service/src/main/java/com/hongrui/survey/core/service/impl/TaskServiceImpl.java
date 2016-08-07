@@ -279,6 +279,7 @@ public class TaskServiceImpl implements TaskService {
             Long templateId = jsonArray.getLong(i);
             String name = jdbcTemplate.queryForObject("select name from conf where id = ?", String.class, templateId);
             String template = jdbcTemplate.queryForObject("select content from conf where id = ?", String.class, templateId);
+            template=template.replace("templateId","templateId-"+templateId);
             ReportConfModel reportConfModel = new ReportConfModel();
             reportConfModel.setTemplate(template);
             reportConfModel.setTemplateId(templateId);

@@ -11,7 +11,7 @@
         <form class="form-horizontal" action="/survey/conf/${data.id}" method="post"
               onsubmit="return false">
             <!-- #section:elements.form -->
-            <input type="hidden" name="_method" value="put" />
+
             <div class="form-group">
                 <label class="col-sm-4 control-label no-padding-right" for="form-field-1">类型名<label
                         style="color: red;">&nbsp;*</label> </label>
@@ -22,6 +22,7 @@
                     </div>
                 </div>
             </div>
+            <input type="hidden" name="_method" value="put" />
             <input type="hidden" class="form-control" name="type" value="1"/>
             <div class="form-group">
                 <label class="col-sm-4 control-label no-padding-right" for="form-field-1">像素<label
@@ -80,7 +81,7 @@
 
 
     function reset() {
-        ('.form-horizontal')[0].reset()
+        $('.form-horizontal')[0].reset()
     }
 
     function validate() {

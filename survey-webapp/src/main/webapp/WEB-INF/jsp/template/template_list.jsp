@@ -34,7 +34,7 @@
                         <td>
                             <div class="hidden-sm hidden-xs action-buttons">
 
-                                <a class="dialogMessage" href="#modal-form" href="#" name="${i}" role="button">
+                                <a class="dialogMessage" href="#modal-form" href="#" name="${i.count}" role="button">
                                     <i class="ace-icon fa fa-eye bigger-130"></i>
                                 </a>
 
@@ -42,12 +42,10 @@
                                     <i class="ace-icon fa fa-trash-o bigger-130"></i>
                                 </a>
 
-                                <div id="dialog-message${i}" class="hide">
+                                <div id="dialog-message${i.count}" class="hide">
                                     <div>
-                                            <%--${item.content}--%>
-                                        <div>
+                                            ${item.content}
 
-                                        </div>
                                     </div>
 
                                     <div class="hidden-md hidden-lg">

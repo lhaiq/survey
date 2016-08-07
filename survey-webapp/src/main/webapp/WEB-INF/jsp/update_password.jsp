@@ -63,7 +63,7 @@
                         </button>
 
                         &nbsp; &nbsp; &nbsp;
-                        <button class="btn btn-xs btn-success" onclick="reset1();" style="width:81px">
+                        <button class="btn btn-xs btn-success" onclick="reset();" style="width:81px">
                             <i class="ace-icon fa fa-undo bigger-110">重置</i>
                         </button>
                     </div>
@@ -74,10 +74,8 @@
 </div>
 
 <script type="text/javascript">
-    function reset1() {
-//        ('.form-horizontal')[0].reset()
-
-
+    function reset() {
+        $('.form-horizontal')[0].reset();
     }
 
     function validate() {
@@ -135,6 +133,7 @@
             success: function (data) {
                 if (data.status) {
                     $("#alert-success").removeClass("hide");
+                    reset();
                 }
             }
         });

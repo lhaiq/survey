@@ -77,7 +77,7 @@
 <script type="text/javascript">
 
     function reset(){
-        ('.form-horizontal')[0].reset()
+        $('.form-horizontal')[0].reset()
     }
 
     function validate() {

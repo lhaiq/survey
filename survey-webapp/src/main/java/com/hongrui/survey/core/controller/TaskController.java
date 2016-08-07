@@ -86,10 +86,13 @@ public class TaskController {
 	@GetMapping(value = "/task/report/{id}")
 	public String taskReport(@PathVariable Long id, Model model) {
 		//更新状态
-		TaskModel param = new TaskModel();
-		param.setId(id);
-		param.setStatus(TaskStatus.CHECKING.getCode());
-		taskService.updateByPrimaryKeySelective(param);
+		TaskModel taskModel = taskService.findByPrimaryKey(id);
+		if(TaskStatus.COMMIT.getCode()==taskModel.getStatus()){
+			TaskModel param = new TaskModel();
+			param.setId(id);
+			param.setStatus(TaskStatus.CHECKING.getCode());
+			taskService.updateByPrimaryKeySelective(param);
+		}
 
 		// task details
 		TaskDetailModel td = taskService.taskDetail(id);
@@ -100,14 +103,6 @@ public class TaskController {
 		// sign
 		SignModel sign = signService.getByTaskId(id);
 		model.addAttribute("sign", sign);
-
-		// photo
-		// Map<Long, List<PhotoModel>> pt = photoService.getPhotoAndTypeByTaskId(id);
-		// model.addAttribute("pt", pt);
-
-		// reports
-
-		// model.addAttribute("fms", fms);
 
 		return "task/task_report";
 	}
