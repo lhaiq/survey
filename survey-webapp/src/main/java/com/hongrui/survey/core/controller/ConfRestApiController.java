@@ -1,29 +1,25 @@
 package com.hongrui.survey.core.controller;
 
 import com.hongrui.survey.core.ConfType;
+import com.hongrui.survey.core.model.ConfModel;
 import com.hongrui.survey.core.model.TaskTypeModel;
+import com.hongrui.survey.core.service.ConfService;
+import com.hongrui.survey.core.vo.ConfVO;
+import com.wlw.pylon.core.beans.mapping.BeanMapper;
+import com.wlw.pylon.web.rest.ResponseEnvelope;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-
-import com.wlw.pylon.core.beans.mapping.BeanMapper;
-import com.wlw.pylon.web.rest.ResponseEnvelope;
-import com.wlw.pylon.web.rest.annotation.RestApiController;
-
-import com.hongrui.survey.core.service.ConfService;
-import com.hongrui.survey.core.model.ConfModel;
-import com.hongrui.survey.core.vo.ConfVO;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Map;
 
@@ -45,6 +41,22 @@ public class ConfRestApiController {
         long count = confService.selectConfCount();
         Page<Map<String, Object>> page = new PageImpl<>(maps, pageable, count);
         ResponseEnvelope<Page<Map<String, Object>>> responseEnv = new ResponseEnvelope<>(page, true);
+        return responseEnv;
+    }
+
+    @PostMapping(value = "/conf")
+    public ResponseEnvelope<String> createTaskType(@RequestBody TaskTypeModel taskTypeModel) {
+        confService.createTaskType(taskTypeModel);
+        ResponseEnvelope<String> responseEnv = new ResponseEnvelope<>("ok", true);
+        return responseEnv;
+    }
+
+    @PostMapping(value = "/conf/{id}")
+    public ResponseEnvelope<String> updateTaskType(@PathVariable Long id,
+            @RequestBody TaskTypeModel taskTypeModel) {
+//        confService.createTaskType(taskTypeModel);
+        //TODO
+        ResponseEnvelope<String> responseEnv = new ResponseEnvelope<>("ok", true);
         return responseEnv;
     }
 
@@ -93,15 +105,23 @@ public class ConfRestApiController {
         return responseEnv;
     }
 
-    @GetMapping(value = "/template")
-    public ResponseEnvelope<Page<ConfModel>> selectTemplate(Pageable pageable) {
-        ConfModel param = new ConfModel();
-        param.setType(ConfType.TEMPLATE.getType());
-        List<ConfModel> content = confService.selectPage(param, pageable);
-        long count = confService.selectCount(param);
-        Page<ConfModel> page = new PageImpl<>(content, pageable, count);
-        ResponseEnvelope<Page<ConfModel>> responseEnv = new ResponseEnvelope<>(page, true);
-        return responseEnv;
+    @GetMapping(value = "/conf/validate/{type}")
+    public void validateConf(@PathVariable Integer type,
+                             @RequestParam String name,
+                             HttpServletResponse response) {
+        try {
+            name = new String(name.getBytes("ISO-8859-1"), "utf-8");
+            ConfModel param = new ConfModel();
+            param.setType(type);
+            param.setName(name);
+            long count = confService.selectCount(param);
+            response.getWriter().write(String.valueOf(count == 0 ? true : false));
+            response.getWriter().close();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 

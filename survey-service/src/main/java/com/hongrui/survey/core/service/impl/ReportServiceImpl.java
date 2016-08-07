@@ -1,5 +1,6 @@
 package com.hongrui.survey.core.service.impl;
 
+import com.hongrui.survey.core.service.TaskService;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -25,6 +26,9 @@ public class ReportServiceImpl implements ReportService {
 	@Autowired
 	private ReportRepository reportRepo;
 
+	@Autowired
+	private TaskService taskService;
+
 	@Transactional
 	@Override
 	public int create(ReportModel reportModel) {
@@ -40,6 +44,7 @@ public class ReportServiceImpl implements ReportService {
 	@Transactional
 	@Override
 	public void submitReports(Long taskId, List<ReportModel> reportModels) {
+		taskService.checkCanEdit(taskId);
 		for (ReportModel reportModel : reportModels) {
 			reportModel.setTaskId(taskId);
 			reportModel.setCreateTime(new Date());

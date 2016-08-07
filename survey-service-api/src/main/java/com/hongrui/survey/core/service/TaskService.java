@@ -1,13 +1,9 @@
 
 package com.hongrui.survey.core.service;
 
-import com.hongrui.survey.core.model.PhotoConfModel;
 import com.hongrui.survey.core.model.ReportConfModel;
 import com.hongrui.survey.core.model.TaskDetailModel;
 import com.hongrui.survey.core.model.TaskModel;
-
-import java.util.Date;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -45,6 +41,8 @@ public interface TaskService {
     public Map<Long,Integer> taskStatus(List<Long> taskIds);
 
     public Map<String, ReportConfModel> taskTemplate(Long id);
+
+    public void checkCanEdit(Long id);
 
 
 

@@ -1,3 +1,7 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page language="java" import="java.util.*" pageEncoding="utf-8" %>
+
 <div class="row">
     <div class="col-xs-12">
         <div class="page-header">
@@ -25,50 +29,48 @@
                     </thead>
 
                     <tbody>
+                    <c:forEach var="item" varStatus="i" items="${data.content}">
+                        <td class="hidden-480">${item.name}</td>
+                        <td>
+                            <div class="hidden-sm hidden-xs action-buttons">
 
-                    {@each content as item,i}
-                    <td class="hidden-480">${item.name}</td>
-                    <td>
-                        <div class="hidden-sm hidden-xs action-buttons">
+                                <a class="dialogMessage" href="#modal-form" href="#" name="${i}" role="button">
+                                    <i class="ace-icon fa fa-eye bigger-130"></i>
+                                </a>
 
-                            <a class="dialogMessage" href="#modal-form" href="#" name="${i}" role="button">
-                                <i class="ace-icon fa fa-eye bigger-130"></i>
-                            </a>
+                                <a class="red" href="javascript:deleteById(${item.id})">
+                                    <i class="ace-icon fa fa-trash-o bigger-130"></i>
+                                </a>
 
-                            <a class="red" href="javascript:deleteById(${item.id})">
-                                <i class="ace-icon fa fa-trash-o bigger-130"></i>
-                            </a>
-
-                            <div id="dialog-message${i}" class="hide">
-                                <div>
-                                    ${item.content}
+                                <div id="dialog-message${i}" class="hide">
                                     <div>
+                                            <%--${item.content}--%>
+                                        <div>
 
+                                        </div>
                                     </div>
-                                </div>
 
-                                <div class="hidden-md hidden-lg">
-                                    <div class="inline position-relative">
+                                    <div class="hidden-md hidden-lg">
+                                        <div class="inline position-relative">
 
-                                        <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
-                                            <li>
-                                                <a href="#" class="tooltip-error" data-rel="tooltip" title=""
-                                                   data-original-title="Delete">
+                                            <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
+                                                <li>
+                                                    <a href="#" class="tooltip-error" data-rel="tooltip" title=""
+                                                       data-original-title="Delete">
                                             <span class="red">
                                                 <i class="ace-icon fa fa-trash-o bigger-120"></i>
                                             </span>
-                                                </a>
-                                            </li>
-                                        </ul>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </td>
-                    </tr>
+                        </td>
+                        </tr>
 
-                    {@/each}
-
+                    </c:forEach>
                     </tbody>
                 </table>
             </div>
@@ -76,27 +78,30 @@
             <div class="row">
                 <div class="col-xs-6">
                     <div class="dataTables_info" id="sample-table-2_info" role="status" aria-live="polite">
-                        总条数:${totalElements}
+                        总条数:${data.totalElements}
                     </div>
                 </div>
                 <div class="col-xs-6">
                     <div class="dataTables_paginate paging_simple_numbers" id="sample-table-2_paginate">
                         <ul class="pagination">
-                            <li class="paginate_button previous {@if firstPage}disabled{@/if}"
+                            <li class="paginate_button previous <c:if test="${data.firstPage}">disabled</c:if>"
                                 aria-controls="sample-table-2" tabindex="0"
                                 id="sample-table-2_previous"><a
-                                    href="javascript:link('/survey/syndic?page=${number-1}')">上一页</a></li>
+                                    href="javascript:link('/survey/manager?page=${data.number-1}')">上一页</a>
+                            </li>
 
-                            {@each i in range(0,totalPages)}
-                            <li class="paginate_button {@if i==number}active{@/if}"
-                                aria-controls="sample-table-2" tabindex="0"><a
-                                    href="javascript:link('/survey/user?page=${i}')">${i+1}</a></li>
-                            {@/each}
+                            <c:forEach var="i" begin="1" end="${data.totalPages}">
+                                <li class="paginate_button <c:if test="${i-1==data.number}">active</c:if>"
+                                    aria-controls="sample-table-2" tabindex="0"><a
+                                        href="javascript:link('/survey/manager?page=${i-1}')">${i}</a>
+                                </li>
+                            </c:forEach>
 
-                            <li class="paginate_button next {@if lastPage}disabled{@/if}"
+                            <li class="paginate_button next <c:if test="${data.lastPage}">disabled</c:if>"
                                 aria-controls="sample-table-2" tabindex="0"
                                 id="sample-table-2_next"><a
-                                    href="javascript:link('/survey/syndic?page=${number+1}')">下一页</a></li>
+                                    href="javascript:link('/survey/template?page=${data.number+1}')">下一页</a>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -109,12 +114,6 @@
 
 <script type="text/javascript">
 
-    $(function () {
-        $("#").on("click", function () {
-            var account = $("#userSearchInput").val();
-            link_template(routers.surveyor_list, {page:${number}, account: account});
-        });
-    });
 
     $(function ($) {
         $.widget("ui.dialog", $.extend({}, $.ui.dialog.prototype, {
@@ -155,7 +154,7 @@
             url: "/survey/conf/" + id,
             success: function (data) {
                 if (data.status) {
-                    link_template(routers.template_list, {page:${number}});
+                    link('/survey/template?page=${data.number}')
                 }
             }
         });

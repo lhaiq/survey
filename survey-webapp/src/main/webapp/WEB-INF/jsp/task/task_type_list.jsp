@@ -54,7 +54,7 @@
                             <div class="hidden-sm hidden-xs action-buttons">
 
 
-                                <a class="green" href="javascript:link('/survey/core/task/editTypeUI/${item.id}')">
+                                <a class="green" href="javascript:link('/survey/task/editTypeUI/${item.id}')">
                                     <i class="ace-icon fa fa-pencil bigger-130"></i>
                                 </a>
 

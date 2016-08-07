@@ -1,10 +1,14 @@
 package com.hongrui.survey.core.service.impl;
 
 import com.hongrui.survey.core.HRErrorCode;
+import com.hongrui.survey.core.model.CustomerModel;
 import com.wlw.pylon.core.ErrorCode;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -131,5 +135,38 @@ public class UserServiceImpl implements UserService {
         }
 
         return userModel;
+    }
+
+    public Page<UserModel> searchPage(UserModel userModel, Pageable pageable) {
+        StringBuffer sql = new StringBuffer();
+        String account = userModel.getAccount();
+        Integer role = userModel.getRole();
+        sql.append("select * from user ");
+        if (StringUtils.isNotEmpty(account)) {
+            sql.append(" where role = ? ");
+            sql.append(" and  account like '%" + account + "%'");
+        } else {
+            sql.append(" where role = ? ");
+        }
+
+
+        sql.append(" limit ? ,? ");
+
+        StringBuffer countSql = new StringBuffer();
+        countSql.append("select count(1) from user ");
+        if (StringUtils.isNotEmpty(account)) {
+            countSql.append(" where role = ? ");
+            countSql.append(" and  account like '%" + account + "%'");
+        } else {
+            countSql.append(" where role = ? ");
+        }
+
+
+        List<UserModel> content = jdbcTemplate.query(sql.toString(), new BeanPropertyRowMapper<>(UserModel.class), role,
+                pageable.getOffset(), pageable.getPageSize());
+        long count = jdbcTemplate.queryForObject(countSql.toString(), Long.class, role);
+        Page<UserModel> page = new PageImpl<>(content, pageable, count);
+
+        return page;
     }
 }

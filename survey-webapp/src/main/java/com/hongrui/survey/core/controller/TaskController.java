@@ -1,6 +1,7 @@
 package com.hongrui.survey.core.controller;
 
 import com.hongrui.survey.core.ConfType;
+import com.hongrui.survey.core.TaskStatus;
 import com.hongrui.survey.core.UserRole;
 import com.hongrui.survey.core.model.*;
 import com.hongrui.survey.core.service.*;
@@ -70,10 +71,6 @@ public class TaskController {
 		return "task/edit_task_type";
 	}
 
-	@GetMapping(value = "/template/addUI")
-	public String addTemplateUI() {
-		return "template/add_template";
-	}
 
 	@GetMapping(value = "/task/taskType")
 	public String listTaskType(Pageable pageable, Model model) {
@@ -86,6 +83,11 @@ public class TaskController {
 
 	@GetMapping(value = "/task/report/{id}")
 	public String taskReport(@PathVariable Long id, Model model) {
+		//更新状态
+		TaskModel param = new TaskModel();
+		param.setId(id);
+		param.setStatus(TaskStatus.CHECKING.getCode());
+		taskService.updateByPrimaryKeySelective(param);
 
 		// task details
 		TaskDetailModel td = taskService.taskDetail(id);
@@ -129,10 +131,18 @@ public class TaskController {
 		return "task/add_task";
 	}
 
-	@GetMapping(value = "/core/task/template/{id}")
-	public String taskTemplate(@PathVariable Long id, Model model) {
-		model.addAttribute("data", taskService.taskTemplate(id));
-		return "task/template";
+	@GetMapping(value = "/reallocateTaskUI/{customerId}")
+	public String reallocateTaskUI(@PathVariable Long customerId, Model model) {
+		ConfModel confParam = new ConfModel();
+		confParam.setType(ConfType.SURVEY.getType());
+		model.addAttribute("types", confService.selectPage(confParam, new PageRequest(0, Integer.MAX_VALUE)));
+
+		UserModel userParam = new UserModel();
+		userParam.setRole(UserRole.SURVEYOR.getCode());
+		model.addAttribute("surveyors", userService.selectPage(userParam, new PageRequest(0, Integer.MAX_VALUE)));
+
+		model.addAttribute("customer", customerService.findByPrimaryKey(customerId));
+		return "task/reallocate_task";
 	}
 
 	@GetMapping(value = "/editTaskUI/{id}")

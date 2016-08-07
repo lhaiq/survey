@@ -4,6 +4,7 @@ import com.google.common.cache.Cache;
 import com.hongrui.survey.core.HRErrorCode;
 import com.hongrui.survey.core.RandomUtil;
 import com.hongrui.survey.core.UserRole;
+import com.hongrui.survey.core.annotation.IgnoreAuth;
 import com.hongrui.survey.core.vo.UpdatePassVO;
 import com.hongrui.survey.core.vo.UserInfoVO;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -44,6 +45,7 @@ public class UserRestApiController {
     @Autowired
     private Cache<String, Long> sessionCache;
 
+    @IgnoreAuth
     @PostMapping(value = "/user/login")
     public ResponseEnvelope<UserInfoVO> userLogin(@RequestBody UserVO userVO) {
         UserModel userModel = beanMapper.map(userVO, UserModel.class);
@@ -78,6 +80,22 @@ public class UserRestApiController {
 
         UserModel param = new UserModel();
         param.setId(userId);
+        param.setPassword(DigestUtils.md5Hex(updatePassVO.getNewPassword()));
+        Integer result = userService.updateByPrimaryKeySelective(param);
+        ResponseEnvelope<Integer> responseEnv = new ResponseEnvelope<>(result, true);
+        return responseEnv;
+    }
+
+    @PostMapping(value = "/user/updatePass/{id}")
+    public ResponseEnvelope<Integer> updatePass(@PathVariable Long id,
+                                              @RequestBody UpdatePassVO updatePassVO) {
+        UserModel userModel = userService.findByPrimaryKey(id);
+        if (!DigestUtils.md5Hex(updatePassVO.getOldPassword()).equals(userModel.getPassword())) {
+            HRErrorCode.throwBusinessException(HRErrorCode.OLD_PASSWORD_INCORRECT);
+        }
+
+        UserModel param = new UserModel();
+        param.setId(id);
         param.setPassword(DigestUtils.md5Hex(updatePassVO.getNewPassword()));
         Integer result = userService.updateByPrimaryKeySelective(param);
         ResponseEnvelope<Integer> responseEnv = new ResponseEnvelope<>(result, true);

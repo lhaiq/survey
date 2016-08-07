@@ -46,10 +46,9 @@ public class SyndicController {
 
         UserModel param = beanMapper.map(userVO, UserModel.class);
         param.setRole(UserRole.SYNDIC.getCode());
-        List<UserModel> userModelModels = userService.selectPage(param, pageable);
-        long count = userService.selectCount(param);
-        Page<UserModel> page = new PageImpl<>(userModelModels, pageable, count);
+        Page<UserModel> page = userService.searchPage(param, pageable);
         model.addAttribute("data", page);
+        model.addAttribute("param", userVO);
         return "syndic/syndic_list";
     }
 

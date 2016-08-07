@@ -118,18 +118,21 @@
                             <li class="paginate_button previous <c:if test="${data.firstPage}">disabled</c:if>"
                                 aria-controls="sample-table-2" tabindex="0"
                                 id="sample-table-2_previous"><a
-                                    href="javascript:link('/survey/customer?page=${data.number-1}&size=${data.size}&name=${param.name}')">上一页</a></li>
+                                    href="javascript:link('/survey/customer?page=${data.number-1}&size=${data.size}&name=${param.name}')">上一页</a>
+                            </li>
 
                             <c:forEach var="i" begin="1" end="${data.totalPages}">
                                 <li class="paginate_button <c:if test="${i-1==data.number}">active</c:if>"
                                     aria-controls="sample-table-2" tabindex="0"><a
-                                        href="javascript:link('/survey/customer?page=${i-1}&size=${data.size}&name=${param.name}')">${i}</a></li>
+                                        href="javascript:link('/survey/customer?page=${i-1}&size=${data.size}&name=${param.name}')">${i}</a>
+                                </li>
                             </c:forEach>
 
                             <li class="paginate_button next <c:if test="${data.lastPage}">disabled</c:if>"
                                 aria-controls="sample-table-2" tabindex="0"
                                 id="sample-table-2_next"><a
-                                    href="javascript:link('/survey/customer?page=${data.number+1}&size=${data.size}&name=${param.name}')">下一页</a></li>
+                                    href="javascript:link('/survey/customer?page=${data.number+1}&size=${data.size}&name=${param.name}')">下一页</a>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -144,11 +147,15 @@
             url: "/survey/customer/" + id,
             success: function (data) {
                 if (data.status) {
-                    javascript:link('/survey/customer?page=${data.number}')
+                    javascript:link('/survey/customer?page=${data.number+1}&size=${data.size}&name=${param.name}')
                 }
             }
         });
     }
+
+    $(document).ready(function () {
+        validate();
+    });
 
     function query() {
         var size = $("#select_size").children('option:selected').val();

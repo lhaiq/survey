@@ -34,7 +34,7 @@
 
                 <div class="col-sm-8">
                     <div class="col-sm-5 no-padding-left">
-                        <input type="password" name="password" class="form-control col-sm-5"/>
+                        <input type="password" name="password" id="password" class="form-control col-sm-5"/>
                     </div>
                 </div>
             </div>
@@ -61,7 +61,7 @@
                         </button>
 
                         &nbsp; &nbsp; &nbsp;
-                        <button class="btn btn-xs btn-success" onclick="doUndoAll()">
+                        <button class="btn btn-xs btn-success" onclick="reset()">
                             <i class="ace-icon fa fa-undo bigger-110">重置</i>
                         </button>
                     </div>
@@ -72,15 +72,47 @@
 </div>
 <script type="text/javascript">
 
-    function onSubmit(){
-        var account=$("#account").val()
-        var password=$("#password").val()
-        var confirmPass=$("#confirmPass").val()
-        if(password!=confirmPass){
-            alert(confirmPass)
-            $("#password-label").html("两次密码不一致")
-        }
+    function reset(){
+        ('.form-horizontal')[0].reset()
+    }
 
+    function validate() {
+        return $(".form-horizontal").validate({
+            rules: {
+                password: {
+                    required: true,
+                    minlength: 6
+                },
+                confirmPass: {
+                    required: true,
+                    minlength: 6,
+                    equalTo: "#password"
+                }
+            },
+            messages: {
+                password: {
+                    required: "必填字段",
+                    minlength: "密码长度不够"
+                },
+                confirmPass: {
+                    required: true,
+                    minlength: "密码长度不够",
+                    equalTo: "两次密码输入不一致"
+                }
+
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        validate();
+    });
+
+    function onSubmit() {
+
+        if (!validate().form()) {
+            return;
+        }
         $('.form-horizontal').ajaxSubmit({
             success: function (data) {
                 if (data.status) {
@@ -88,6 +120,5 @@
                 }
             }
         });
-
     }
 </script>

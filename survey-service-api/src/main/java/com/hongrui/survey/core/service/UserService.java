@@ -5,6 +5,7 @@ import com.hongrui.survey.core.model.UserModel;
 
 import java.util.Date;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -32,5 +33,7 @@ public interface UserService {
     public void addUser (UserModel userModel);
 
     public void updateUser (UserModel userModel);
+
+    public Page<UserModel> searchPage(UserModel userModel, Pageable pageable);
 
 }

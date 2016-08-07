@@ -1,5 +1,6 @@
 package com.hongrui.survey.core.service.impl;
 
+import com.hongrui.survey.core.service.TaskService;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,6 +35,9 @@ public class PhotoServiceImpl implements PhotoService {
 	@Autowired
 	private PhotoRepository photoRepo;
 
+	@Autowired
+	private TaskService taskService;
+
 	@Value("${photo.base.url}")
 	private String baseDirectory;
 
@@ -46,6 +50,8 @@ public class PhotoServiceImpl implements PhotoService {
 	@Transactional
 	@Override
 	public int createSelective(PhotoModel photoModel) {
+		taskService.checkCanEdit(photoModel.getTaskId());
+
 		Photo photo = beanMapper.map(photoModel, Photo.class);
 		int retVal = photoRepo.insertSelective(photo);
 		photoModel.setId(photo.getId());
@@ -61,6 +67,7 @@ public class PhotoServiceImpl implements PhotoService {
 	@Override
 	public int deletePhoto(Long id) {
 		PhotoModel photoModel = findByPrimaryKey(id);
+		taskService.checkCanEdit(photoModel.getTaskId());
 		try {
 			FileUtils.forceDelete(new File(baseDirectory + "/" + photoModel.getPath()));
 			deleteByPrimaryKey(id);

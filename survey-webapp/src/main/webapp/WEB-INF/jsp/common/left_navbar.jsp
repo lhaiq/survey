@@ -243,7 +243,7 @@
                         <b class="arrow"></b>
                     </li>
                     <li class="">
-                        <a href="javascript:link_template(routers.template_list,{page:0})">
+                        <a href="javascript:link('/survey/template')">
                             <i class="menu-icon fa fa-caret-right"></i>
                             模板列表
                         </a>
@@ -287,27 +287,6 @@
             });
         }
 
-        function link_template(router, param) {
-
-            var url = router.url
-
-            for (var property in param) {
-                url = url.replace("{" + property + "}", param[property])
-            }
-            $.ajax({
-                url: url,
-                async: true,
-                success: function (data) {
-                    $.get(router.template, function (content) {
-
-                        var compile = juicer(content)
-                        var html = compile.render(data.data)
-                        $(".page-content-area").html(html)
-                    });
-
-                }
-            });
-        }
     </script>
 
 

@@ -46,14 +46,13 @@ public class SurveyorController {
 
 
     @GetMapping(value = "/surveyor")
-    public String listSurvey(Pageable pageable, Model model) {
+    public String listSurvey(UserVO userVO, Pageable pageable, Model model) {
 
-        UserModel param = new UserModel();
+        UserModel param = beanMapper.map(userVO,UserModel.class);
         param.setRole(UserRole.SURVEYOR.getCode());
-        List<UserModel> userModelModels = userService.selectPage(param, pageable);
-        long count = userService.selectCount(param);
-        Page<UserModel> page = new PageImpl<>(userModelModels, pageable, count);
+        Page<UserModel> page = userService.searchPage(param, pageable);
         model.addAttribute("data", page);
+        model.addAttribute("param", userVO);
         return "surveyor/surveyor_list";
     }
 

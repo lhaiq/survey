@@ -58,8 +58,7 @@ window.jQuery || document.write("<script src='assets/js/jquery1x.min.js'>"+"<"+"
 <script src="assets/js/ace-elements.min.js"></script>
 <script src="assets/js/ace.min.js"></script>
 <script src="assets/js/jquery.colorbox-min.js"></script>
-<script src="assets/js/juicer-min.js"></script>
-<script src="assets/js/app.js"></script>
+
 
 
 

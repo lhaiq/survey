@@ -116,7 +116,7 @@
             rules: {
                 name: {
                     required: true,
-                    remote: "/survey/customer/validate"
+                    remote: "/survey/core/user/validate"
                 },
                 mobileNumber: {
                     required: true,
@@ -162,6 +162,10 @@
             }
         });
     }
+
+    $(document).ready(function () {
+        validate();
+    });
 
     function onSubmit() {
 

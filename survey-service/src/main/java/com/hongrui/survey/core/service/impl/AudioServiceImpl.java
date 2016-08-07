@@ -1,5 +1,6 @@
 package com.hongrui.survey.core.service.impl;
 
+import com.hongrui.survey.core.service.TaskService;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,6 +34,9 @@ public class AudioServiceImpl implements AudioService {
     @Value("${audio.base.url}")
     private String baseDirectory;
 
+    @Autowired
+    private TaskService taskService;
+
     @Transactional
     @Override
     public int create(AudioModel audioModel) {
@@ -42,6 +46,7 @@ public class AudioServiceImpl implements AudioService {
     @Transactional
     @Override
     public int createSelective(AudioModel audioModel) {
+        taskService.checkCanEdit(audioModel.getTaskId());
         Audio audio = beanMapper.map(audioModel,Audio.class);
         int retVal = audioRepo.insertSelective(audio);
         audioModel.setId(audio.getId());
@@ -58,6 +63,7 @@ public class AudioServiceImpl implements AudioService {
     @Override
     public int deleteAudio(Long id) {
         AudioModel audioModel = findByPrimaryKey(id);
+        taskService.checkCanEdit(audioModel.getTaskId());
         try {
             FileUtils.forceDelete(new File(baseDirectory + "/" + audioModel.getPath()));
             deleteByPrimaryKey(id);

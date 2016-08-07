@@ -15,9 +15,10 @@
                     + '           class="form-control col-sm-5"'
                     + '           data-placeholder="选择一个调查员...">'
                     + '       <option value="1920*1680">1920*1680</option>'
-                    + '       <option value="副总经理">李四</option>'
-                    + '       <option value="主管">王麻子</option>'
-                    + '       <option value="WY">吴旗</option>'
+                    + '       <option value="1920*1080">1920*1080</option>'
+                    + '       <option value="1366*768">1366*768</option>'
+                    + '       <option value="1440*900">1440*900</option>'
+                    + '       <option value="1600*900">1600*900</option>'
                     + '  </select>'
                     + '</div>      '
                     + '<div class="col-sm-2" style="margin-top: 8px">'
@@ -81,9 +82,10 @@
                                 class="form-control col-sm-5"
                                 data-placeholder="选择一个调查员...">
                             <option value="1920*1680">1920*1680</option>
-                            <option value="副总经理">李四</option>
-                            <option value="主管">王麻子</option>
-                            <option value="WY">吴旗</option>
+                            <option value="1920*1080">1920*1080</option>
+                            <option value="1366*768">1366*768</option>
+                            <option value="1440*900">1440*900</option>
+                            <option value="1600*900">1600*900</option>
                         </select>
                     </div>
                     <div class="col-sm-2" style="margin-top: 8px">
@@ -177,7 +179,16 @@
         return o;
     };
 
+    $(document).ready(function () {
+        validate();
+    });
+
     function onSubmit() {
+
+        if (!validate().form()) {
+            return;
+        }
+
         $('.form-horizontal')
         var data = $('.form-horizontal').serializeObject()
         console.log(JSON.stringify(data))
@@ -187,10 +198,42 @@
             contentType: "application/json",
             data: JSON.stringify(data),
             success: function (data) {
-                if (!data.status) {
-                    $("#account-label").html(data.error.message)
-                } else {
-                    console.log(data)
+                if (data.status) {
+                    link('/survey/task/taskType')
+                }
+            }
+        });
+    }
+
+    function reset() {
+        ('.form-horizontal')[0].reset()
+    }
+
+    function validate() {
+        return $(".form-horizontal").validate({
+            rules: {
+                name: {
+                    required: true,
+                    remote: "/survey/conf/validate/0"
+                },
+                templates: {
+                    required: true
+                },
+                photoTypes: {
+                    required: true
+                }
+            },
+            messages: {
+                name: {
+                    required: "必填字段",
+                    remote: "该名字已存在"
+                },
+                photoTypes: {
+                    required: "必填字段"
+                },
+
+                templates: {
+                    required: "必填字段"
                 }
             }
         });

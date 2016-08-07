@@ -46,7 +46,7 @@
                         </button>
 
                         &nbsp; &nbsp; &nbsp;
-                        <button class="btn btn-xs btn-success" onclick="doUndoAll()">
+                        <button class="btn btn-xs btn-success" onclick="reset()">
                             <i class="ace-icon fa fa-undo bigger-110">重置</i>
                         </button>
                     </div>
@@ -59,12 +59,48 @@
 
 <script type="text/javascript">
 
+
+    function reset() {
+        ('.form-horizontal')[0].reset()
+    }
+
+    function validate() {
+        return $(".form-horizontal").validate({
+            rules: {
+                name: {
+                    required: true,
+                    remote: "/survey/conf/validate/2"
+                },
+                file: {
+                    required: true
+                }
+            },
+            messages: {
+                name: {
+                    required: "必填字段",
+                    remote: "该名字已存在"
+                },
+                file: {
+                    required: "必填字段"
+                }
+
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        validate();
+    });
+
     function onSubmit() {
+
+        if (!validate().form()) {
+            return;
+        }
         $('.form-horizontal').ajaxSubmit({
             success: function (data) {
                 if (data.status) {
-                    alert(JSON.stringify(data))
-                    link_template(routers.template_list, {page: 0})
+                    link('/survey/template')
                 }
             }
         });

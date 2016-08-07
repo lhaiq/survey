@@ -83,14 +83,14 @@
                         <td class="hidden-480">${item.point}</td>
                         <td>
                             <div class="hidden-sm hidden-xs action-buttons">
-                                <%--<c:if test="${sessionScope.user.role==1}">--%>
+                                <c:if test="${sessionScope.user.role==1}">
                                     <a class="black" href="javascript:link('/survey/task/report/${item.id}')">
                                         <i class="ace-icon fa fa-eye bigger-130" title="查看报告"></i>
                                     </a>
 
-                                <%--</c:if>--%>
+                                </c:if>
                                 <c:if test="${sessionScope.user.role==3}">
-                                    <a class="blue" href="javascript:deleteById(${item.id})">
+                                    <a class="blue" href="javascript:link('/survey/reallocateTaskUI/${customerId.id}')">
                                         <i class="ace-icon glyphicon glyphicon-repeat bigger-130" title="重新分配"></i>
                                     </a>
                                     <a class="green"
