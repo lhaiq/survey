@@ -91,7 +91,7 @@
                                         <i class="ace-icon fa fa-pencil bigger-130" title="编辑"></i>
                                     </a>
 
-                                    <a class="red" disabled="true" href="javascript:deleteById(${item.id})">
+                                    <a disabled="true" href="javascript:deleteById(${item.id})">
                                         <i class="ace-icon fa fa-trash-o bigger-130"></i>
                                     </a>
                                 </c:if>

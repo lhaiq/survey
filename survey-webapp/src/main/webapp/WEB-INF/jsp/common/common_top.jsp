@@ -108,5 +108,11 @@ window.jQuery || document.write("<script src='assets/js/jquery1x.min.js'>"+"<"+"
 				"Role": "Admin"
 			}
 		});
+
+        $(".submenuFlag").on('click',function () {
+            $(".submenuFlag").removeClass('active');
+            $(this).addClass('active');
+
+        });
 	})
 </script>
