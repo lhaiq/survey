@@ -3,6 +3,7 @@ package com.hongrui.survey.core.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.hongrui.survey.core.ConfType;
 import com.hongrui.survey.core.model.TaskTypeModel;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -18,6 +19,7 @@ import com.wlw.pylon.core.beans.mapping.BeanMapper;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -99,7 +101,7 @@ public class ConfServiceImpl implements ConfService {
         return map;
     }
 
-    private void fillPhotoAndTemplate(Map<String, Object> map){
+    private void fillPhotoAndTemplate(Map<String, Object> map) {
         List<Long> photoTypeIds = JSON.parseArray(map.get("photo_type").toString(), Long.class);
         List<Long> templateIds = JSON.parseArray(map.get("template").toString(), Long.class);
         String photoTypeSql = "select * from conf where id in (" + StringUtils.collectionToCommaDelimitedString(photoTypeIds) + ")";
@@ -109,35 +111,33 @@ public class ConfServiceImpl implements ConfService {
     }
 
     @Override
-    public List<Map<String, Object>> selectTemplateList() {
-        String sql = "select id,name from conf where type = 2";
-        return jdbcTemplate.queryForList(sql);
+    public List<Map<String, Object>> selectConfByType(Integer type) {
+        String sql = "select id,name,pixel from conf where type = ?";
+        return jdbcTemplate.queryForList(sql, type);
     }
 
     @Transactional
     @Override
     public void createTaskType(TaskTypeModel taskTypeModel) {
-
-        //photo
-        List<String> photoTypes = taskTypeModel.getPhotoTypes();
-        List<String> pixels = taskTypeModel.getPixels();
-        List<Long> photoTypeIds = new ArrayList<>();
-
-        for (int i = 0; i < photoTypes.size(); i++) {
-            ConfModel confModel = new ConfModel();
-            confModel.setName(photoTypes.get(i));
-            confModel.setPixel(pixels.get(i));
-            confModel.setType(ConfType.PHOTO.getType());
-            createSelective(confModel);
-            photoTypeIds.add(confModel.getId());
-        }
-
         ConfModel confModel = new ConfModel();
         confModel.setName(taskTypeModel.getName().get(0));
-        confModel.setPhotoType(JSON.toJSONString(photoTypeIds));
+        confModel.setPhotoType(JSON.toJSONString(taskTypeModel.getPhotoTypes()));
         confModel.setTemplate(JSON.toJSONString(taskTypeModel.getTemplates()));
         confModel.setType(ConfType.SURVEY.getType());
         createSelective(confModel);
+    }
+
+    @Transactional
+    @Override
+    public void updateTaskType(Long id, TaskTypeModel taskTypeModel) {
+        ConfModel confModel = new ConfModel();
+        if(CollectionUtils.isNotEmpty(taskTypeModel.getName())){
+            confModel.setName(taskTypeModel.getName().get(0));
+        }
+        confModel.setPhotoType(JSON.toJSONString(taskTypeModel.getPhotoTypes()));
+        confModel.setTemplate(JSON.toJSONString(taskTypeModel.getTemplates()));
+        confModel.setId(id);
+        updateByPrimaryKeySelective(confModel);
     }
 
     @Transactional
@@ -151,5 +151,6 @@ public class ConfServiceImpl implements ConfService {
     public int updateByPrimaryKeySelective(ConfModel confModel) {
         return confRepo.updateByPrimaryKeySelective(beanMapper.map(confModel, Conf.class));
     }
+
 
 }

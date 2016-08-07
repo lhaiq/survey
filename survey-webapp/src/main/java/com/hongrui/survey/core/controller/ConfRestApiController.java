@@ -53,9 +53,8 @@ public class ConfRestApiController {
 
     @PostMapping(value = "/conf/{id}")
     public ResponseEnvelope<String> updateTaskType(@PathVariable Long id,
-            @RequestBody TaskTypeModel taskTypeModel) {
-//        confService.createTaskType(taskTypeModel);
-        //TODO
+                                                   @RequestBody TaskTypeModel taskTypeModel) {
+        confService.updateTaskType(id,taskTypeModel);
         ResponseEnvelope<String> responseEnv = new ResponseEnvelope<>("ok", true);
         return responseEnv;
     }
@@ -76,9 +75,9 @@ public class ConfRestApiController {
     }
 
 
-    @PutMapping(value = "/core/conf/{id}")
-    public ResponseEnvelope<Integer> updateConfByPrimaryKeySelective(@PathVariable Long id,
-                                                                     @RequestBody ConfVO confVO) {
+    @PutMapping(value = "/conf/{id}")
+    public ResponseEnvelope<Integer> updateConf(@PathVariable Long id,
+                                                ConfVO confVO) {
         ConfModel confModel = beanMapper.map(confVO, ConfModel.class);
         confModel.setId(id);
         Integer result = confService.updateByPrimaryKeySelective(confModel);
@@ -122,6 +121,13 @@ public class ConfRestApiController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @PostMapping(value = "/photoType")
+    public ResponseEnvelope<String> createPhotoType(ConfModel confModel) {
+        confService.createSelective(confModel);
+        ResponseEnvelope<String> responseEnv = new ResponseEnvelope<>("ok", true);
+        return responseEnv;
     }
 
 

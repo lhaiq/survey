@@ -24,6 +24,10 @@
                             aria-label="Domain: activate to sort column ascending">模板名
                         </th>
 
+                        <th class="sorting" tabindex="0" aria-controls="sample-table-2" rowspan="1" colspan="1"
+                            aria-label="Domain: activate to sort column ascending">像素
+                        </th>
+
                         <th class="sorting_disabled" rowspan="1" colspan="1" aria-label="">操作</th>
                     </tr>
                     </thead>
@@ -31,41 +35,19 @@
                     <tbody>
                     <c:forEach var="item" varStatus="i" items="${data.content}">
                         <td class="hidden-480">${item.name}</td>
+                        <td class="hidden-480">${item.pixel}</td>
                         <td>
                             <div class="hidden-sm hidden-xs action-buttons">
 
-                                <a class="dialogMessage" href="#modal-form" href="#" name="${i}" role="button">
-                                    <i class="ace-icon fa fa-eye bigger-130"></i>
+                                <a class="green" disabled
+                                   href="javascript:link('/survey/photoType/editUI/${item.id}')">
+                                    <i class="ace-icon fa fa-pencil bigger-130" title="编辑"></i>
                                 </a>
 
                                 <a class="red" href="javascript:deleteById(${item.id})">
                                     <i class="ace-icon fa fa-trash-o bigger-130"></i>
                                 </a>
 
-                                <div id="dialog-message${i}" class="hide">
-                                    <div>
-                                            <%--${item.content}--%>
-                                        <div>
-
-                                        </div>
-                                    </div>
-
-                                    <div class="hidden-md hidden-lg">
-                                        <div class="inline position-relative">
-
-                                            <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
-                                                <li>
-                                                    <a href="#" class="tooltip-error" data-rel="tooltip" title=""
-                                                       data-original-title="Delete">
-                                            <span class="red">
-                                                <i class="ace-icon fa fa-trash-o bigger-120"></i>
-                                            </span>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </td>
                         </tr>
@@ -87,20 +69,20 @@
                             <li class="paginate_button previous <c:if test="${data.firstPage}">disabled</c:if>"
                                 aria-controls="sample-table-2" tabindex="0"
                                 id="sample-table-2_previous"><a
-                                    href="javascript:link('/survey/template?page=${data.number-1}')">上一页</a>
+                                    href="javascript:link('/survey/photoType?page=${data.number-1}')">上一页</a>
                             </li>
 
                             <c:forEach var="i" begin="1" end="${data.totalPages}">
                                 <li class="paginate_button <c:if test="${i-1==data.number}">active</c:if>"
                                     aria-controls="sample-table-2" tabindex="0"><a
-                                        href="javascript:link('/survey/template?page=${i-1}')">${i}</a>
+                                        href="javascript:link('/survey/photoType?page=${i-1}')">${i}</a>
                                 </li>
                             </c:forEach>
 
                             <li class="paginate_button next <c:if test="${data.lastPage}">disabled</c:if>"
                                 aria-controls="sample-table-2" tabindex="0"
                                 id="sample-table-2_next"><a
-                                    href="javascript:link('/survey/template?page=${data.number+1}')">下一页</a>
+                                    href="javascript:link('/survey/photoType?page=${data.number+1}')">下一页</a>
                             </li>
                         </ul>
                     </div>
@@ -154,7 +136,7 @@
             url: "/survey/conf/" + id,
             success: function (data) {
                 if (data.status) {
-                    link('/survey/template?page=${data.number}')
+                    link('/survey/photoType?page=${data.number}')
                 }
             }
         });

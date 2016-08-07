@@ -70,62 +70,26 @@
                 </div>
             </div>
 
-            <c:forEach items="${data.photos}" var="photo" begin="0" varStatus="i">
+            <div class="form-group" id="photoTypeContainer">
+                <label class="col-sm-4 control-label no-padding-right" for="form-field-1-2">照片类型 <label
+                        style="color: red;">&nbsp;*</label> </label>
 
-                <div class="form-group" id="photoTypeContainer">
-                    <label class="col-sm-4 control-label no-padding-right" for="form-field-1">
-                        <c:if test="${i.first}"
-                                >照片类型</c:if>
-                    </label>
-
-                    <div class="col-sm-8">
-                        <div class="col-sm-3 no-padding-left">
-                            <input type="text" class="form-control" name="photoTypes" value="${photo.name}"/>
-                        </div>
-                        <div class="col-sm-3 no-padding-left">
-                            <select name="pixels"
-                                    class="form-control col-sm-5"
-                                    data-placeholder="选择一个调查员...">
-                                <option value="1920*1680" <c:if test="${photo.pixel=='1920*1680'}">selected</c:if>>
-                                    1920*1680
-                                </option>
-                                <option value="1920*1080" <c:if test="${photo.pixel=='1920*1080'}">selected</c:if>>
-                                    1920*1080
-                                </option>
-                                <option value="1366*768" <c:if test="${photo.pixel=='1366*768'}">selected</c:if>>
-                                    1366*768
-                                </option>
-                                <option value="1440*900" <c:if test="${photo.pixel=='1440*900'}">selected</c:if>>
-                                    1440*900
-                                </option>
-                                <option value="1600*900" <c:if test="${photo.pixel=='1600*900'}">selected</c:if>>
-                                    1600*900
-                                </option>
-                            </select>
-                        </div>
-                        <div class="col-sm-2" style="margin-top: 8px">
-
-                            <a href="javascript:void(0)" class="tooltip-success" data-rel="tooltip" title=""
-                               data-original-title="Add">
-                                <c:if test="${i.first}">
-                                    <span class="black" id="addPhotoType">
-                                <i class="ace-icon fa fa-plus-circle bigger-120"></i>
-                            </span>
-                                </c:if>
-
-                                <c:if test="${!i.first}">
-                                    <span class="black photoTypeCls">
-                                    <i class="ace-icon fa fa-minus bigger-120"></i>
-                                </span>
-                                </c:if>
-
-                            </a>
-                        </div>
+                <div class="col-sm-8">
+                    <div class="col-sm-6 no-padding-left">
+                        <select multiple="" class="chosen-select form-control"
+                                id="form-field-select-5"
+                                data-placeholder="选择一个照片类型..." name="photoTypes">
+                            <c:forEach items="${photoTypes}" var="item">
+                                <option value="${item.id}"
+                                        <c:forEach items="${data.photos}" var="photo">
+                                            <c:if test="${photo.id==item.id}">selected</c:if>
+                                        </c:forEach>
+                                        >${item.name}----${item.pixel}</option>
+                            </c:forEach>
+                        </select>
                     </div>
-
                 </div>
-
-            </c:forEach>
+            </div>
 
 
             <div class="form-group" id="templateContainer">

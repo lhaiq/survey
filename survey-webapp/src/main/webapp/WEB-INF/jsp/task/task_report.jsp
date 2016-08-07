@@ -36,10 +36,10 @@
                                         </div>
                                     </div>
 
-                                    <%--<div class="col-sm-6">--%>
-                                    <%--<img height="250"--%>
-                                    <%--src="http://api.map.baidu.com/staticimage?center=${sign.actualLongitude},${sign.actualLatitude}&width=400&height=300&zoom=11&markers=${sign.actualLongitude},${sign.actualLatitude}"/>--%>
-                                    <%--</div>--%>
+                                    <div class="col-sm-6">
+                                        <img height="250"
+                                             src="http://api.map.baidu.com/staticimage?center=${sign.actualLongitude},${sign.actualLatitude}&width=400&height=300&zoom=11&markers=${sign.actualLongitude},${sign.actualLatitude}"/>
+                                    </div>
                                 </div>
                                 <!-- /.col -->
 
@@ -50,10 +50,10 @@
                                         </div>
                                     </div>
 
-                                    <%--<div class="col-sm-6">--%>
-                                    <%--<img height="250"--%>
-                                    <%--src="http://api.map.baidu.com/staticimage?center=${sign.signLongitude},${sign.signLatitude}&width=400&height=300&zoom=11&markers=${sign.signLongitude},${sign.signLatitude}"/>--%>
-                                    <%--</div>--%>
+                                    <div class="col-sm-6">
+                                        <img height="250"
+                                             src="http://api.map.baidu.com/staticimage?center=${sign.signLongitude},${sign.signLatitude}&width=400&height=300&zoom=11&markers=${sign.signLongitude},${sign.signLatitude}"/>
+                                    </div>
                                 </div>
                             </div>
                             <!-- /.col -->
@@ -171,32 +171,15 @@
                         </div>
                         <div class="hr hr8  hr-dotted"></div>
                         <div class="profile-users clearfix">
-
                             <c:forEach items="${td.audios}" var="audio">
-
-                                <div class="itemdiv memberdiv">
-                                    <div class="inline pos-rel">
-                                        <div class="user">
-                                            <a href="/survey/audio/${audio.id}"> <img src="../assets/avatars/sound.png"
-                                                                                      alt="Bob Doe's avatar"/>
-
-                                            </a>
-                                        </div>
-
-                                        <div class="body">
-                                            <div class="name">
-                                                <a href="#"> <span
-                                                        class="user-status status-online"></span> ${audio.name}
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <ul>
+                                    <label>${audio.name}</label>
+                                    <audio src="/survey/audio/extension/${audio.id}.${audio.extension}"
+                                           controls="controls">
+                                    </audio>
+                                </ul>
 
                             </c:forEach>
-                            <audio id="audio" src="/survey/audio/extension/28.amr"
-                                   preload="auto" controls muted loop autoplay>
-                            </audio>
 
                         </div>
 
@@ -272,18 +255,18 @@
     });
 
 
-    function comment(type){
-        var comment=$("#textarea_comment").val();
+    function comment(type) {
+        var comment = $("#textarea_comment").val();
         $.ajax({
             type: "get",
-            url: "/survey/comment/task/"+${td.id},
-            data:{
-                comment:comment,
-                type:type
+            url: "/survey/comment/task/" +${td.id},
+            data: {
+                comment: comment,
+                type: type
             },
             success: function (data) {
                 if (data.status) {
-                    console.log(data)
+                    link('/survey/core/task')
                 }
             }
         });

@@ -1,45 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-<script>
-    $(function () {
-        $("#addPhotoType").on("click", function () {
-            var $newPhotoType = '<div class="form-group" >'
-                    + '<label class="col-sm-4 control-label no-padding-right" for="form-field-1"> </label>'
-                    + '<div class="col-sm-8">'
-                    + '<div class="col-sm-3 no-padding-left">'
-                    + '<input type="text" class="form-control" name="photoTypes" value=""/>'
-                    + '</div>'
-                    + '<div class="col-sm-3 no-padding-left">'
-                    + '   <select name="pixels"'
-                    + '           class="form-control col-sm-5"'
-                    + '           data-placeholder="选择一个调查员...">'
-                    + '       <option value="1920*1680">1920*1680</option>'
-                    + '       <option value="1920*1080">1920*1080</option>'
-                    + '       <option value="1366*768">1366*768</option>'
-                    + '       <option value="1440*900">1440*900</option>'
-                    + '       <option value="1600*900">1600*900</option>'
-                    + '  </select>'
-                    + '</div>      '
-                    + '<div class="col-sm-2" style="margin-top: 8px">'
-                    + '<a href="javascript:void(0)" class="tooltip-success" data-rel="tooltip" title=""'
-                    + 'data-original-title="Add">'
-                    + '<span class="black photoTypeCls">'
-                    + '<i class="ace-icon fa fa-minus bigger-120"></i>'
-                    + '</span>'
-                    + ' </a>'
-                    + '</div>'
-                    + '</div>'
-                    + '</div>';
-            $("#photoTypeContainer").after($newPhotoType);
-
-            $(".photoTypeCls").on("click", function () {
-                $(this).parent().parent().parent().parent().remove();
-            });
-        });
-
-    });
-</script>
 <div class="page-header">
     <h1>调查任务管理
         <small><i class="ace-icon fa fa-angle-double-right"></i> &nbsp;添加任务类型</small>
@@ -69,36 +30,21 @@
                 </div>
             </div>
 
-            <div class="form-group" id="photoTypeContainer">
-                <label class="col-sm-4 control-label no-padding-right" for="form-field-1">照片类型<label
+            <div class="form-group" id="photoContainer">
+                <label class="col-sm-4 control-label no-padding-right" for="form-field-1-2">照片类型 <label
                         style="color: red;">&nbsp;*</label> </label>
 
                 <div class="col-sm-8">
-                    <div class="col-sm-3 no-padding-left">
-                        <input type="text" class="form-control" name="photoTypes" value=""/>
-                    </div>
-                    <div class="col-sm-3 no-padding-left">
-                        <select name="pixels"
-                                class="form-control col-sm-5"
-                                data-placeholder="选择一个调查员...">
-                            <option value="1920*1680">1920*1680</option>
-                            <option value="1920*1080">1920*1080</option>
-                            <option value="1366*768">1366*768</option>
-                            <option value="1440*900">1440*900</option>
-                            <option value="1600*900">1600*900</option>
+                    <div class="col-sm-6 no-padding-left">
+                        <select multiple="" class="chosen-select form-control"
+                                id="form-field-select-5"
+                                data-placeholder="选择一个照片类型..." name="photoTypes">
+                            <c:forEach items="${photoTypes}" var="item">
+                                <option value="${item.id}">${item.name}--${item.pixel}</option>
+                            </c:forEach>
                         </select>
                     </div>
-                    <div class="col-sm-2" style="margin-top: 8px">
-
-                        <a href="javascript:void(0)" class="tooltip-success" data-rel="tooltip" title=""
-                           data-original-title="Add">
-                            <span class="black" id="addPhotoType">
-                                <i class="ace-icon fa fa-plus-circle bigger-120"></i>
-                            </span>
-                        </a>
-                    </div>
                 </div>
-
             </div>
 
             <div class="form-group" id="templateContainer">

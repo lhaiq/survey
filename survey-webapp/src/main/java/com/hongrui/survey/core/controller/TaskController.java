@@ -60,13 +60,15 @@ public class TaskController {
 
 	@GetMapping(value = "/task/addTypeUI")
 	public String addTypeUI(Model model) {
-		model.addAttribute("templates", confService.selectTemplateList());
+		model.addAttribute("templates", confService.selectConfByType(ConfType.TEMPLATE.getType()));
+		model.addAttribute("photoTypes", confService.selectConfByType(ConfType.PHOTO.getType()));
 		return "task/add_task_type";
 	}
 
 	@GetMapping(value = "/task/editTypeUI/{id}")
 	public String editTypeUI(@PathVariable Long id, Model model) {
-		model.addAttribute("templates", confService.selectTemplateList());
+		model.addAttribute("templates", confService.selectConfByType(ConfType.TEMPLATE.getType()));
+		model.addAttribute("photoTypes", confService.selectConfByType(ConfType.PHOTO.getType()));
 		model.addAttribute("data", confService.findConfById(id));
 		return "task/edit_task_type";
 	}

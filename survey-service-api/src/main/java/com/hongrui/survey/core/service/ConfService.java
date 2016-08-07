@@ -31,10 +31,12 @@ public interface ConfService {
 
     public void createTaskType(TaskTypeModel taskTypeModel);
 
+    public void updateTaskType(Long id,TaskTypeModel taskTypeModel);
+
     public List<Map<String, Object>> selectConf(Pageable pageable);
 
     public Map<String, Object> findConfById(Long id);
 
-    public List<Map<String,Object>> selectTemplateList();
+    public List<Map<String,Object>> selectConfByType(Integer type);
 
 }

@@ -88,7 +88,7 @@ public class UserRestApiController {
 
     @PostMapping(value = "/user/updatePass/{id}")
     public ResponseEnvelope<Integer> updatePass(@PathVariable Long id,
-                                              @RequestBody UpdatePassVO updatePassVO) {
+                                                UpdatePassVO updatePassVO) {
         UserModel userModel = userService.findByPrimaryKey(id);
         if (!DigestUtils.md5Hex(updatePassVO.getOldPassword()).equals(userModel.getPassword())) {
             HRErrorCode.throwBusinessException(HRErrorCode.OLD_PASSWORD_INCORRECT);

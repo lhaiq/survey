@@ -8,14 +8,12 @@
                 <small><i class="ace-icon fa fa-angle-double-right"></i> &nbsp;修改密码</small>
             </h1>
         </div>
-        <c:if test="${addFlag == 'Y' }">
-            <div class="alert alert-block alert-success">
-                <button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i>
-                </button>
-                <i class="ace-icon fa fa-check green"></i>
-                <strong class="green">添加成功。</strong>
-            </div>
-        </c:if>
+        <div class="alert alert-block alert-success hide" id="alert-success">
+            <button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i>
+            </button>
+            <i class="ace-icon fa fa-check green"></i>
+            <strong class="green">修改成功</strong>
+        </div>
         <!-- PAGE CONTENT BEGINS -->
         <form class="form-horizontal" action="/survey/user/updatePass/${sessionScope.user.id}" method="post"
               onsubmit="return false;">
@@ -65,7 +63,7 @@
                         </button>
 
                         &nbsp; &nbsp; &nbsp;
-                        <button class="btn btn-xs btn-success" onclick="reset()" style="width:81px">
+                        <button class="btn btn-xs btn-success" onclick="reset1();" style="width:81px">
                             <i class="ace-icon fa fa-undo bigger-110">重置</i>
                         </button>
                     </div>
@@ -76,8 +74,10 @@
 </div>
 
 <script type="text/javascript">
-    function reset() {
-        ('.form-horizontal')[0].reset()
+    function reset1() {
+//        ('.form-horizontal')[0].reset()
+
+
     }
 
     function validate() {
@@ -110,7 +110,7 @@
                 oldPassword: {
                     required: true,
                     minlength: 6,
-                    remote:"旧密码错误"
+                    remote: "旧密码错误"
                 },
                 newPassword: {
                     required: "必填字段",
@@ -134,7 +134,7 @@
         $('.form-horizontal').ajaxSubmit({
             success: function (data) {
                 if (data.status) {
-                    javascript:link('/survey/syndic')
+                    $("#alert-success").removeClass("hide");
                 }
             }
         });

@@ -2,6 +2,7 @@ package com.hongrui.survey.core.controller;
 
 import com.hongrui.survey.core.AudioType;
 import com.hongrui.survey.core.RandomUtil;
+import com.hongrui.survey.core.annotation.IgnoreAuth;
 import com.hongrui.survey.core.model.AudioModel;
 import com.hongrui.survey.core.model.PhotoModel;
 import com.hongrui.survey.core.service.AudioService;
@@ -41,6 +42,7 @@ public class AudioRestApiController {
     @Value("${audio.base.url}")
     private String baseDirectory;
 
+    @IgnoreAuth
     @GetMapping(value = "/audio/{id}")
     public void getAudioById(@PathVariable Long id,
                              HttpServletResponse response) {
@@ -51,7 +53,7 @@ public class AudioRestApiController {
         InputStream inputStream = null;
         try {
             outputStream = response.getOutputStream();
-            inputStream = FileUtils.openInputStream(new File(audioModel.getPath()));
+            inputStream = FileUtils.openInputStream(new File(baseDirectory + "/" + audioModel.getPath() + "." + audioModel.getExtension()));
             IOUtils.copy(inputStream, outputStream);
 
         } catch (IOException e) {
@@ -62,6 +64,7 @@ public class AudioRestApiController {
         }
     }
 
+    @IgnoreAuth
     @GetMapping(value = "/audio/extension/{path:.+}")
     public void getAudioByExtensionId(@PathVariable String path,
                                       HttpServletResponse response) {
@@ -73,7 +76,7 @@ public class AudioRestApiController {
         InputStream inputStream = null;
         try {
             outputStream = response.getOutputStream();
-            inputStream = FileUtils.openInputStream(new File(baseDirectory + "/" + audioModel.getPath()));
+            inputStream = FileUtils.openInputStream(new File(baseDirectory + "/" + audioModel.getPath() + "." + audioModel.getExtension()));
             IOUtils.copy(inputStream, outputStream);
 
         } catch (IOException e) {
@@ -93,7 +96,6 @@ public class AudioRestApiController {
                                               @RequestParam Integer lastIndex) {
         AudioModel audioModel = new AudioModel();
         audioModel.setCreateTime(new Date());
-        audioModel.setName(filename);
         audioModel.setContentType(file.getContentType());
 
         audioModel.setTaskId(taskId);
@@ -107,6 +109,8 @@ public class AudioRestApiController {
         OutputStream outputStream = null;
         InputStream inputStream = null;
         try {
+            filename = new String(filename.getBytes("ISO-8859-1"), "utf-8");
+            audioModel.setName(filename);
             inputStream = file.getInputStream();
             outputStream = FileUtils.openOutputStream(new File(path));
             IOUtils.copy(inputStream, outputStream);
@@ -118,7 +122,7 @@ public class AudioRestApiController {
             IOUtils.closeQuietly(outputStream);
         }
 
-        Integer result = audioService.createSelective(audioModel);
+        audioService.createSelective(audioModel);
         ResponseEnvelope<Long> responseEnv = new ResponseEnvelope<>(audioModel.getId(), true);
         return responseEnv;
     }
@@ -128,13 +132,6 @@ public class AudioRestApiController {
         audioService.deleteAudio(id);
         ResponseEnvelope<String> responseEnv = new ResponseEnvelope<>("ok", true);
         return responseEnv;
-    }
-
-    public static void main(String[] args) throws Exception{
-        Base64 base64=new Base64();
-        byte[] btyeArrayStr = base64.encode(FileUtils.readFileToByteArray(new File("/Users/haiquanli/Documents/varx/se_t630.amr")));
-        System.out.println(new String(btyeArrayStr,"UTF-8"));
-
     }
 
 

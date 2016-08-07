@@ -42,7 +42,7 @@
             </div>
 
             <div class="form-group">
-                <label class="col-sm-4 control-label no-padding-right" for="form-field-1">座机a<label
+                <label class="col-sm-4 control-label no-padding-right" for="form-field-1">座机<label
                         style="color: red;">&nbsp;*</label> </label>
 
                 <div class="col-sm-8">

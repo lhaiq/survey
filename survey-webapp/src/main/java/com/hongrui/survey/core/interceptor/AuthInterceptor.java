@@ -28,6 +28,7 @@ public class AuthInterceptor implements HandlerInterceptor {
     private Cache<String, Long> sessionCache;
 
     private final static String AUTHORIZATION = "Authorization";
+    private final static String ROLE = "Role";
 
 
     @Override
@@ -44,17 +45,27 @@ public class AuthInterceptor implements HandlerInterceptor {
                 Object user = session.getAttribute("user");
                 if (null == user) {
                     response.sendRedirect("/login");
+                    return true;
                 }
             }
 
             RestController restController = handlerMethod.getBeanType().getAnnotation(RestController.class);
             if (null != restController) {
+
+                String role = request.getHeader(ROLE);
+                if("Admin".equals(role)){
+                    return true;
+                }
                 String authToken = request.getHeader(AUTHORIZATION);
                 if (StringUtils.isEmpty(authToken)) {
                     HRErrorCode.throwBusinessException(HRErrorCode.UN_LOGIN);
                 }
 
                 Long userId = sessionCache.getIfPresent(authToken);
+                if(null==userId){
+                    HRErrorCode.throwBusinessException(HRErrorCode.UN_LOGIN);
+                }
+
                 request.setAttribute("userId", userId);
             }
         }

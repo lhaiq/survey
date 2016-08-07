@@ -1,5 +1,6 @@
 package com.hongrui.survey.core.controller;
 
+import com.hongrui.survey.core.TaskStatus;
 import com.hongrui.survey.core.model.TaskDetailModel;
 import com.hongrui.survey.core.model.TaskModel;
 import com.hongrui.survey.core.model.TaskTypeModel;
@@ -20,6 +21,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.ws.rs.PathParam;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Map;
 
@@ -100,8 +102,28 @@ public class TaskRestApiController {
 
     @GetMapping(value = "/comment/task/{id}")
     public ResponseEnvelope<String> commentTask(@PathVariable Long id,
-                                             @RequestParam(required = false) String comment,
-                                             @RequestParam String type) {
+                                                @RequestParam(required = false) String comment,
+                                                @RequestParam String type) {
+        try {
+            comment = new String(comment.getBytes("ISO-8859-1"), "utf-8");
+        } catch (UnsupportedEncodingException e) {
+            logger.error("error", e);
+        }
+
+        TaskModel param = new TaskModel();
+        param.setId(id);
+        param.setComment(comment);
+
+        if ("pass".equals(type)) {
+            param.setStatus(TaskStatus.SUCCESS.getCode());
+        } else if ("refuse".equals(type)) {
+            param.setStatus(TaskStatus.FAILURE.getCode());
+        } else if ("discard".equals(type)) {
+            param.setStatus(TaskStatus.DISCARD.getCode());
+        }
+
+        taskService.updateByPrimaryKeySelective(param);
+
         ResponseEnvelope<String> responseEnv = new ResponseEnvelope<>("ok", true);
         return responseEnv;
     }

@@ -1,6 +1,7 @@
 package com.hongrui.survey.core.controller;
 
 import com.hongrui.survey.core.RandomUtil;
+import com.hongrui.survey.core.annotation.IgnoreAuth;
 import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
@@ -49,6 +50,7 @@ public class PhotoRestApiController {
     @Value("${photo.base.url}")
     private String baseDirectory;
 
+    @IgnoreAuth
     @GetMapping(value = "/photo/{id}")
     public void getPhotoById(@PathVariable Long id,
                              @RequestParam(value = "width", required = false) Integer width,
@@ -61,7 +63,7 @@ public class PhotoRestApiController {
         InputStream inputStream = null;
         try {
             outputStream = response.getOutputStream();
-            inputStream = FileUtils.openInputStream(new File(baseDirectory + "/" + photoModel.getPath()));
+            inputStream = FileUtils.openInputStream(new File(baseDirectory + "/" + photoModel.getPath() + "." + photoModel.getExtension()));
             if (null == width && null == height) {
                 IOUtils.copy(inputStream, outputStream);
             } else {
@@ -79,20 +81,21 @@ public class PhotoRestApiController {
 
     }
 
+    @IgnoreAuth
     @GetMapping(value = "/photo/jpg/{path:.+}")
     public void getPhotoExtensionById(@PathVariable String path,
-                             @RequestParam(value = "width", required = false) Integer width,
-                             @RequestParam(value = "height", required = false) Integer height,
-                             HttpServletResponse response) {
+                                      @RequestParam(value = "width", required = false) Integer width,
+                                      @RequestParam(value = "height", required = false) Integer height,
+                                      HttpServletResponse response) {
 
-        path=path.substring(0,path.indexOf("."));
+        path = path.substring(0, path.indexOf("."));
         PhotoModel photoModel = photoService.findByPrimaryKey(Long.parseLong(path));
         response.setContentType(photoModel.getContentType());
         OutputStream outputStream = null;
         InputStream inputStream = null;
         try {
             outputStream = response.getOutputStream();
-            inputStream = FileUtils.openInputStream(new File(baseDirectory + "/" + photoModel.getPath()));
+            inputStream = FileUtils.openInputStream(new File(baseDirectory + "/" + photoModel.getPath() + "." + photoModel.getExtension()));
             if (null == width && null == height) {
                 IOUtils.copy(inputStream, outputStream);
             } else {
@@ -150,7 +153,6 @@ public class PhotoRestApiController {
         ResponseEnvelope<String> responseEnv = new ResponseEnvelope<>("ok", true);
         return responseEnv;
     }
-
 
 
 }

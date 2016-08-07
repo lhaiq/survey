@@ -1,5 +1,6 @@
 package com.hongrui.survey.core.controller;
 
+import com.hongrui.survey.core.annotation.IgnoreAuth;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +18,7 @@ public class IndexController {
         return "common/index";
     }
 
+    @IgnoreAuth
     @GetMapping(value = "login")
     public String login(Model model){
         return "login";

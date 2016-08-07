@@ -252,6 +252,37 @@
                     </li>
                 </ul>
             </li>
+
+            <li class="">
+                <a href="#" class="dropdown-toggle">
+                    <i class="menu-icon fa fa-paper-plane-o"></i>
+                    <span class="menu-text">照片类型管理</span>
+
+                    <b class="arrow fa fa-angle-down"></b>
+                </a>
+
+                <b class="arrow"></b>
+
+                <ul class="submenu">
+
+                    <li class="">
+                        <a href="javascript:link('/survey/photoType/addUI')">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            添加照片类型
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+                    <li class="">
+                        <a href="javascript:link('/survey/photoType')">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            照片类型列表
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+                </ul>
+            </li>
         </c:if>
 
 
@@ -277,12 +308,16 @@
     <script type="text/javascript">
 
 
+
         function link(url) {
             $.ajax({
                 url: url,
                 async: true,
-                success: function (data) {
+                success: function (data, status, xhr) {
                     $(".page-content-area").html(data)
+                },
+                error: function (data) {
+                    console.log(data)
                 }
             });
         }
