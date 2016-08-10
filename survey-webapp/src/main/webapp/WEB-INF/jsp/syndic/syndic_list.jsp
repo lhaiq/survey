@@ -69,7 +69,7 @@
                                     <i class="ace-icon fa fa-pencil bigger-130"></i>
                                 </a>
 
-                                <a class="red" href="javascript:deleteById(${item.id})">
+                                <a class="red" style="opacity: 0.2" href="javascript:deleteById(${item.id})">
                                     <i class="ace-icon fa fa-trash-o bigger-130"></i>
                                 </a>
                             </div>
@@ -90,8 +90,8 @@
 
                                         <li>
                                             <a href="#" class="tooltip-error" data-rel="tooltip" title=""
-                                               data-original-title="Delete">
-                                            <span class="red">
+                                               data-original-title="Delete" >
+                                            <span  disabled="true">
                                                 <i class="ace-icon fa fa-trash-o bigger-120"></i>
                                             </span>
                                             </a>

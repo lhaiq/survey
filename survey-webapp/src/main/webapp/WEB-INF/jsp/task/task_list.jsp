@@ -98,7 +98,7 @@
                                         <i class="ace-icon fa fa-pencil bigger-130" title="编辑"></i>
                                     </a>
 
-                                    <a class="red"
+                                    <a
                                        <c:if test="${item.status==0 or item.status==6}">href=href="javascript:deleteById(${item.id})"</c:if>>
                                         <i class="ace-icon fa fa-trash-o bigger-130"></i>
                                     </a>

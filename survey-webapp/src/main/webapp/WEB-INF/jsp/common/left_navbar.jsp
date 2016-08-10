@@ -10,6 +10,7 @@
         ace.settings.check('main-container', 'fixed')
     } catch (e) {
     }
+
 </script>
 <!-- #section:basics/sidebar 侧边导航-->
 <div id="sidebar" class="sidebar                  responsive">
@@ -52,9 +53,9 @@
     </div>
     <!-- /.sidebar-shortcuts -->
     <!--下拉导航开始-->
-    <ul class="nav nav-list" id="nav-list">
+    <ul class="nav nav-list">
         <c:if test="${sessionScope.user.role==2}">
-            <li class="active">
+            <li>
                 <a href="#" class="dropdown-toggle">
                     <i class="menu-icon fa fa-user"></i>
                     <span class="menu-text">评审员管理</span>
@@ -65,7 +66,7 @@
                 <b class="arrow"></b>
 
                 <ul class="submenu">
-                    <li class="">
+                    <li class="submenuFlag">
                         <a href="javascript:link('/survey/addSyndicUI')">
                             <i class="menu-icon fa fa-caret-right"></i>
                             添加评审员
@@ -73,7 +74,7 @@
                         <b class="arrow"></b>
                     </li>
 
-                    <li class="">
+                    <li class="submenuFlag">
                         <a href="javascript:link('/survey/syndic')">
                             <i class="menu-icon fa fa-caret-right"></i>
                             评审员列表
@@ -95,7 +96,7 @@
                 <b class="arrow"></b>
 
                 <ul class="submenu">
-                    <li class="">
+                    <li class="submenuFlag">
                         <a href="javascript:link('/survey/addSurveyorUI')">
                             <i class="menu-icon fa fa-caret-right"></i>
                             添加调查员
@@ -103,7 +104,7 @@
                         <b class="arrow"></b>
                     </li>
 
-                    <li class="">
+                    <li class="submenuFlag">
                         <a href="javascript:link('/survey/surveyor')">
                             <i class="menu-icon fa fa-caret-right"></i>
                             调查员列表
@@ -125,7 +126,7 @@
                 <b class="arrow"></b>
 
                 <ul class="submenu">
-                    <li class="">
+                    <li class="submenuFlag">
                         <a href="javascript:link('/survey/addManagerUI')">
                             <i class="menu-icon fa fa-caret-right"></i>
                             添加主管
@@ -133,7 +134,7 @@
                         <b class="arrow"></b>
                     </li>
 
-                    <li class="">
+                    <li class="submenuFlag">
                         <a href="javascript:link('/survey/manager')">
                             <i class="menu-icon fa fa-caret-right"></i>
                             主管列表
@@ -158,7 +159,7 @@
 
                 <ul class="submenu">
                     <c:if test="${sessionScope.user.role==1}">
-                        <li class="">
+                        <li class="submenuFlag">
                             <a href="javascript:link('/survey/addCustomerUI')">
                                 <i class="menu-icon fa fa-user-plus"></i>
                                 添加客户
@@ -167,7 +168,7 @@
                         </li>
                     </c:if>
 
-                    <li class="">
+                    <li class="submenuFlag">
                         <a href="javascript:link('/survey/customer')">
                             <i class="menu-icon fa fa-caret-right"></i>
                             客户列表
@@ -181,7 +182,7 @@
 
         <li class="">
             <a href="#" class="dropdown-toggle">
-                <i class="menu-icon fa fa-paper-plane-o"></i>
+                <i class="menu-icon fa fa-tasks"></i>
                 <span class="menu-text">调查任务</span>
 
                 <b class="arrow fa fa-angle-down"></b>
@@ -191,7 +192,7 @@
 
             <ul class="submenu">
                 <c:if test="${sessionScope.user.role==2}">
-                    <li class="active">
+                    <li class="submenuFlag">
                         <a href="javascript:link('/survey/task/addTypeUI')">
                             <i class="menu-icon fa fa-caret-right"></i>
                             添加任务类型
@@ -199,7 +200,7 @@
 
                         <b class="arrow"></b>
                     </li>
-                    <li class="">
+                    <li class="submenuFlag">
                         <a href="javascript:link('/survey/task/taskType')">
                             <i class="menu-icon fa fa-caret-right"></i>
                             任务类型列表
@@ -209,7 +210,7 @@
                     </li>
                 </c:if>
                 <c:if test="${sessionScope.user.role ==1 or sessionScope.user.role ==3}">
-                    <li class="">
+                    <li class="submenuFlag">
                         <a href="javascript:link('/survey/core/task')">
                             <i class="menu-icon fa fa-caret-right"></i>
                             任务列表
@@ -224,7 +225,7 @@
         <c:if test="${sessionScope.user.role==2}">
             <li class="">
                 <a href="#" class="dropdown-toggle">
-                    <i class="menu-icon fa fa-paper-plane-o"></i>
+                    <i class="menu-icon fa fa-cubes"></i>
                     <span class="menu-text">模板管理</span>
 
                     <b class="arrow fa fa-angle-down"></b>
@@ -234,15 +235,15 @@
 
                 <ul class="submenu">
 
-                    <li class="">
+                    <li class="submenuFlag">
                         <a href="javascript:link('/survey/template/addUI')">
-                            <i class="menu-icon fa fa-caret-right"></i>
+                            <i class="menu-icon fa fa-cubes"></i>
                             添加模板
                         </a>
 
                         <b class="arrow"></b>
                     </li>
-                    <li class="">
+                    <li class="submenuFlag">
                         <a href="javascript:link('/survey/template')">
                             <i class="menu-icon fa fa-caret-right"></i>
                             模板列表
@@ -255,7 +256,7 @@
 
             <li class="">
                 <a href="#" class="dropdown-toggle">
-                    <i class="menu-icon fa fa-paper-plane-o"></i>
+                    <i class="menu-icon fa fa-photo"></i>
                     <span class="menu-text">照片类型管理</span>
 
                     <b class="arrow fa fa-angle-down"></b>
@@ -265,7 +266,7 @@
 
                 <ul class="submenu">
 
-                    <li class="active">
+                    <li class="submenuFlag">
                         <a href="javascript:link('/survey/photoType/addUI')">
                             <i class="menu-icon fa fa-caret-right"></i>
                             添加照片类型
@@ -273,7 +274,7 @@
 
                         <b class="arrow"></b>
                     </li>
-                    <li class="">
+                    <li class="submenuFlag">
                         <a href="javascript:link('/survey/photoType')">
                             <i class="menu-icon fa fa-caret-right"></i>
                             照片类型列表
@@ -306,6 +307,7 @@
     </script>
 
     <script type="text/javascript">
+
 
 
         function link(url) {
