@@ -125,9 +125,10 @@ public class PhotoRestApiController {
         photoModel.setTaskId(taskId);
         photoModel.setContentType(file.getContentType());
         String filename = RandomUtil.createRandom(true, 12);
-        String path = baseDirectory + "/" + filename;
+        String extension = FilenameUtils.getExtension(file.getOriginalFilename());
+        String path = baseDirectory + "/" + filename + "." + extension;
         photoModel.setPath(filename);
-        photoModel.setExtension(FilenameUtils.getExtension(file.getOriginalFilename()));
+        photoModel.setExtension(extension);
         OutputStream outputStream = null;
         InputStream inputStream = null;
         try {

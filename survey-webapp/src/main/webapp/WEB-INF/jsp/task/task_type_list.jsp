@@ -41,13 +41,15 @@
                     <c:forEach var="item" varStatus="i" items="${data.content}">
                         <td class="hidden-480">${item.name}</td>
                         <td class="hidden-480">
-                            <c:forEach items="${item.photos}" var="photo">
+                            <c:forEach items="${item.photos}" var="photo" varStatus="j">
                                 ${photo.name}(${photo.pixel})
+                                <c:if test="${!j.last}">,</c:if>
                             </c:forEach>
                         </td>
                         <td class="hidden-480">
-                            <c:forEach items="${item.templates}" var="template">
+                            <c:forEach items="${item.templates}" var="template" varStatus="j">
                                 ${template.name}
+                                <c:if test="${!j.last}">,</c:if>
                             </c:forEach>
                         </td>
                         <td>
@@ -58,9 +60,9 @@
                                     <i class="ace-icon fa fa-pencil bigger-130"></i>
                                 </a>
 
-                                <a class="red" href="javascript:deleteById(${item.id})">
-                                    <i class="ace-icon fa fa-trash-o bigger-130"></i>
-                                </a>
+                                <%--<a class="red" href="javascript:deleteById(${item.id})">--%>
+                                    <%--<i class="ace-icon fa fa-trash-o bigger-130"></i>--%>
+                                <%--</a>--%>
 
                             </div>
 

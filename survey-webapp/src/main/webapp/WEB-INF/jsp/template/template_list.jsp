@@ -38,9 +38,9 @@
                                     <i class="ace-icon fa fa-eye bigger-130"></i>
                                 </a>
 
-                                <a class="red" href="javascript:deleteById(${item.id})">
-                                    <i class="ace-icon fa fa-trash-o bigger-130"></i>
-                                </a>
+                                <%--<a class="red" href="javascript:deleteById(${item.id})">--%>
+                                    <%--<i class="ace-icon fa fa-trash-o bigger-130"></i>--%>
+                                <%--</a>--%>
 
                                 <div id="dialog-message${i.count}" class="hide">
                                     <div>

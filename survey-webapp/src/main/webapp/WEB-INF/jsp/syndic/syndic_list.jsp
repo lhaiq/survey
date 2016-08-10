@@ -69,7 +69,7 @@
                                     <i class="ace-icon fa fa-pencil bigger-130"></i>
                                 </a>
 
-                                <a class="red" style="opacity: 0.2" href="javascript:deleteById(${item.id})">
+                                <a class="red"  href="javascript:deleteById(${item.id})">
                                     <i class="ace-icon fa fa-trash-o bigger-130"></i>
                                 </a>
                             </div>

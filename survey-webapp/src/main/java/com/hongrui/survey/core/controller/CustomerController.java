@@ -4,6 +4,7 @@ import com.hongrui.survey.core.model.CustomerModel;
 import com.hongrui.survey.core.service.CustomerService;
 import com.hongrui.survey.core.vo.CustomerVO;
 import com.wlw.pylon.core.beans.mapping.BeanMapper;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 @Controller
 @RequestMapping("/survey")
@@ -58,7 +60,15 @@ public class CustomerController {
 
     @GetMapping(value = "/customer")
     public String listCustomer(CustomerVO customerVO, Pageable pageable, Model model) {
+        try {
+            if(StringUtils.isNoneEmpty(customerVO.getName())){
+                String name = new String(customerVO.getName().getBytes("ISO-8859-1"), "utf-8");
+                customerVO.setName(name);
+            }
 
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         CustomerModel param = beanMapper.map(customerVO, CustomerModel.class);
         Page<CustomerModel> page = customerService.searchPage(param, pageable);
         model.addAttribute("data", page);

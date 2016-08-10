@@ -90,16 +90,21 @@
 
                                 </c:if>
                                 <c:if test="${sessionScope.user.role==3}">
-                                    <a class="blue" href="javascript:link('/survey/reallocateTaskUI/${customerId.id}')">
+                                    <a class="blue" href="javascript:link('/survey/reallocateTaskUI/${item.customerId}')">
                                         <i class="ace-icon glyphicon glyphicon-repeat bigger-130" title="重新分配"></i>
                                     </a>
                                     <a class="green"
-                                       <c:if test="${item.status==0}">href="javascript:link('/survey/editTaskUI/${item.id}')"</c:if>>
+                                       <c:if test="${item.status==0}">href="javascript:link('/survey/editTaskUI/${item.id}')"</c:if>
+                                       <c:if test="${item.status!=0}">style="opacity: 0.2"</c:if>
+                                            >
                                         <i class="ace-icon fa fa-pencil bigger-130" title="编辑"></i>
                                     </a>
 
                                     <a
-                                       <c:if test="${item.status==0 or item.status==6}">href=href="javascript:deleteById(${item.id})"</c:if>>
+                                       <c:if test="${item.status==0 or item.status==6}">href=href="javascript:deleteById(${item.id})"</c:if>
+                                       <c:if test="${item.status!=0 && item.status!=6}">style="opacity: 0.2"</c:if>
+
+                                            >
                                         <i class="ace-icon fa fa-trash-o bigger-130"></i>
                                     </a>
                                 </c:if>

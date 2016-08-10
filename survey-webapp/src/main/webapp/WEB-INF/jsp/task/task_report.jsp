@@ -193,7 +193,7 @@
                                         </a>
                                         </li>
                                         <div id="dialog-message${i.count}" templateId="${report.value.templateId}"
-                                             reportId="${report.value.content.id}" class="hide" name="${report.key}">
+                                             reportId="${report.value.content.id}" class="hide dialog-report" name="${report.key}">
                                         </div>
                                     </c:forEach>
                                 </ul>
@@ -227,23 +227,23 @@
                         <h3 class="widget-title grey lighter">评价</h3>
                     </div>
                     <div class="hr hr8  hr-dotted"></div>
-                    <div>
-                        <textarea class="autosize-transition form-control" id="textarea_comment">${td.comment}</textarea>
+                        <textarea class="autosize-transition form-control" <c:if test="${td.status!=3}">disabled</c:if>
+                                  id="textarea_comment">${td.comment}</textarea>
                     </div>
                     <br/>
 
                     <div class="col-md-offset-3 col-md-9">
-                        <button class="btn btn-info" type="button" onclick="comment('pass');">
+                        <button class="btn btn-info" <c:if test="${td.status!=3}">disabled</c:if> type="button" <c:if test="${td.status==3}">onclick="comment('pass');"</c:if> >
                             <i class="ace-icon fa fa-thumbs-o-up bigger-110"></i> 通过
                         </button>
 
                         &nbsp; &nbsp; &nbsp;
-                        <button class="btn btn-warning" type="button" onclick="comment('refuse');">
+                        <button class="btn btn-warning" <c:if test="${td.status!=3}">disabled</c:if> type="button" <c:if test="${td.status==3}">onclick="comment('refuse');"</c:if>>
                             <i class="ace-icon fa fa-thumbs-o-down bigger-110"></i> 重新调查
                         </button>
 
                         &nbsp; &nbsp; &nbsp;
-                        <button class="btn btn-danger" type="button" onclick="comment('discard');">
+                        <button class="btn btn-danger" <c:if test="${td.status!=3}">disabled</c:if> type="button" <c:if test="${td.status==3}">onclick="comment('discard');"</c:if>>
                             <i class="ace-icon fa fa-times bigger-110"></i> 废弃
                         </button>
                     </div>
@@ -310,12 +310,15 @@
     }
 
     function getTemplateAndReport(reportDiv) {
+        var templateId = reportDiv.attr("templateId");
         $.ajax({
             type: "get",
-            url: "/survey/conf/" + reportDiv.attr("templateId"),
+            url: "/survey/conf/" + templateId,
             success: function (data) {
                 if (data.status) {
-                    reportDiv.html(data.data.content);
+                    var content = data.data.content;
+                    content=content.replace('templateId', 'templateId' + templateId)
+                    reportDiv.html(content);
                     fileReport(reportDiv)
                 }
             }
@@ -372,11 +375,12 @@
         $(".dialogMessage").on('click', function (e) {
             e.preventDefault();
             var name = this.name;
+            $(".dialog-report").html("")
             getTemplateAndReport($("#dialog-message" + name));
             var dialog = $("#dialog-message" + name).removeClass('hide').dialog({
                 width: 800,
                 modal: true,
-                title: "<div class='widget-header widget-header-small'><h4 class='smaller'><i class='ace-icon fa fa-check'>" + 表格预览 + "</i></h4></div>",
+                title: "<div class='widget-header widget-header-small'><h4 class='smaller'><i class='ace-icon fa fa-check'>" + name + "</i></h4></div>",
                 title_html: true,
                 buttons: [
                     {
