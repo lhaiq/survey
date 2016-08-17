@@ -37,9 +37,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-sm-6">
-                                        <img height="250"
-                                             src="http://api.map.baidu.com/staticimage?center=${sign.actualLongitude},${sign.actualLatitude}&width=400&height=300&zoom=11&markers=${sign.actualLongitude},${sign.actualLatitude}"/>
+                                    <div class="col-sm-6" id="actualLocation">
                                     </div>
                                 </div>
                                 <!-- /.col -->
@@ -52,8 +50,7 @@
                                     </div>
 
                                     <div class="col-sm-6">
-                                        <img height="250"
-                                             src="http://api.map.baidu.com/staticimage?center=${sign.signLongitude},${sign.signLatitude}&width=400&height=300&zoom=11&markers=${sign.signLongitude},${sign.signLatitude}"/>
+                                        <div id="signLocation"></div>
                                     </div>
                                 </div>
                             </div>
@@ -69,7 +66,7 @@
 
 
                         <div>
-                            <h3 class="widget-title grey lighter">客户信息</h3>
+                            <h3 class="widget-title grey lighter">客户信息及调查总结</h3>
                         </div>
                         <div class="hr hr8  hr-dotted"></div>
 
@@ -124,6 +121,13 @@
 
                                 <div class="profile-info-value">
                                     <span class="editable">${td.customer.address}</span>
+                                </div>
+                            </div>
+                            <div class="profile-info-row">
+                                <div class="profile-info-name">调查总结</div>
+
+                                <div class="profile-info-value">
+                                    <span class="editable">${td.summary}</span>
                                 </div>
                             </div>
                         </div>
@@ -193,7 +197,8 @@
                                         </a>
                                         </li>
                                         <div id="dialog-message${i.count}" templateId="${report.value.templateId}"
-                                             reportId="${report.value.content.id}" class="hide dialog-report" name="${report.key}">
+                                             reportId="${report.value.content.id}" class="hide dialog-report"
+                                             name="${report.key}">
                                         </div>
                                     </c:forEach>
                                 </ul>
@@ -227,40 +232,91 @@
                         <h3 class="widget-title grey lighter">评价</h3>
                     </div>
                     <div class="hr hr8  hr-dotted"></div>
-                        <textarea class="autosize-transition form-control" <c:if test="${td.status!=3}">disabled</c:if>
+                        <textarea class="autosize-transition form-control"
+                                  <c:if test="${td.status!=3}">disabled</c:if>
                                   id="textarea_comment">${td.comment}</textarea>
-                    </div>
-                    <br/>
-
-                    <div class="col-md-offset-3 col-md-9">
-                        <button class="btn btn-info" <c:if test="${td.status!=3}">disabled</c:if> type="button" <c:if test="${td.status==3}">onclick="comment('pass');"</c:if> >
-                            <i class="ace-icon fa fa-thumbs-o-up bigger-110"></i> 通过
-                        </button>
-
-                        &nbsp; &nbsp; &nbsp;
-                        <button class="btn btn-warning" <c:if test="${td.status!=3}">disabled</c:if> type="button" <c:if test="${td.status==3}">onclick="comment('refuse');"</c:if>>
-                            <i class="ace-icon fa fa-thumbs-o-down bigger-110"></i> 重新调查
-                        </button>
-
-                        &nbsp; &nbsp; &nbsp;
-                        <button class="btn btn-danger" <c:if test="${td.status!=3}">disabled</c:if> type="button" <c:if test="${td.status==3}">onclick="comment('discard');"</c:if>>
-                            <i class="ace-icon fa fa-times bigger-110"></i> 废弃
-                        </button>
-                    </div>
                 </div>
-                <div class="row"></div>
+                <br/>
+
+                <div class="col-md-offset-3 col-md-9">
+                    <button class="btn btn-info"
+                            <c:if test="${td.status!=3}">disabled</c:if> type="button"
+                            <c:if test="${td.status==3}">onclick="comment('pass');"</c:if> >
+                        <i class="ace-icon fa fa-thumbs-o-up bigger-110"></i> 通过
+                    </button>
+
+                    &nbsp; &nbsp; &nbsp;
+                    <button class="btn btn-warning"
+                            <c:if test="${td.status!=3}">disabled</c:if> type="button"
+                            <c:if test="${td.status==3}">onclick="comment('refuse');"</c:if>>
+                        <i class="ace-icon fa fa-thumbs-o-down bigger-110"></i> 重新调查
+                    </button>
+
+                    &nbsp; &nbsp; &nbsp;
+                    <button class="btn btn-danger"
+                            <c:if test="${td.status!=3}">disabled</c:if> type="button"
+                            <c:if test="${td.status==3}">onclick="comment('discard');"</c:if>>
+                        <i class="ace-icon fa fa-times bigger-110"></i> 废弃
+                    </button>
+                </div>
             </div>
-
-            <!-- /section:pages/invoice -->
+            <div class="row"></div>
         </div>
-    </div>
 
-    <!-- PAGE CONTENT ENDS -->
+        <!-- /section:pages/invoice -->
+    </div>
+</div>
+
+<!-- PAGE CONTENT ENDS -->
 
 </div>
 <!-- /.row -->
+<c:if test="${sign!=null}">
+
+    <script type="text/javascript">
 
 
+        // 百度地图API功能
+        var actualMap = new BMap.Map("actualLocation");
+        var signMap = new BMap.Map("signLocation");
+
+        var actual_top_left_control = new BMap.ScaleControl({anchor: BMAP_ANCHOR_TOP_LEFT});// 左上角，添加比例尺
+        var actual_top_left_navigation = new BMap.NavigationControl();  //左上角，添加默认缩放平移控件
+        var actual_top_right_navigation = new BMap.NavigationControl({
+            anchor: BMAP_ANCHOR_TOP_RIGHT,
+            type: BMAP_NAVIGATION_CONTROL_SMALL
+        });
+
+        var sign_top_left_control = new BMap.ScaleControl({anchor: BMAP_ANCHOR_TOP_LEFT});// 左上角，添加比例尺
+        var sign_top_left_navigation = new BMap.NavigationControl();  //左上角，添加默认缩放平移控件
+        var sign_top_right_navigation = new BMap.NavigationControl({
+            anchor: BMAP_ANCHOR_TOP_RIGHT,
+            type: BMAP_NAVIGATION_CONTROL_SMALL
+        });
+
+        actualMap.addControl(actual_top_left_control);
+        actualMap.addControl(actual_top_left_navigation);
+        actualMap.addControl(actual_top_right_navigation);
+
+        signMap.addControl(sign_top_left_control);
+        signMap.addControl(sign_top_left_navigation);
+        signMap.addControl(sign_top_right_navigation);
+
+        var actualPoint = new BMap.Point(${sign.actualLongitude}, ${sign.actualLatitude});
+        actualMap.centerAndZoom(actualPoint, 12);
+        var actualMarker = new BMap.Marker(actualPoint);// 创建标注
+        actualMap.addOverlay(actualMarker);             // 将标注添加到地图中
+        actualMarker.enableDragging();
+
+        var signPoint = new BMap.Point(${sign.signLongitude}, ${sign.signLatitude});
+        signMap.centerAndZoom(signPoint, 12);
+        var signMarker = new BMap.Marker(signPoint);// 创建标注
+        signMap.addOverlay(signMarker);             // 将标注添加到地图中
+        signMarker.enableDragging();
+
+
+    </script>
+</c:if>
 <%--查看图片js--%>
 <script type="text/javascript">
     jQuery(function ($) {
@@ -317,7 +373,7 @@
             success: function (data) {
                 if (data.status) {
                     var content = data.data.content;
-                    content=content.replace('templateId', 'templateId' + templateId)
+                    content = content.replace('templateId', 'templateId' + templateId)
                     reportDiv.html(content);
                     fileReport(reportDiv)
                 }
@@ -396,4 +452,6 @@
         });
 
     });
+
+
 </script>

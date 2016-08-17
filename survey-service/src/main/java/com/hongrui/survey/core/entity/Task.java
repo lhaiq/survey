@@ -27,6 +27,8 @@ public class Task {
 
     private Date commitTime;
 
+    private String summary;
+
     public Long getId() {
         return id;
     }
@@ -121,5 +123,13 @@ public class Task {
 
     public void setCommitTime(Date commitTime) {
         this.commitTime = commitTime;
+    }
+
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary;
     }
 }

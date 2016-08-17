@@ -1,7 +1,7 @@
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <!--[if !IE]> -->
 <script type="text/javascript">
-	window.jQuery || document.write("<script src='assets/js/jquery.min.js'>"+"<"+"/script>");
+    window.jQuery || document.write("<script src='assets/js/jquery.min.js'>" + "<" + "/script>");
 </script>
 
 <!-- <![endif]-->
@@ -12,9 +12,22 @@ window.jQuery || document.write("<script src='assets/js/jquery1x.min.js'>"+"<"+"
 </script>
 <![endif]-->
 <script type="text/javascript">
-	if('ontouchstart' in document.documentElement) document.write("<script src='assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+    if ('ontouchstart' in document.documentElement) document.write("<script src='assets/js/jquery.mobile.custom.min.js'>" + "<" + "/script>");
 </script>
 
+<style type="text/css">
+    #actualLocation {
+        width: 330px;
+        height: 300px;
+        overflow: hidden;margin:0;font-family:"微软雅黑";
+    }
+
+    #signLocation {
+        width: 330px;
+        height: 300px;
+        overflow: hidden;margin:0;font-family:"微软雅黑";
+    }
+</style>
 
 <script src="assets/js/bootstrap.min.js"></script>
 <!--[if lte IE 8]>
@@ -59,60 +72,58 @@ window.jQuery || document.write("<script src='assets/js/jquery1x.min.js'>"+"<"+"
 <script src="assets/js/ace.min.js"></script>
 <script src="assets/js/jquery.colorbox-min.js"></script>
 
-
-
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=7GAxnzcDaWjbiLx19K3Hge1OKBuK5alo"></script>
 
 
 <script type="text/javascript">
 
-	jQuery(function($) {
-		//改变皮肤录入事件
-		$("#skin-colorpicker").on("change",function(){
-			ajaxByurl("rest/menu/setUIstyle?skin="+this.selectedIndex);
-		});
-		//界面调整录入事件
-		$("#ace-settings-add-container").on("click",function(){
-			ajaxByurl("rest/menu/setUIstyle?uiStyle="+boolReve(this.checked));
-		});
-		//子菜单悬浮录入事件
-		$("#ace-settings-hover").on("click",function(){
-			ajaxByurl("rest/menu/setUIstyle?submenu="+boolReve(this.checked));
-		});
-		//迷你导航录入事件
-		$("#ace-settings-compact").on("click",function(){
-			ajaxByurl("rest/menu/setUIstyle?miniNav="+boolReve(this.checked));
-		});
-		//导航边框切换录入事件
-		$("#ace-settings-highlight").on("click",function(){
-			ajaxByurl("rest/menu/setUIstyle?navStyle="+boolReve(this.checked));
-		});
+    jQuery(function ($) {
+        //改变皮肤录入事件
+        $("#skin-colorpicker").on("change", function () {
+            ajaxByurl("rest/menu/setUIstyle?skin=" + this.selectedIndex);
+        });
+        //界面调整录入事件
+        $("#ace-settings-add-container").on("click", function () {
+            ajaxByurl("rest/menu/setUIstyle?uiStyle=" + boolReve(this.checked));
+        });
+        //子菜单悬浮录入事件
+        $("#ace-settings-hover").on("click", function () {
+            ajaxByurl("rest/menu/setUIstyle?submenu=" + boolReve(this.checked));
+        });
+        //迷你导航录入事件
+        $("#ace-settings-compact").on("click", function () {
+            ajaxByurl("rest/menu/setUIstyle?miniNav=" + boolReve(this.checked));
+        });
+        //导航边框切换录入事件
+        $("#ace-settings-highlight").on("click", function () {
+            ajaxByurl("rest/menu/setUIstyle?navStyle=" + boolReve(this.checked));
+        });
 
 
+        // chosen 多选控件
+        $('.chosen-select').chosen({
+            allow_single_deselect: true
+        });
+        $(window).off('resize.chosen').on('resize.chosen', function () {
+            $('.chosen-select').each(function () {
+                var $this = $(this);
+                $this.next().css({
+                    'width': $this.parent().width()
+                });
+            })
+        }).trigger('resize.chosen');
 
-		// chosen 多选控件
-		$('.chosen-select').chosen({
-			allow_single_deselect : true
-		});
-		$(window).off('resize.chosen').on('resize.chosen', function() {
-			$('.chosen-select').each(function() {
-				var $this = $(this);
-				$this.next().css({
-					'width' : $this.parent().width()
-				});
-			})
-		}).trigger('resize.chosen');
 
+        $.ajaxSetup({
+            headers: {
+                "Role": "Admin"
+            }
+        });
 
-		$.ajaxSetup({
-			headers: {
-				"Role": "Admin"
-			}
-		});
-
-        $(".submenuFlag").on('click',function () {
+        $(".submenuFlag").on('click', function () {
             $(".submenuFlag").removeClass('active');
             $(this).addClass('active');
 
         });
-	})
+    })
 </script>

@@ -2,11 +2,13 @@ package com.hongrui.survey.core.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
+import com.hongrui.survey.core.CustomerStatus;
 import com.hongrui.survey.core.HRErrorCode;
 import com.hongrui.survey.core.TaskStatus;
 import com.hongrui.survey.core.model.*;
 import com.hongrui.survey.core.service.*;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -87,7 +89,7 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public Page searchPage(TaskModel taskModel, Pageable pageable) {
         StringBuffer sb = new StringBuffer();
-        sb.append("select t.id,t.create_time as createTime,t.check_time as checkTime,t.start_time as startTime,t.end_time as endTime,t.comment,t.point,t.status,t.type," +
+        sb.append("select t.id,t.create_time as createTime,t.check_time as checkTime,t.start_time as startTime,t.end_time as endTime,t.comment,t.summary,t.point,t.status,t.type," +
                 "u.account,u.nick_name as nickName,c.name as customerName,c.id as customerId," +
                 "c.company,c.address,c.id_card as idCard ,c.mobile_number as mobileNumber,c.telephone_number as telephoneNumber" +
                 " from task t,user u,customer c\n" +
@@ -102,7 +104,17 @@ public class TaskServiceImpl implements TaskService {
         if (null != taskModel.getStatus()) {
             sb.append("and t.status = ?\n");
             countSql.append("and t.status = ?\n");
+        } else {
+            sb.append("and t.status != 6\n");
+            countSql.append("and t.status != 6\n");
         }
+
+        if (StringUtils.isNoneEmpty(taskModel.getCustomerName())) {
+            String customerName = taskModel.getCustomerName();
+            sb.append(" and  c.name like '%" + customerName + "%' ");
+            countSql.append(" and  c.name like '%" + customerName + "%' ");
+        }
+
 
         if (null != taskModel.getSurveyorId()) {
             sb.append("and t.surveyor_id = ?\n");
@@ -150,7 +162,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public void commitTask(Long id) {
+    public void commitTask(Long id, String summary) {
         TaskModel taskModel = findByPrimaryKey(id);
         if (TaskStatus.STARTED.getCode() != taskModel.getStatus()) {
             HRErrorCode.throwBusinessException(HRErrorCode.TASK_STATUS_INCORRECT);
@@ -160,6 +172,7 @@ public class TaskServiceImpl implements TaskService {
         param.setId(id);
         param.setEndTime(new Date());
         param.setStatus(TaskStatus.COMMIT.getCode());
+        param.setSummary(summary);
         updateByPrimaryKeySelective(param);
     }
 
@@ -167,6 +180,14 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public void addTask(TaskModel taskModel) {
         taskModel.setStatus(TaskStatus.CREATED.getCode());
+
+        //更改客户状态
+        CustomerModel param = new CustomerModel();
+        param.setId(taskModel.getCustomerId());
+        param.setStatus(CustomerStatus.ALLOT.getCode());
+        customerService.updateByPrimaryKeySelective(param);
+
+        taskModel.setCreateTime(new Date());
         createSelective(taskModel);
     }
 
@@ -215,10 +236,29 @@ public class TaskServiceImpl implements TaskService {
     public void checkCanEdit(Long id) {
         TaskModel taskModel = findByPrimaryKey(id);
         int status = taskModel.getStatus();
-        if(TaskStatus.CREATED.getCode()!=status&&TaskStatus.COMMIT.getCode()!=status
-                &&TaskStatus.STARTED.getCode()!=status&&TaskStatus.FAILURE.getCode()!=status){
+        if (TaskStatus.CREATED.getCode() != status && TaskStatus.COMMIT.getCode() != status
+                && TaskStatus.STARTED.getCode() != status && TaskStatus.FAILURE.getCode() != status) {
             HRErrorCode.throwBusinessException(HRErrorCode.TASK_STATUS_INCORRECT);
         }
+    }
+
+    @Transactional
+    @Override
+    public void failureTask(TaskModel taskModel) {
+
+        //失败
+        taskModel.setStatus(TaskStatus.FAILURE.getCode());
+        updateByPrimaryKeySelective(taskModel);
+
+        //删除位置
+        String sql = "delete from sign where task_id = ?";
+        jdbcTemplate.update(sql, taskModel.getId());
+
+    }
+
+    @Override
+    public void discardTask(TaskModel taskModel) {
+
     }
 
 
@@ -279,7 +319,7 @@ public class TaskServiceImpl implements TaskService {
             Long templateId = jsonArray.getLong(i);
             String name = jdbcTemplate.queryForObject("select name from conf where id = ?", String.class, templateId);
             String template = jdbcTemplate.queryForObject("select content from conf where id = ?", String.class, templateId);
-            template=template.replace("templateId","templateId-"+templateId);
+            template = template.replace("templateId", "templateId-" + templateId);
             ReportConfModel reportConfModel = new ReportConfModel();
             reportConfModel.setTemplate(template);
             reportConfModel.setTemplateId(templateId);

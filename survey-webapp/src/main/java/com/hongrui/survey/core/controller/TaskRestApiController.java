@@ -1,11 +1,15 @@
 package com.hongrui.survey.core.controller;
 
+import com.hongrui.survey.core.CustomerStatus;
 import com.hongrui.survey.core.TaskStatus;
+import com.hongrui.survey.core.model.CustomerModel;
 import com.hongrui.survey.core.model.TaskDetailModel;
 import com.hongrui.survey.core.model.TaskModel;
 import com.hongrui.survey.core.model.TaskTypeModel;
 import com.hongrui.survey.core.service.ConfService;
+import com.hongrui.survey.core.service.CustomerService;
 import com.hongrui.survey.core.service.TaskService;
+import com.hongrui.survey.core.vo.SummaryVO;
 import com.hongrui.survey.core.vo.TaskVO;
 import com.wlw.pylon.core.beans.mapping.BeanMapper;
 import com.wlw.pylon.web.rest.ResponseEnvelope;
@@ -39,6 +43,9 @@ public class TaskRestApiController {
 
     @Autowired
     private ConfService confService;
+
+    @Autowired
+    private CustomerService customerService;
 
     @GetMapping(value = "/task/{id}")
     public ResponseEnvelope<TaskDetailModel> taskDetail(@PathVariable Long id) {
@@ -93,9 +100,10 @@ public class TaskRestApiController {
         return responseEnv;
     }
 
-    @GetMapping(value = "/commit/task/{id}")
-    public ResponseEnvelope<String> commitTask(@PathVariable Long id) {
-        taskService.commitTask(id);
+    @PostMapping(value = "/commit/task/{id}")
+    public ResponseEnvelope<String> commitTask(@PathVariable Long id,
+                                               @RequestBody SummaryVO summaryVO) {
+        taskService.commitTask(id, summaryVO.getComment());
         ResponseEnvelope<String> responseEnv = new ResponseEnvelope<>("ok", true);
         return responseEnv;
     }
@@ -117,27 +125,20 @@ public class TaskRestApiController {
         if ("pass".equals(type)) {
             param.setStatus(TaskStatus.SUCCESS.getCode());
         } else if ("refuse".equals(type)) {
-            param.setStatus(TaskStatus.FAILURE.getCode());
+            taskService.failureTask(param);
         } else if ("discard".equals(type)) {
+
+            //废弃
+            TaskModel taskModel = taskService.findByPrimaryKey(id);
+            CustomerModel customerParam = new CustomerModel();
+            customerParam.setId(taskModel.getCustomerId());
+            customerParam.setStatus(CustomerStatus.UNALLOT.getCode());
+            customerService.updateByPrimaryKeySelective(customerParam);
             param.setStatus(TaskStatus.DISCARD.getCode());
         }
 
         taskService.updateByPrimaryKeySelective(param);
 
-        ResponseEnvelope<String> responseEnv = new ResponseEnvelope<>("ok", true);
-        return responseEnv;
-    }
-
-    @GetMapping(value = "/refuse/task/{id}")
-    public ResponseEnvelope<String> refuseTask(@PathVariable Long id) {
-        taskService.commitTask(id);
-        ResponseEnvelope<String> responseEnv = new ResponseEnvelope<>("ok", true);
-        return responseEnv;
-    }
-
-    @GetMapping(value = "/discard/task/{id}")
-    public ResponseEnvelope<String> discardTask(@PathVariable Long id) {
-        taskService.commitTask(id);
         ResponseEnvelope<String> responseEnv = new ResponseEnvelope<>("ok", true);
         return responseEnv;
     }

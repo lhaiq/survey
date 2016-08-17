@@ -17,6 +17,7 @@ public class TaskVO{
 	private Integer status;
 	private Date startTime;
 	private Date endTime;
+	private String customerName;
 		
 	public void setId(Long id){
 		this.id = id;
@@ -105,6 +106,12 @@ public class TaskVO{
 	public Date getEndTime(){
 		return this.endTime;
 	}
-		
-		
+
+	public void setCustomerName(String customerName) {
+		this.customerName = customerName;
+	}
+
+	public String getCustomerName() {
+		return customerName;
+	}
 }

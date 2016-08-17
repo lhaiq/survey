@@ -15,7 +15,7 @@
         </div>
         <div id="sample-table-2_wrapper" class="dataTables_wrapper form-inline no-footer">
             <div class="row">
-                <div class="col-xs-6">
+                <div class="col-xs-4">
                     <div class="dataTables_length" id="sample-table-2_length">
                         <label>Display
                             <select id="page_size" name="sample-table-2_length" aria-controls="sample-table-2"
@@ -26,6 +26,33 @@
                                 <option value="100" <c:if test="${data.size==100}">selected</c:if>>100</option>
                             </select> records</label>
                     </div>
+                </div>
+
+                <div class="col-xs-4">
+                    <div class="dataTables_length">
+                        <label>状态
+                            <select id="task_status" name="sample-table-2_length" aria-controls="sample-table-2"
+                                    class="form-control input-sm">
+                                <option value="">---</option>
+                                <option value="0" <c:if test="${taskVO.status==0}">selected</c:if>>待调查</option>
+                                <option value="1" <c:if test="${taskVO.status==1}">selected</c:if>>开始调查</option>
+                                <option value="2" <c:if test="${taskVO.status==2}">selected</c:if>>待审核</option>
+                                <option value="3" <c:if test="${taskVO.status==3}">selected</c:if>>审核中</option>
+                                <option value="4" <c:if test="${taskVO.status==4}">selected</c:if>>审核成功</option>
+                                <option value="5" <c:if test="${taskVO.status==5}">selected</c:if>>重新调查</option>
+                            </select></label>
+                    </div>
+                </div>
+
+                <div class="col-xs-4">
+                    <div id="sample-table-2_filter" class="dataTables_filter"><label>
+                        <input type="search" class="form-control input-sm" aria-controls="sample-table-2"
+                               id="input_search" value="${taskVO.customerName}">
+                        <a class="black" href="javascript:search();">
+                            <i class="fa fa-search bigger-130" aria-hidden="true"></i>
+                        </a>
+
+                    </label></div>
                 </div>
 
             </div>
@@ -64,53 +91,62 @@
                     <tbody>
 
                     <c:forEach var="item" items="${data.content}">
-                        <td class="hidden-480">${item.customerName}</td>
-                        <td class="hidden-480">${item.account}</td>
-                        <td class="hidden-480">${item.type}</td>
-                        <td class="hidden-480"><fmt:formatDate value="${item.startTime}"
-                                                               pattern="yyyy-MM-dd HH:mm:SS"/></td>
-                        <td class="hidden-480"><fmt:formatDate value="${item.endTime}"
-                                                               pattern="yyyy-MM-dd HH:mm:SS"/></td>
-                        <td class="hidden-480">
-                            <c:if test="${item.status==0}">待调查</c:if>
-                            <c:if test="${item.status==1}">开始调查</c:if>
-                            <c:if test="${item.status==2}">待审核</c:if>
-                            <c:if test="${item.status==3}">审核中</c:if>
-                            <c:if test="${item.status==4}">审核成功</c:if>
-                            <c:if test="${item.status==5}">重新调查</c:if>
-                            <c:if test="${item.status==6}">废弃</c:if>
-                        </td>
-                        <td class="hidden-480">${item.point}</td>
-                        <td>
-                            <div class="hidden-sm hidden-xs action-buttons">
-                                <c:if test="${sessionScope.user.role==1}">
-                                    <a class="black" href="javascript:link('/survey/task/report/${item.id}')">
-                                        <i class="ace-icon fa fa-eye bigger-130" title="查看报告"></i>
-                                    </a>
+                        <tr class="
+                                <c:if test="${item.status==0}"></c:if>
+                                <c:if test="${item.status==1}">active</c:if>
+                                <c:if test="${item.status==2}">info</c:if>
+                                <c:if test="${item.status==3}">warning</c:if>
+                                <c:if test="${item.status==4}">success</c:if>
+                                <c:if test="${item.status==5}">danger</c:if>
+                        ">
+                            <td class="hidden-480">${item.customerName}</td>
+                            <td class="hidden-480">${item.account}</td>
+                            <td class="hidden-480">${item.type}</td>
+                            <td class="hidden-480"><fmt:formatDate value="${item.startTime}"
+                                                                   pattern="yyyy-MM-dd HH:mm:SS"/></td>
+                            <td class="hidden-480"><fmt:formatDate value="${item.endTime}"
+                                                                   pattern="yyyy-MM-dd HH:mm:SS"/></td>
+                            <td class="hidden-480">
+                                <c:if test="${item.status==0}">待调查</c:if>
+                                <c:if test="${item.status==1}">开始调查</c:if>
+                                <c:if test="${item.status==2}">待审核</c:if>
+                                <c:if test="${item.status==3}">审核中</c:if>
+                                <c:if test="${item.status==4}">审核成功</c:if>
+                                <c:if test="${item.status==5}">重新调查</c:if>
+                                <c:if test="${item.status==6}">废弃</c:if>
+                            </td>
+                            <td class="hidden-480">${item.point}</td>
+                            <td>
+                                <div class="hidden-sm hidden-xs action-buttons">
+                                    <c:if test="${sessionScope.user.role==1}">
+                                        <a class="black" href="javascript:link('/survey/task/report/${item.id}')">
+                                            <i class="ace-icon fa fa-eye bigger-130" title="查看报告"></i>
+                                        </a>
 
-                                </c:if>
-                                <c:if test="${sessionScope.user.role==3}">
-                                    <a class="blue" href="javascript:link('/survey/reallocateTaskUI/${item.customerId}')">
-                                        <i class="ace-icon glyphicon glyphicon-repeat bigger-130" title="重新分配"></i>
-                                    </a>
-                                    <a class="green"
-                                       <c:if test="${item.status==0}">href="javascript:link('/survey/editTaskUI/${item.id}')"</c:if>
-                                       <c:if test="${item.status!=0}">style="opacity: 0.2"</c:if>
-                                            >
-                                        <i class="ace-icon fa fa-pencil bigger-130" title="编辑"></i>
-                                    </a>
+                                    </c:if>
+                                    <c:if test="${sessionScope.user.role==3}">
+                                        <a class="blue" href="javascript:void(0)"
+                                           onclick="reallocate(${item.customerId})">
+                                            <i class="ace-icon glyphicon glyphicon-repeat bigger-130" title="重新分配"></i>
+                                        </a>
+                                        <a class="green"
+                                           <c:if test="${item.status==0}">href="javascript:link('/survey/editTaskUI/${item.id}')"</c:if>
+                                           <c:if test="${item.status!=0}">style="opacity: 0.2"</c:if>
+                                                >
+                                            <i class="ace-icon fa fa-pencil bigger-130" title="编辑"></i>
+                                        </a>
 
-                                    <a
-                                       <c:if test="${item.status==0 or item.status==6}">href=href="javascript:deleteById(${item.id})"</c:if>
-                                       <c:if test="${item.status!=0 && item.status!=6}">style="opacity: 0.2"</c:if>
+                                        <a
+                                                <c:if test="${item.status==0 or item.status==6}">href=href="javascript:deleteById(${item.id})"</c:if>
+                                                <c:if test="${item.status!=0 && item.status!=6}">style="opacity: 0.2"</c:if>
 
-                                            >
-                                        <i class="ace-icon fa fa-trash-o bigger-130"></i>
-                                    </a>
-                                </c:if>
+                                                >
+                                            <i class="ace-icon fa fa-trash-o bigger-130"></i>
+                                        </a>
+                                    </c:if>
 
-                            </div>
-                        </td>
+                                </div>
+                            </td>
                         </tr>
 
                     </c:forEach>
@@ -130,18 +166,21 @@
                             <li class="paginate_button previous <c:if test="${data.firstPage}">disabled</c:if>"
                                 aria-controls="sample-table-2" tabindex="0"
                                 id="sample-table-2_previous"><a
-                                    href="javascript:link('/survey/core/task?page=${data.number-1}&size=${data.size}')">上一页</a></li>
+                                    href="javascript:link('/survey/core/task?page=${data.number-1}&size=${data.size}&customerName=${taskVO.customerName}&status=${taskVO.status}')">上一页</a>
+                            </li>
 
                             <c:forEach var="i" begin="1" end="${data.totalPages}">
                                 <li class="paginate_button <c:if test="${i-1==data.number}">active</c:if>"
                                     aria-controls="sample-table-2" tabindex="0"><a
-                                        href="javascript:link('/survey/core/task?page=${i-1}&size=${data.size}')">${i}</a></li>
+                                        href="javascript:link('/survey/core/task?page=${i-1}&size=${data.size}&customerName=${taskVO.customerName}&status=${taskVO.status}')">${i}</a>
+                                </li>
                             </c:forEach>
 
                             <li class="paginate_button next <c:if test="${data.lastPage}">disabled</c:if>"
                                 aria-controls="sample-table-2" tabindex="0"
                                 id="sample-table-2_next"><a
-                                    href="javascript:link('/survey/core/task?page=${data.number+1}&size=${data.size}')">下一页</a></li>
+                                    href="javascript:link('/survey/core/task?page=${data.number+1}&size=${data.size}&customerName=${taskVO.customerName}&status=${taskVO.status}')">下一页</a>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -163,11 +202,31 @@
         });
     }
 
+    function reallocate(customerId) {
+        bootbox.confirm("确定重新分配?", function (result) {
+            if (result) {
+                link('/survey/reallocateTaskUI/' + customerId)
+            }
+        });
+    }
+
+    function search() {
+        var size = $("#page_size").children('option:selected').val();//这就是selected的值
+        var name = $("#input_search").val();
+        var status = $("#task_status").children('option:selected').val();
+        console.log(name + "----" + status)
+        link('/survey/core/task?page=${data.number}&size=' + size + "&customerName=" + name + "&status=" + status)
+    }
+
     $(document).ready(function () {
         $('#page_size').change(function () {
-            var size = $(this).children('option:selected').val();//这就是selected的值
-            link('/survey/core/task?page=${data.number}&size=' + size)
-        })
+            search();
+        });
+
+        $('#task_status').change(function () {
+            search();
+        });
+
     })
 
 </script>

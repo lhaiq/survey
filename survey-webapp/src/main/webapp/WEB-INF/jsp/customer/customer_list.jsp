@@ -28,7 +28,7 @@
                 <div class="col-xs-6">
                     <div id="sample-table-2_filter" class="dataTables_filter"><label>
                         <input type="search" class="form-control input-sm" aria-controls="sample-table-2"
-                               id="input_search" value="${param.name}">
+                               id="input_search" value="${customerVO.name}">
                         <a class="black" href="javascript:query();">
                             <i class="fa fa-search bigger-130" aria-hidden="true"></i>
                         </a>
@@ -70,35 +70,36 @@
 
                     <tbody>
 
-                    <c:forEach var="item" varStatus="i" items="${data.content}" begin="0" end="10">
-                        <td class="hidden-480">${item.name}</td>
-                        <td class="hidden-480">${item.mobileNumber}</td>
-                        <td class="hidden-480">${item.telephoneNumber}</td>
-                        <td class="hidden-480">${item.idCard}</td>
-                        <td class="hidden-480">${item.company}</td>
-                        <td class="hidden-480">${item.address}</td>
-                        <td>
-                            <div class="hidden-sm hidden-xs action-buttons">
-                                <c:if test="${sessionScope.user.role==3}">
-                                    <a class="blue" href="javascript:link('/survey/addTaskUI/${item.id}')">
-                                        <i class="ace-icon fa fa-search-plus bigger-130" title="调查该客户"></i>
-                                    </a>
-                                </c:if>
+                    <c:forEach var="item" items="${data.content}">
+                        <tr <c:if test="${item.status==0}">class="danger"</c:if>>
+                            <td class="hidden-480">${item.name}</td>
+                            <td class="hidden-480">${item.mobileNumber}</td>
+                            <td class="hidden-480">${item.telephoneNumber}</td>
+                            <td class="hidden-480">${item.idCard}</td>
+                            <td class="hidden-480">${item.company}</td>
+                            <td class="hidden-480">${item.address}</td>
+                            <td>
+                                <div class="hidden-sm hidden-xs action-buttons">
+                                    <c:if test="${sessionScope.user.role==3}">
+                                        <a class="blue" <c:if test="${item.status!=0}">style="opacity: 0.2"</c:if>  <c:if test="${item.status==0}">href="javascript:link('/survey/addTaskUI/${item.id}')"</c:if>>
+                                            <i class="ace-icon fa fa-search-plus bigger-130" title="调查该客户"></i>
+                                        </a>
+                                    </c:if>
 
-                                <c:if test="${sessionScope.user.role==1}">
-                                    <a class="green" disabled
-                                       href="javascript:link('/survey/editCustomerUI/${item.id}')">
-                                        <i class="ace-icon fa fa-pencil bigger-130" title="编辑"></i>
-                                    </a>
+                                    <c:if test="${sessionScope.user.role==1}">
+                                        <a class="green" disabled
+                                           href="javascript:link('/survey/editCustomerUI/${item.id}')">
+                                            <i class="ace-icon fa fa-pencil bigger-130" title="编辑"></i>
+                                        </a>
 
-                                    <%--<a disabled="true" href="javascript:deleteById(${item.id})">--%>
+                                        <%--<a disabled="true" href="javascript:deleteById(${item.id})">--%>
                                         <%--<i class="ace-icon fa fa-trash-o bigger-130"></i>--%>
-                                    <%--</a>--%>
-                                </c:if>
-                            </div>
+                                        <%--</a>--%>
+                                    </c:if>
+                                </div>
 
 
-                        </td>
+                            </td>
                         </tr>
 
                     </c:forEach>

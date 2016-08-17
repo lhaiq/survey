@@ -9,9 +9,10 @@
     <result column="id_card" jdbcType="VARCHAR" property="idCard" />
     <result column="mobile_number" jdbcType="VARCHAR" property="mobileNumber" />
     <result column="telephone_number" jdbcType="VARCHAR" property="telephoneNumber" />
+    <result column="status" jdbcType="INTEGER" property="status" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, name, company, address, id_card, mobile_number, telephone_number
+    id, name, company, address, id_card, mobile_number, telephone_number, status
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
@@ -26,10 +27,10 @@
   <insert id="insert" parameterType="com.hongrui.survey.core.entity.Customer">
     insert into customer (id, name, company, 
       address, id_card, mobile_number, 
-      telephone_number)
+      telephone_number, status)
     values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{company,jdbcType=VARCHAR}, 
       #{address,jdbcType=VARCHAR}, #{idCard,jdbcType=VARCHAR}, #{mobileNumber,jdbcType=VARCHAR}, 
-      #{telephoneNumber,jdbcType=VARCHAR})
+      #{telephoneNumber,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.hongrui.survey.core.entity.Customer">
     insert into customer
@@ -55,6 +56,9 @@
       <if test="telephoneNumber != null">
         telephone_number,
       </if>
+      <if test="status != null">
+        status,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -77,6 +81,9 @@
       </if>
       <if test="telephoneNumber != null">
         #{telephoneNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -101,6 +108,9 @@
       <if test="telephoneNumber != null">
         telephone_number = #{telephoneNumber,jdbcType=VARCHAR},
       </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -111,7 +121,8 @@
       address = #{address,jdbcType=VARCHAR},
       id_card = #{idCard,jdbcType=VARCHAR},
       mobile_number = #{mobileNumber,jdbcType=VARCHAR},
-      telephone_number = #{telephoneNumber,jdbcType=VARCHAR}
+      telephone_number = #{telephoneNumber,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <select id="selectCount" parameterType="com.hongrui.survey.core.entity.Customer" resultType="java.lang.Integer">
@@ -137,6 +148,9 @@
       </if>
       <if test="telephoneNumber != null">
         and telephone_number = #{telephoneNumber,jdbcType=VARCHAR}
+      </if>
+      <if test="status != null">
+        and status = #{status,jdbcType=INTEGER}
       </if>
     </where>
   </select>
@@ -164,6 +178,9 @@
     </if>
     <if test="param1.telephoneNumber != null">
       and telephone_number = #{param1.telephoneNumber,jdbcType=VARCHAR}
+    </if>
+    <if test="param1.status != null">
+      and status = #{param1.status,jdbcType=INTEGER}
     </if>
     <if test="param2.sort != null">
       order by 

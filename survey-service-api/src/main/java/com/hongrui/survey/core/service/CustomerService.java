@@ -27,4 +27,6 @@ public interface CustomerService {
 
     public Page<CustomerModel> searchPage(CustomerModel customerModel, Pageable pageable);
 
+
+
 }

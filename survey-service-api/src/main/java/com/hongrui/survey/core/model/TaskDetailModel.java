@@ -20,6 +20,7 @@ public class TaskDetailModel {
 	private Integer status;
 	private Date startTime;
 	private Date endTime;
+	private String summary;
 
 	private CustomerModel customer;
 	private Map<String, ReportConfModel> reports;
@@ -145,5 +146,13 @@ public class TaskDetailModel {
 
 	public CustomerModel getCustomer() {
 		return customer;
+	}
+
+	public void setSummary(String summary) {
+		this.summary = summary;
+	}
+
+	public String getSummary() {
+		return summary;
 	}
 }

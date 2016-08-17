@@ -15,6 +15,8 @@ public class Customer {
 
     private String telephoneNumber;
 
+    private Integer status;
+
     public Long getId() {
         return id;
     }
@@ -69,5 +71,13 @@ public class Customer {
 
     public void setTelephoneNumber(String telephoneNumber) {
         this.telephoneNumber = telephoneNumber;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }

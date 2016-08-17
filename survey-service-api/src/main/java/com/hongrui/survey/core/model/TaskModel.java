@@ -18,6 +18,8 @@ public class TaskModel{
 	private Date startTime;
 	private Date endTime;
 	private Date commitTime;
+	private String summary;
+	private String customerName;
 		
 	public void setId(Long id){
 		this.id = id;
@@ -114,6 +116,20 @@ public class TaskModel{
 	public Date getCommitTime(){
 		return this.commitTime;
 	}
-		
-		
+
+	public String getSummary() {
+		return summary;
+	}
+
+	public void setSummary(String summary) {
+		this.summary = summary;
+	}
+
+	public void setCustomerName(String customerName) {
+		this.customerName = customerName;
+	}
+
+	public String getCustomerName() {
+		return customerName;
+	}
 }

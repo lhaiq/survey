@@ -32,7 +32,7 @@ public interface TaskService {
 
     public void startTask(Long id);
 
-    public void commitTask(Long id);
+    public void commitTask(Long id,String summary);
 
     public void addTask(TaskModel taskModel);
 
@@ -43,6 +43,13 @@ public interface TaskService {
     public Map<String, ReportConfModel> taskTemplate(Long id);
 
     public void checkCanEdit(Long id);
+
+    public void failureTask(TaskModel taskModel);
+
+    public void discardTask(TaskModel taskModel);
+
+
+
 
 
 

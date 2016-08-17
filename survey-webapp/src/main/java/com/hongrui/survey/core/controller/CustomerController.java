@@ -72,7 +72,6 @@ public class CustomerController {
         CustomerModel param = beanMapper.map(customerVO, CustomerModel.class);
         Page<CustomerModel> page = customerService.searchPage(param, pageable);
         model.addAttribute("data", page);
-        model.addAttribute("param", param);
         return "customer/customer_list";
     }
 

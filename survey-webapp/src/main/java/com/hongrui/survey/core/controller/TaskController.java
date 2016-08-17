@@ -5,6 +5,7 @@ import com.hongrui.survey.core.TaskStatus;
 import com.hongrui.survey.core.UserRole;
 import com.hongrui.survey.core.model.*;
 import com.hongrui.survey.core.service.*;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.PageRequest;
@@ -25,6 +26,7 @@ import com.wlw.pylon.web.rest.annotation.RestApiController;
 
 import com.hongrui.survey.core.vo.TaskVO;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Map;
 
@@ -109,6 +111,15 @@ public class TaskController {
 
 	@GetMapping(value = "/core/task")
 	public String listTask(TaskVO taskVO, Pageable pageable, Model model) {
+		try {
+			if(StringUtils.isNoneEmpty(taskVO.getCustomerName())){
+				String name = new String(taskVO.getCustomerName().getBytes("ISO-8859-1"), "utf-8");
+				taskVO.setCustomerName(name);
+			}
+
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
 		TaskModel param = beanMapper.map(taskVO, TaskModel.class);
 		model.addAttribute("data", taskService.searchPage(param, pageable));
 		return "task/task_list";

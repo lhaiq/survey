@@ -12,6 +12,7 @@ public class CustomerModel{
 	private String idCard;
 	private String mobileNumber;
 	private String telephoneNumber;
+	private Integer status;
 		
 	public void setId(Long id){
 		this.id = id;
@@ -67,6 +68,14 @@ public class CustomerModel{
 	
 	public String getTelephoneNumber(){
 		return this.telephoneNumber;
+	}
+		
+	public void setStatus(Integer status){
+		this.status = status;
+	}
+	
+	public Integer getStatus(){
+		return this.status;
 	}
 		
 		
