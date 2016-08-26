@@ -16,6 +16,7 @@ import com.hongrui.survey.core.model.CustomerModel;
 import com.hongrui.survey.core.service.CustomerService;
 import com.wlw.pylon.core.beans.mapping.BeanMapper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -71,29 +72,35 @@ public class CustomerServiceImpl implements CustomerService {
     public Page<CustomerModel> searchPage(CustomerModel customerModel, Pageable pageable) {
         StringBuffer sql = new StringBuffer();
         String name = customerModel.getName();
-        sql.append("select * from customer ");
+        sql.append("select * from customer where 1=1 ");
+        StringBuffer countSql = new StringBuffer();
+        countSql.append("select count(1) from customer where 1=1  ");
         if (StringUtils.isNotEmpty(name)) {
-            sql.append(" where  name like '%" + name + "%'");
-            sql.append(" and  syndic_id = ? \n");
-        } else {
-            sql.append(" where  syndic_id = ? \n");
+            sql.append(" and  name like '%" + name + "%'");
+            countSql.append(" and  name like '%" + name + "%'");
+
         }
+        List<Object> pageParam = new ArrayList<>();
+        List<Object> countParam = new ArrayList<>();
+
+        if(null!=customerModel.getSyndicId()){
+            sql.append(" and  syndic_id = ? \n");
+            countSql.append(" and  syndic_id = ? \n");
+            pageParam.add(customerModel.getSyndicId());
+            countParam.add(customerModel.getSyndicId());
+        }
+
         sql.append("order by id desc\n" +
                 "limit ?,?");
+        pageParam.add(pageable.getOffset());
+        pageParam.add(pageable.getPageSize());
 
-        StringBuffer countSql = new StringBuffer();
-        countSql.append("select count(1) from customer ");
-        if (StringUtils.isNotEmpty(name)) {
-            countSql.append(" where  name like '%" + name + "%'");
-            countSql.append(" and  syndic_id = ? \n");
-        } else {
-            countSql.append(" where  syndic_id = ? \n");
-        }
+
 
 
         List<CustomerModel> content = jdbcTemplate.query(sql.toString(), new BeanPropertyRowMapper<>(CustomerModel.class),
-                customerModel.getSyndicId(),pageable.getOffset(), pageable.getPageSize());
-        long count = jdbcTemplate.queryForObject(countSql.toString(), Long.class,customerModel.getSyndicId());
+                pageParam.toArray());
+        long count = jdbcTemplate.queryForObject(countSql.toString(), Long.class,countParam.toArray());
         Page<CustomerModel> page = new PageImpl<>(content, pageable, count);
 
         return page;

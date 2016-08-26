@@ -309,13 +309,17 @@
     <script type="text/javascript">
 
 
-
         function link(url) {
             $.ajax({
                 url: url,
                 async: true,
                 success: function (data, status, xhr) {
-                    $(".page-content-area").html(data)
+                    if (data == "false") {
+                        location.href="/login"
+                    } else {
+                        $(".page-content-area").html(data)
+                    }
+
                 },
                 error: function (data) {
                     console.log(data)

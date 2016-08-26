@@ -44,8 +44,9 @@ public class AuthInterceptor implements HandlerInterceptor {
                 HttpSession session = request.getSession();
                 Object user = session.getAttribute("user");
                 if (null == user) {
-                    response.sendRedirect("/login");
-                    return true;
+                    response.getWriter().write("false");
+                    response.getWriter().close();
+                    return false;
                 }
             }
 

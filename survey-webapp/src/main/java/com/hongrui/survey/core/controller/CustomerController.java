@@ -1,5 +1,6 @@
 package com.hongrui.survey.core.controller;
 
+import com.hongrui.survey.core.UserRole;
 import com.hongrui.survey.core.model.CustomerModel;
 import com.hongrui.survey.core.model.UserModel;
 import com.hongrui.survey.core.service.CustomerService;
@@ -57,9 +58,9 @@ public class CustomerController {
 
 
     @GetMapping(value = "/customer")
-    public String listCustomer(@SessionAttribute("user") UserModel user,CustomerVO customerVO, Pageable pageable, Model model) {
+    public String listCustomer(@SessionAttribute("user") UserModel user, CustomerVO customerVO, Pageable pageable, Model model) {
         try {
-            if(StringUtils.isNoneEmpty(customerVO.getName())){
+            if (StringUtils.isNoneEmpty(customerVO.getName())) {
                 String name = new String(customerVO.getName().getBytes("ISO-8859-1"), "utf-8");
                 customerVO.setName(name);
             }
@@ -68,7 +69,10 @@ public class CustomerController {
             e.printStackTrace();
         }
         CustomerModel param = beanMapper.map(customerVO, CustomerModel.class);
-        param.setSyndicId(user.getId());
+        if (user.getRole() == UserRole.SYNDIC.getCode()) {
+            param.setSyndicId(user.getId());
+        }
+
         Page<CustomerModel> page = customerService.searchPage(param, pageable);
         model.addAttribute("data", page);
         return "customer/customer_list";
