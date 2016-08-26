@@ -87,7 +87,7 @@ public class TaskRestApiController {
         TaskModel param = new TaskModel();
         param.setSurveyorId(userId);
         param.setStatus(status);
-        Page<TaskModel> page = taskService.searchPage(param, pageable);
+        Page<TaskModel> page = taskService.searchPage(param,null, pageable);
         ResponseEnvelope<Page<TaskModel>> responseEnv = new ResponseEnvelope<>(page, true);
         return responseEnv;
     }

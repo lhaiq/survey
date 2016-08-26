@@ -9,6 +9,7 @@ public class CustomerVO{
 	private String name;
 	private String company;
 	private String address;
+	private Long syndicId;
 	private String idCard;
 	private String mobileNumber;
 	private String telephoneNumber;
@@ -68,6 +69,13 @@ public class CustomerVO{
 	public String getTelephoneNumber(){
 		return this.telephoneNumber;
 	}
-		
-		
+
+
+	public void setSyndicId(Long syndicId) {
+		this.syndicId = syndicId;
+	}
+
+	public Long getSyndicId() {
+		return syndicId;
+	}
 }

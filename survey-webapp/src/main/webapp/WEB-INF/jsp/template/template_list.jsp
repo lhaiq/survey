@@ -30,42 +30,44 @@
 
                     <tbody>
                     <c:forEach var="item" varStatus="i" items="${data.content}">
-                        <td class="hidden-480">${item.name}</td>
-                        <td>
-                            <div class="hidden-sm hidden-xs action-buttons">
+                        <tr>
+                            <td class="hidden-480">${item.name}</td>
+                            <td>
+                                <div class="hidden-sm hidden-xs action-buttons">
 
-                                <a class="dialogMessage" href="#modal-form" href="#" name="${i.count}" role="button">
-                                    <i class="ace-icon fa fa-eye bigger-130"></i>
-                                </a>
+                                    <a class="dialogMessage" href="#modal-form" href="#" name="${i.count}"
+                                       role="button">
+                                        <i class="ace-icon fa fa-eye bigger-130"></i>
+                                    </a>
 
-                                <%--<a class="red" href="javascript:deleteById(${item.id})">--%>
-                                    <%--<i class="ace-icon fa fa-trash-o bigger-130"></i>--%>
-                                <%--</a>--%>
+                                        <%--<a class="red" href="javascript:deleteById(${item.id})">--%>
+                                        <%--<i class="ace-icon fa fa-trash-o bigger-130"></i>--%>
+                                        <%--</a>--%>
 
-                                <div id="dialog-message${i.count}" class="hide">
-                                    <div>
-                                            ${item.content}
+                                    <div id="dialog-message${i.count}" class="hide">
+                                        <div>
+                                                ${item.content}
 
-                                    </div>
+                                        </div>
 
-                                    <div class="hidden-md hidden-lg">
-                                        <div class="inline position-relative">
+                                        <div class="hidden-md hidden-lg">
+                                            <div class="inline position-relative">
 
-                                            <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
-                                                <li>
-                                                    <a href="#" class="tooltip-error" data-rel="tooltip" title=""
-                                                       data-original-title="Delete">
+                                                <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
+                                                    <li>
+                                                        <a href="#" class="tooltip-error" data-rel="tooltip" title=""
+                                                           data-original-title="Delete">
                                             <span class="red">
                                                 <i class="ace-icon fa fa-trash-o bigger-120"></i>
                                             </span>
-                                                    </a>
-                                                </li>
-                                            </ul>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </td>
+                            </td>
                         </tr>
 
                     </c:forEach>

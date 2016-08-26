@@ -10,7 +10,7 @@
                 <small><i class="ace-icon fa fa-angle-double-right"></i> &nbsp;调查员列表</small>
             </h1>
         </div>
-        <div class="table-header" style="background-color: #438eb9" >
+        <div class="table-header" style="background-color: #438eb9">
             列表
         </div>
         <div id="sample-table-2_wrapper" class="dataTables_wrapper form-inline no-footer">
@@ -61,48 +61,49 @@
                     <tbody>
 
                     <c:forEach var="item" items="${data.content}">
-                        <td class="hidden-480">${item.account}</td>
-                        <td class="hidden-480">${item.nickName}</td>
-                        <td class="hidden-480"><fmt:formatDate value="${item.createTime}"
-                                                               pattern="yyyy-MM-dd HH:mm:SS"/></td>
-                        <td>
-                            <div class="hidden-sm hidden-xs action-buttons">
+                        <tr>
+                            <td class="hidden-480">${item.account}</td>
+                            <td class="hidden-480">${item.nickName}</td>
+                            <td class="hidden-480"><fmt:formatDate value="${item.createTime}"
+                                                                   pattern="yyyy-MM-dd HH:mm:SS"/></td>
+                            <td>
+                                <div class="action-buttons">
 
-                                <a class="green" href="javascript:link('/survey/editSurveyorUI/${item.id}')">
-                                    <i class="ace-icon fa fa-pencil bigger-130"></i>
-                                </a>
+                                    <a class="green" href="javascript:link('/survey/editSurveyorUI/${item.id}')">
+                                        <i class="ace-icon fa fa-pencil bigger-130"></i>
+                                    </a>
 
-                                <a class="red" href="javascript:deleteById(${item.id})">
-                                    <i class="ace-icon fa fa-trash-o bigger-130"></i>
-                                </a>
-                            </div>
+                                    <a class="red" href="javascript:deleteById(${item.id})">
+                                        <i class="ace-icon fa fa-trash-o bigger-130"></i>
+                                    </a>
+                                </div>
 
-                            <div class="hidden-md hidden-lg">
-                                <div class="inline position-relative">
+                                <div class="hidden-md hidden-lg">
+                                    <div class="inline position-relative">
 
-                                    <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
+                                        <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
 
-                                        <li>
-                                            <a href="#" class="tooltip-success" data-rel="tooltip" title=""
-                                               data-original-title="Edit">
+                                            <li>
+                                                <a href="#" class="tooltip-success" data-rel="tooltip" title=""
+                                                   data-original-title="Edit">
                                             <span class="green">
                                                 <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
                                             </span>
-                                            </a>
-                                        </li>
+                                                </a>
+                                            </li>
 
-                                        <li>
-                                            <a href="#" class="tooltip-error" data-rel="tooltip" title=""
-                                               data-original-title="Delete">
+                                            <li>
+                                                <a href="#" class="tooltip-error" data-rel="tooltip" title=""
+                                                   data-original-title="Delete">
                                             <span class="red">
                                                 <i class="ace-icon fa fa-trash-o bigger-120"></i>
                                             </span>
-                                            </a>
-                                        </li>
-                                    </ul>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
-                            </div>
-                        </td>
+                            </td>
                         </tr>
 
                     </c:forEach>
@@ -122,18 +123,21 @@
                             <li class="paginate_button previous <c:if test="${data.firstPage}">disabled</c:if>"
                                 aria-controls="sample-table-2" tabindex="0"
                                 id="sample-table-2_previous"><a
-                                    href="javascript:link('/survey/surveyor?page=${data.number-1}&size=${data.size}&account=${param.account}')">上一页</a></li>
+                                    href="javascript:link('/survey/surveyor?page=${data.number-1}&size=${data.size}&account=${param.account}')">上一页</a>
+                            </li>
 
                             <c:forEach var="i" begin="1" end="${data.totalPages}">
                                 <li class="paginate_button <c:if test="${i-1==data.number}">active</c:if>"
                                     aria-controls="sample-table-2" tabindex="0"><a
-                                        href="javascript:link('/survey/surveyor?page=${i-1}&size=${data.size}&account=${param.account}')">${i}</a></li>
+                                        href="javascript:link('/survey/surveyor?page=${i-1}&size=${data.size}&account=${param.account}')">${i}</a>
+                                </li>
                             </c:forEach>
 
                             <li class="paginate_button next <c:if test="${data.lastPage}">disabled</c:if>"
                                 aria-controls="sample-table-2" tabindex="0"
                                 id="sample-table-2_next"><a
-                                    href="javascript:link('/survey/surveyor?page=${data.number+1}&size=${data.size}&account=${param.account}')">下一页</a></li>
+                                    href="javascript:link('/survey/surveyor?page=${data.number+1}&size=${data.size}&account=${param.account}')">下一页</a>
+                            </li>
                         </ul>
                     </div>
                 </div>

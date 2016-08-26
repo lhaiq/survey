@@ -74,18 +74,26 @@ public class CustomerServiceImpl implements CustomerService {
         sql.append("select * from customer ");
         if (StringUtils.isNotEmpty(name)) {
             sql.append(" where  name like '%" + name + "%'");
+            sql.append(" and  syndic_id = ? \n");
+        } else {
+            sql.append(" where  syndic_id = ? \n");
         }
-        sql.append(" limit ? ,? ");
+        sql.append("order by id desc\n" +
+                "limit ?,?");
 
         StringBuffer countSql = new StringBuffer();
         countSql.append("select count(1) from customer ");
         if (StringUtils.isNotEmpty(name)) {
             countSql.append(" where  name like '%" + name + "%'");
+            countSql.append(" and  syndic_id = ? \n");
+        } else {
+            countSql.append(" where  syndic_id = ? \n");
         }
 
+
         List<CustomerModel> content = jdbcTemplate.query(sql.toString(), new BeanPropertyRowMapper<>(CustomerModel.class),
-                pageable.getOffset(), pageable.getPageSize());
-        long count = jdbcTemplate.queryForObject(countSql.toString(), Long.class);
+                customerModel.getSyndicId(),pageable.getOffset(), pageable.getPageSize());
+        long count = jdbcTemplate.queryForObject(countSql.toString(), Long.class,customerModel.getSyndicId());
         Page<CustomerModel> page = new PageImpl<>(content, pageable, count);
 
         return page;

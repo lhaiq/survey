@@ -68,8 +68,7 @@
 
                 <div class="col-sm-8">
                     <div class="col-sm-5 no-padding-left">
-                        <button class="btn btn-xs btn-success" onclick="onSubmit()"
-                                style="width: 81px;margin-left: 34px;">
+                        <button class="btn btn-xs btn-success" onclick="onSubmit()">
                             <i class="ace-icon fa fa-check bigger-110">提交</i>
                         </button>
 

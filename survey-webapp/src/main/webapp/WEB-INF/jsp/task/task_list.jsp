@@ -69,6 +69,9 @@
                             aria-label="Price: activate to sort column ascending">调查员
                         </th>
                         <th class="sorting" tabindex="0" aria-controls="sample-table-2" rowspan="1" colspan="1"
+                            aria-label="Price: activate to sort column ascending">评审员
+                        </th>
+                        <th class="sorting" tabindex="0" aria-controls="sample-table-2" rowspan="1" colspan="1"
                             aria-label="Price: activate to sort column ascending">调查类型
                         </th>
                         <th class="sorting" tabindex="0" aria-controls="sample-table-2" rowspan="1" colspan="1"
@@ -101,6 +104,7 @@
                         ">
                             <td class="hidden-480">${item.customerName}</td>
                             <td class="hidden-480">${item.account}</td>
+                            <td class="hidden-480">${item.syndicName}</td>
                             <td class="hidden-480">${item.type}</td>
                             <td class="hidden-480"><fmt:formatDate value="${item.startTime}"
                                                                    pattern="yyyy-MM-dd HH:mm:SS"/></td>
@@ -117,7 +121,7 @@
                             </td>
                             <td class="hidden-480">${item.point}</td>
                             <td>
-                                <div class="hidden-sm hidden-xs action-buttons">
+                                <div class="action-buttons">
                                     <c:if test="${sessionScope.user.role==1}">
                                         <a class="black" href="javascript:link('/survey/task/report/${item.id}')">
                                             <i class="ace-icon fa fa-eye bigger-130" title="查看报告"></i>

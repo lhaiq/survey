@@ -79,10 +79,10 @@
                             <td class="hidden-480">${item.company}</td>
                             <td class="hidden-480">${item.address}</td>
                             <td>
-                                <div class="hidden-sm hidden-xs action-buttons">
+                                <div class="action-buttons">
                                     <c:if test="${sessionScope.user.role==3}">
                                         <a class="blue" <c:if test="${item.status!=0}">style="opacity: 0.2"</c:if>  <c:if test="${item.status==0}">href="javascript:link('/survey/addTaskUI/${item.id}')"</c:if>>
-                                            <i class="ace-icon fa fa-search-plus bigger-130" title="调查该客户"></i>
+                                            <i class="fa fa-search-plus bigger-130" title="调查该客户"></i>
                                         </a>
                                     </c:if>
 

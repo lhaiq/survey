@@ -64,9 +64,9 @@ public class AudioServiceImpl implements AudioService {
     public int deleteAudio(Long id) {
         AudioModel audioModel = findByPrimaryKey(id);
         taskService.checkCanEdit(audioModel.getTaskId());
+        deleteByPrimaryKey(id);
         try {
             FileUtils.forceDelete(new File(baseDirectory + "/" + audioModel.getPath()));
-            deleteByPrimaryKey(id);
         } catch (IOException e) {
             logger.error("unexpected error,", e);
         }

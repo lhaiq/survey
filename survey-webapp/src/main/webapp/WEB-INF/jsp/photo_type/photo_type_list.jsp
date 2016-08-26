@@ -34,22 +34,23 @@
 
                     <tbody>
                     <c:forEach var="item" varStatus="i" items="${data.content}">
-                        <td class="hidden-480">${item.name}</td>
-                        <td class="hidden-480">${item.pixel}</td>
-                        <td>
-                            <div class="hidden-sm hidden-xs action-buttons">
+                        <tr>
+                            <td class="hidden-480">${item.name}</td>
+                            <td class="hidden-480">${item.pixel}</td>
+                            <td>
+                                <div class="action-buttons">
 
-                                <a class="green" disabled
-                                   href="javascript:link('/survey/photoType/editUI/${item.id}')">
-                                    <i class="ace-icon fa fa-pencil bigger-130" title="编辑"></i>
-                                </a>
+                                    <a class="green" disabled
+                                       href="javascript:link('/survey/photoType/editUI/${item.id}')">
+                                        <i class="ace-icon fa fa-pencil bigger-130" title="编辑"></i>
+                                    </a>
 
-                                <%--<a class="red" href="javascript:deleteById(${item.id})">--%>
-                                    <%--<i class="ace-icon fa fa-trash-o bigger-130"></i>--%>
-                                <%--</a>--%>
+                                        <%--<a class="red" href="javascript:deleteById(${item.id})">--%>
+                                        <%--<i class="ace-icon fa fa-trash-o bigger-130"></i>--%>
+                                        <%--</a>--%>
 
-                            </div>
-                        </td>
+                                </div>
+                            </td>
                         </tr>
 
                     </c:forEach>

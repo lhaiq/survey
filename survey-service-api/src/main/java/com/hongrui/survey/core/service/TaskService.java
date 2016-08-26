@@ -28,7 +28,7 @@ public interface TaskService {
 
     public List<TaskModel> selectPage(TaskModel taskModel, Pageable pageable);
 
-    public Page searchPage(TaskModel taskModel,Pageable pageable);
+    public Page searchPage(TaskModel taskModel,Long syndicId,Pageable pageable);
 
     public void startTask(Long id);
 

@@ -46,7 +46,13 @@ public class TaskServiceImpl implements TaskService {
     private CustomerService customerService;
 
     @Autowired
+    private SignService signService;
+
+    @Autowired
     private JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    private UserService userService;
 
     @Transactional
     @Override
@@ -87,14 +93,15 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Page searchPage(TaskModel taskModel, Pageable pageable) {
+    public Page searchPage(TaskModel taskModel, Long syndicId, Pageable pageable) {
         StringBuffer sb = new StringBuffer();
         sb.append("select t.id,t.create_time as createTime,t.check_time as checkTime,t.start_time as startTime,t.end_time as endTime,t.comment,t.summary,t.point,t.status,t.type," +
                 "u.account,u.nick_name as nickName,c.name as customerName,c.id as customerId," +
-                "c.company,c.address,c.id_card as idCard ,c.mobile_number as mobileNumber,c.telephone_number as telephoneNumber" +
-                " from task t,user u,customer c\n" +
+                "c.company,c.address,c.id_card as idCard ,c.mobile_number as mobileNumber,c.telephone_number as telephoneNumber,s.account as syndicName \n" +
+                " from task t,user u,customer c,user s\n" +
                 "where t.customer_id=c.id\n" +
-                "and t.surveyor_id=u.id\n");
+                "and t.surveyor_id=u.id\n" +
+                "and c.syndic_id=s.id \n");
 
         StringBuffer countSql = new StringBuffer();
         countSql.append("SELECT count(1)  from task t,user u,customer c\n" +
@@ -109,6 +116,7 @@ public class TaskServiceImpl implements TaskService {
             countSql.append("and t.status != 6\n");
         }
 
+
         if (StringUtils.isNoneEmpty(taskModel.getCustomerName())) {
             String customerName = taskModel.getCustomerName();
             sb.append(" and  c.name like '%" + customerName + "%' ");
@@ -119,6 +127,11 @@ public class TaskServiceImpl implements TaskService {
         if (null != taskModel.getSurveyorId()) {
             sb.append("and t.surveyor_id = ?\n");
             countSql.append("and t.surveyor_id = ?\n");
+        }
+
+        if (null != syndicId) {
+            sb.append("and s.id= ?\n");
+            countSql.append("and c.syndic_id= ?\n");
         }
 
         sb.append("order by t.id desc\n" +
@@ -135,6 +148,11 @@ public class TaskServiceImpl implements TaskService {
         if (null != taskModel.getSurveyorId()) {
             pageParam.add(taskModel.getSurveyorId());
             countParam.add(taskModel.getSurveyorId());
+        }
+
+        if (null != syndicId) {
+            pageParam.add(syndicId);
+            countParam.add(syndicId);
         }
 
         pageParam.add(pageable.getOffset());
@@ -164,7 +182,8 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public void commitTask(Long id, String summary) {
         TaskModel taskModel = findByPrimaryKey(id);
-        if (TaskStatus.STARTED.getCode() != taskModel.getStatus()) {
+        if (TaskStatus.STARTED.getCode() != taskModel.getStatus() &&
+                TaskStatus.COMMIT.getCode() != taskModel.getStatus()) {
             HRErrorCode.throwBusinessException(HRErrorCode.TASK_STATUS_INCORRECT);
         }
 
@@ -207,10 +226,17 @@ public class TaskServiceImpl implements TaskService {
 
         //customer
         CustomerModel customerModel = customerService.findByPrimaryKey(taskModel.getCustomerId());
+        UserModel userModel = userService.findByPrimaryKey(customerModel.getSyndicId());
+        customerModel.setSyndicName(userModel.getAccount());
         taskDetailModel.setCustomer(customerModel);
 
         //photos
         taskDetailModel.setPhotos(findPhotos(id, taskModel.getType()));
+
+        //sign
+
+        taskDetailModel.setSign(signService.getByTaskId(id));
+
 
         return taskDetailModel;
     }

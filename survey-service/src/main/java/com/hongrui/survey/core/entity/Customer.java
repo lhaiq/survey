@@ -5,6 +5,8 @@ public class Customer {
 
     private String name;
 
+    private Long syndicId;
+
     private String company;
 
     private String address;
@@ -31,6 +33,14 @@ public class Customer {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Long getSyndicId() {
+        return syndicId;
+    }
+
+    public void setSyndicId(Long syndicId) {
+        this.syndicId = syndicId;
     }
 
     public String getCompany() {

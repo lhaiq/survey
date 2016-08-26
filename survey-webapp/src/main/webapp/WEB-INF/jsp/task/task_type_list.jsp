@@ -39,59 +39,60 @@
 
 
                     <c:forEach var="item" varStatus="i" items="${data.content}">
-                        <td class="hidden-480">${item.name}</td>
-                        <td class="hidden-480">
-                            <c:forEach items="${item.photos}" var="photo" varStatus="j">
-                                ${photo.name}(${photo.pixel})
-                                <c:if test="${!j.last}">,</c:if>
-                            </c:forEach>
-                        </td>
-                        <td class="hidden-480">
-                            <c:forEach items="${item.templates}" var="template" varStatus="j">
-                                ${template.name}
-                                <c:if test="${!j.last}">,</c:if>
-                            </c:forEach>
-                        </td>
-                        <td>
-                            <div class="hidden-sm hidden-xs action-buttons">
+                        <tr>
+                            <td class="hidden-480">${item.name}</td>
+                            <td class="hidden-480">
+                                <c:forEach items="${item.photos}" var="photo" varStatus="j">
+                                    ${photo.name}(${photo.pixel})
+                                    <c:if test="${!j.last}">,</c:if>
+                                </c:forEach>
+                            </td>
+                            <td class="hidden-480">
+                                <c:forEach items="${item.templates}" var="template" varStatus="j">
+                                    ${template.name}
+                                    <c:if test="${!j.last}">,</c:if>
+                                </c:forEach>
+                            </td>
+                            <td>
+                                <div class="action-buttons">
 
 
-                                <a class="green" href="javascript:link('/survey/task/editTypeUI/${item.id}')">
-                                    <i class="ace-icon fa fa-pencil bigger-130"></i>
-                                </a>
+                                    <a class="green" href="javascript:link('/survey/task/editTypeUI/${item.id}')">
+                                        <i class="ace-icon fa fa-pencil bigger-130"></i>
+                                    </a>
 
-                                <%--<a class="red" href="javascript:deleteById(${item.id})">--%>
-                                    <%--<i class="ace-icon fa fa-trash-o bigger-130"></i>--%>
-                                <%--</a>--%>
+                                        <%--<a class="red" href="javascript:deleteById(${item.id})">--%>
+                                        <%--<i class="ace-icon fa fa-trash-o bigger-130"></i>--%>
+                                        <%--</a>--%>
 
-                            </div>
+                                </div>
 
-                            <div class="hidden-md hidden-lg">
-                                <div class="inline position-relative">
+                                <div class="hidden-md hidden-lg">
+                                    <div class="inline position-relative">
 
-                                    <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
+                                        <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
 
-                                        <li>
-                                            <a href="#" class="tooltip-success" data-rel="tooltip" title=""
-                                               data-original-title="Edit">
+                                            <li>
+                                                <a href="#" class="tooltip-success" data-rel="tooltip" title=""
+                                                   data-original-title="Edit">
                                             <span class="green">
                                                 <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
                                             </span>
-                                            </a>
-                                        </li>
+                                                </a>
+                                            </li>
 
-                                        <li>
-                                            <a href="#" class="tooltip-error" data-rel="tooltip" title=""
-                                               data-original-title="Delete">
+                                            <li>
+                                                <a href="#" class="tooltip-error" data-rel="tooltip" title=""
+                                                   data-original-title="Delete">
                                             <span class="red">
                                                 <i class="ace-icon fa fa-trash-o bigger-120"></i>
                                             </span>
-                                            </a>
-                                        </li>
-                                    </ul>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
-                            </div>
-                        </td>
+                            </td>
                         </tr>
 
                     </c:forEach>

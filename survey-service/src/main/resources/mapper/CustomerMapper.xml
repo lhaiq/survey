@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="com.hongrui.survey.core.entity.Customer">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="syndic_id" jdbcType="BIGINT" property="syndicId" />
     <result column="company" jdbcType="VARCHAR" property="company" />
     <result column="address" jdbcType="VARCHAR" property="address" />
     <result column="id_card" jdbcType="VARCHAR" property="idCard" />
@@ -12,7 +13,8 @@
     <result column="status" jdbcType="INTEGER" property="status" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, name, company, address, id_card, mobile_number, telephone_number, status
+    id, name, syndic_id, company, address, id_card, mobile_number, telephone_number, 
+    status
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
@@ -25,12 +27,14 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.hongrui.survey.core.entity.Customer">
-    insert into customer (id, name, company, 
-      address, id_card, mobile_number, 
-      telephone_number, status)
-    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{company,jdbcType=VARCHAR}, 
-      #{address,jdbcType=VARCHAR}, #{idCard,jdbcType=VARCHAR}, #{mobileNumber,jdbcType=VARCHAR}, 
-      #{telephoneNumber,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER})
+    insert into customer (id, name, syndic_id, 
+      company, address, id_card, 
+      mobile_number, telephone_number, status
+      )
+    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{syndicId,jdbcType=BIGINT}, 
+      #{company,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{idCard,jdbcType=VARCHAR}, 
+      #{mobileNumber,jdbcType=VARCHAR}, #{telephoneNumber,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.hongrui.survey.core.entity.Customer">
     insert into customer
@@ -40,6 +44,9 @@
       </if>
       <if test="name != null">
         name,
+      </if>
+      <if test="syndicId != null">
+        syndic_id,
       </if>
       <if test="company != null">
         company,
@@ -67,6 +74,9 @@
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>
+      <if test="syndicId != null">
+        #{syndicId,jdbcType=BIGINT},
+      </if>
       <if test="company != null">
         #{company,jdbcType=VARCHAR},
       </if>
@@ -93,6 +103,9 @@
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
       </if>
+      <if test="syndicId != null">
+        syndic_id = #{syndicId,jdbcType=BIGINT},
+      </if>
       <if test="company != null">
         company = #{company,jdbcType=VARCHAR},
       </if>
@@ -117,6 +130,7 @@
   <update id="updateByPrimaryKey" parameterType="com.hongrui.survey.core.entity.Customer">
     update customer
     set name = #{name,jdbcType=VARCHAR},
+      syndic_id = #{syndicId,jdbcType=BIGINT},
       company = #{company,jdbcType=VARCHAR},
       address = #{address,jdbcType=VARCHAR},
       id_card = #{idCard,jdbcType=VARCHAR},
@@ -133,6 +147,9 @@
       </if>
       <if test="name != null">
         and name = #{name,jdbcType=VARCHAR}
+      </if>
+      <if test="syndicId != null">
+        and syndic_id = #{syndicId,jdbcType=BIGINT}
       </if>
       <if test="company != null">
         and company = #{company,jdbcType=VARCHAR}
@@ -163,6 +180,9 @@
     </if>
     <if test="param1.name != null">
       and name = #{param1.name,jdbcType=VARCHAR}
+    </if>
+    <if test="param1.syndicId != null">
+      and syndic_id = #{param1.syndicId,jdbcType=BIGINT}
     </if>
     <if test="param1.company != null">
       and company = #{param1.company,jdbcType=VARCHAR}

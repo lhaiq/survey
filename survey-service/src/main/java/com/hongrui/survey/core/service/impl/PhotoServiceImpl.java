@@ -68,9 +68,9 @@ public class PhotoServiceImpl implements PhotoService {
 	public int deletePhoto(Long id) {
 		PhotoModel photoModel = findByPrimaryKey(id);
 		taskService.checkCanEdit(photoModel.getTaskId());
+		deleteByPrimaryKey(id);
 		try {
 			FileUtils.forceDelete(new File(baseDirectory + "/" + photoModel.getPath()));
-			deleteByPrimaryKey(id);
 		} catch (IOException e) {
 			logger.error("unexpected error,", e);
 		}

@@ -1,6 +1,7 @@
 package com.hongrui.survey.core.controller;
 
 import com.hongrui.survey.core.model.CustomerModel;
+import com.hongrui.survey.core.model.UserModel;
 import com.hongrui.survey.core.service.CustomerService;
 import com.hongrui.survey.core.vo.CustomerVO;
 import com.wlw.pylon.core.beans.mapping.BeanMapper;
@@ -12,10 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -59,7 +57,7 @@ public class CustomerController {
 
 
     @GetMapping(value = "/customer")
-    public String listCustomer(CustomerVO customerVO, Pageable pageable, Model model) {
+    public String listCustomer(@SessionAttribute("user") UserModel user,CustomerVO customerVO, Pageable pageable, Model model) {
         try {
             if(StringUtils.isNoneEmpty(customerVO.getName())){
                 String name = new String(customerVO.getName().getBytes("ISO-8859-1"), "utf-8");
@@ -70,6 +68,7 @@ public class CustomerController {
             e.printStackTrace();
         }
         CustomerModel param = beanMapper.map(customerVO, CustomerModel.class);
+        param.setSyndicId(user.getId());
         Page<CustomerModel> page = customerService.searchPage(param, pageable);
         model.addAttribute("data", page);
         return "customer/customer_list";

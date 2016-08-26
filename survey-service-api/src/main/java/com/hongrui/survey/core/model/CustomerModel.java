@@ -7,12 +7,14 @@ public class CustomerModel{
 	
 	private Long id;
 	private String name;
+	private Long syndicId;
 	private String company;
 	private String address;
 	private String idCard;
 	private String mobileNumber;
 	private String telephoneNumber;
 	private Integer status;
+	private String syndicName;
 		
 	public void setId(Long id){
 		this.id = id;
@@ -28,6 +30,14 @@ public class CustomerModel{
 	
 	public String getName(){
 		return this.name;
+	}
+		
+	public void setSyndicId(Long syndicId){
+		this.syndicId = syndicId;
+	}
+	
+	public Long getSyndicId(){
+		return this.syndicId;
 	}
 		
 	public void setCompany(String company){
@@ -77,6 +87,12 @@ public class CustomerModel{
 	public Integer getStatus(){
 		return this.status;
 	}
-		
-		
+
+	public void setSyndicName(String syndicName) {
+		this.syndicName = syndicName;
+	}
+
+	public String getSyndicName() {
+		return syndicName;
+	}
 }

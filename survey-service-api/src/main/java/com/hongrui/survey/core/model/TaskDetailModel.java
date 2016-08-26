@@ -26,7 +26,16 @@ public class TaskDetailModel {
 	private Map<String, ReportConfModel> reports;
 	private List<AudioModel> audios;
 	private Map<String,PhotoConfModel> photos;
-		
+	private SignModel sign;
+
+	public void setSign(SignModel sign) {
+		this.sign = sign;
+	}
+
+	public SignModel getSign() {
+		return sign;
+	}
+
 	public void setId(Long id){
 		this.id = id;
 	}

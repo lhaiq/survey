@@ -34,140 +34,145 @@ import java.util.Map;
 @RequestMapping("/survey")
 public class TaskController {
 
-	private final Logger logger = LoggerFactory.getLogger(TaskController.class);
+    private final Logger logger = LoggerFactory.getLogger(TaskController.class);
 
-	@Autowired
-	private BeanMapper beanMapper;
+    @Autowired
+    private BeanMapper beanMapper;
 
-	@Autowired
-	private TaskService taskService;
+    @Autowired
+    private TaskService taskService;
 
-	@Autowired
-	private SignService signService;
+    @Autowired
+    private SignService signService;
 
-	@Autowired
-	private ConfService confService;
+    @Autowired
+    private ConfService confService;
 
-	@Autowired
-	private UserService userService;
+    @Autowired
+    private UserService userService;
 
-	@Autowired
-	private CustomerService customerService;
+    @Autowired
+    private CustomerService customerService;
 
-	@Autowired
-	private PhotoService photoService;
+    @Autowired
+    private PhotoService photoService;
 
-	@Autowired
-	private ReportService reportService;
+    @Autowired
+    private ReportService reportService;
 
-	@GetMapping(value = "/task/addTypeUI")
-	public String addTypeUI(Model model) {
-		model.addAttribute("templates", confService.selectConfByType(ConfType.TEMPLATE.getType()));
-		model.addAttribute("photoTypes", confService.selectConfByType(ConfType.PHOTO.getType()));
-		return "task/add_task_type";
-	}
+    @GetMapping(value = "/task/addTypeUI")
+    public String addTypeUI(Model model) {
+        model.addAttribute("templates", confService.selectConfByType(ConfType.TEMPLATE.getType()));
+        model.addAttribute("photoTypes", confService.selectConfByType(ConfType.PHOTO.getType()));
+        return "task/add_task_type";
+    }
 
-	@GetMapping(value = "/task/editTypeUI/{id}")
-	public String editTypeUI(@PathVariable Long id, Model model) {
-		model.addAttribute("templates", confService.selectConfByType(ConfType.TEMPLATE.getType()));
-		model.addAttribute("photoTypes", confService.selectConfByType(ConfType.PHOTO.getType()));
-		model.addAttribute("data", confService.findConfById(id));
-		return "task/edit_task_type";
-	}
+    @GetMapping(value = "/task/editTypeUI/{id}")
+    public String editTypeUI(@PathVariable Long id, Model model) {
+        model.addAttribute("templates", confService.selectConfByType(ConfType.TEMPLATE.getType()));
+        model.addAttribute("photoTypes", confService.selectConfByType(ConfType.PHOTO.getType()));
+        model.addAttribute("data", confService.findConfById(id));
+        return "task/edit_task_type";
+    }
 
 
-	@GetMapping(value = "/task/taskType")
-	public String listTaskType(Pageable pageable, Model model) {
-		List<Map<String, Object>> maps = confService.selectConf(pageable);
-		long count = confService.selectConfCount();
-		Page<Map<String, Object>> page = new PageImpl<>(maps, pageable, count);
-		model.addAttribute("data", page);
-		return "task/task_type_list";
-	}
+    @GetMapping(value = "/task/taskType")
+    public String listTaskType(Pageable pageable, Model model) {
+        List<Map<String, Object>> maps = confService.selectConf(pageable);
+        long count = confService.selectConfCount();
+        Page<Map<String, Object>> page = new PageImpl<>(maps, pageable, count);
+        model.addAttribute("data", page);
+        return "task/task_type_list";
+    }
 
-	@GetMapping(value = "/task/report/{id}")
-	public String taskReport(@PathVariable Long id, Model model) {
-		//更新状态
-		TaskModel taskModel = taskService.findByPrimaryKey(id);
-		if(TaskStatus.COMMIT.getCode()==taskModel.getStatus()){
-			TaskModel param = new TaskModel();
-			param.setId(id);
-			param.setStatus(TaskStatus.CHECKING.getCode());
-			taskService.updateByPrimaryKeySelective(param);
-		}
+    @GetMapping(value = "/task/report/{id}")
+    public String taskReport(@PathVariable Long id, Model model) {
+        //更新状态
+        TaskModel taskModel = taskService.findByPrimaryKey(id);
+        if (TaskStatus.COMMIT.getCode() == taskModel.getStatus()) {
+            TaskModel param = new TaskModel();
+            param.setId(id);
+            param.setStatus(TaskStatus.CHECKING.getCode());
+            taskService.updateByPrimaryKeySelective(param);
+        }
 
-		// task details
-		TaskDetailModel td = taskService.taskDetail(id);
-		model.addAttribute("td", td);
+        // task details
+        TaskDetailModel td = taskService.taskDetail(id);
+        model.addAttribute("td", td);
 
-		model.addAttribute("surveyor",userService.findByPrimaryKey(td.getSurveyorId()));
+        model.addAttribute("surveyor", userService.findByPrimaryKey(td.getSurveyorId()));
 
-		// sign
-		SignModel sign = signService.getByTaskId(id);
-		model.addAttribute("sign", sign);
+        // sign
+        SignModel sign = signService.getByTaskId(id);
+        model.addAttribute("sign", sign);
 
-		return "task/task_report";
-	}
+        return "task/task_report";
+    }
 
-	@GetMapping(value = "/core/task")
-	public String listTask(TaskVO taskVO, Pageable pageable, Model model) {
-		try {
-			if(StringUtils.isNoneEmpty(taskVO.getCustomerName())){
-				String name = new String(taskVO.getCustomerName().getBytes("ISO-8859-1"), "utf-8");
-				taskVO.setCustomerName(name);
-			}
+    @GetMapping(value = "/core/task")
+    public String listTask(@SessionAttribute("user") UserModel user, TaskVO taskVO, Pageable pageable, Model model) {
+        try {
+            if (StringUtils.isNoneEmpty(taskVO.getCustomerName())) {
+                String name = new String(taskVO.getCustomerName().getBytes("ISO-8859-1"), "utf-8");
+                taskVO.setCustomerName(name);
+            }
 
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
-		TaskModel param = beanMapper.map(taskVO, TaskModel.class);
-		model.addAttribute("data", taskService.searchPage(param, pageable));
-		return "task/task_list";
-	}
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
 
-	@GetMapping(value = "/addTaskUI/{customerId}")
-	public String addTaskUI(@PathVariable Long customerId, Model model) {
-		ConfModel confParam = new ConfModel();
-		confParam.setType(ConfType.SURVEY.getType());
-		model.addAttribute("types", confService.selectPage(confParam, new PageRequest(0, Integer.MAX_VALUE)));
+        Long syndicId = null;
+        if (user.getRole() == UserRole.SYNDIC.getCode()) {
+            syndicId = user.getId();
+        }
+        TaskModel param = beanMapper.map(taskVO, TaskModel.class);
+        model.addAttribute("data", taskService.searchPage(param, syndicId, pageable));
+        return "task/task_list";
+    }
 
-		UserModel userParam = new UserModel();
-		userParam.setRole(UserRole.SURVEYOR.getCode());
-		model.addAttribute("surveyors", userService.selectPage(userParam, new PageRequest(0, Integer.MAX_VALUE)));
+    @GetMapping(value = "/addTaskUI/{customerId}")
+    public String addTaskUI(@PathVariable Long customerId, Model model) {
+        ConfModel confParam = new ConfModel();
+        confParam.setType(ConfType.SURVEY.getType());
+        model.addAttribute("types", confService.selectPage(confParam, new PageRequest(0, Integer.MAX_VALUE)));
 
-		model.addAttribute("customer", customerService.findByPrimaryKey(customerId));
-		return "task/add_task";
-	}
+        UserModel userParam = new UserModel();
+        userParam.setRole(UserRole.SURVEYOR.getCode());
+        model.addAttribute("surveyors", userService.selectPage(userParam, new PageRequest(0, Integer.MAX_VALUE)));
 
-	@GetMapping(value = "/reallocateTaskUI/{customerId}")
-	public String reallocateTaskUI(@PathVariable Long customerId, Model model) {
-		ConfModel confParam = new ConfModel();
-		confParam.setType(ConfType.SURVEY.getType());
-		model.addAttribute("types", confService.selectPage(confParam, new PageRequest(0, Integer.MAX_VALUE)));
+        model.addAttribute("customer", customerService.findByPrimaryKey(customerId));
+        return "task/add_task";
+    }
 
-		UserModel userParam = new UserModel();
-		userParam.setRole(UserRole.SURVEYOR.getCode());
-		model.addAttribute("surveyors", userService.selectPage(userParam, new PageRequest(0, Integer.MAX_VALUE)));
+    @GetMapping(value = "/reallocateTaskUI/{customerId}")
+    public String reallocateTaskUI(@PathVariable Long customerId, Model model) {
+        ConfModel confParam = new ConfModel();
+        confParam.setType(ConfType.SURVEY.getType());
+        model.addAttribute("types", confService.selectPage(confParam, new PageRequest(0, Integer.MAX_VALUE)));
 
-		model.addAttribute("customer", customerService.findByPrimaryKey(customerId));
-		return "task/reallocate_task";
-	}
+        UserModel userParam = new UserModel();
+        userParam.setRole(UserRole.SURVEYOR.getCode());
+        model.addAttribute("surveyors", userService.selectPage(userParam, new PageRequest(0, Integer.MAX_VALUE)));
 
-	@GetMapping(value = "/editTaskUI/{id}")
-	public String editTaskUI(@PathVariable Long id, Model model) {
-		ConfModel confParam = new ConfModel();
-		confParam.setType(ConfType.SURVEY.getType());
-		model.addAttribute("types", confService.selectPage(confParam, new PageRequest(0, Integer.MAX_VALUE)));
+        model.addAttribute("customer", customerService.findByPrimaryKey(customerId));
+        return "task/reallocate_task";
+    }
 
-		UserModel userParam = new UserModel();
-		userParam.setRole(UserRole.SURVEYOR.getCode());
-		model.addAttribute("surveyors", userService.selectPage(userParam, new PageRequest(0, Integer.MAX_VALUE)));
+    @GetMapping(value = "/editTaskUI/{id}")
+    public String editTaskUI(@PathVariable Long id, Model model) {
+        ConfModel confParam = new ConfModel();
+        confParam.setType(ConfType.SURVEY.getType());
+        model.addAttribute("types", confService.selectPage(confParam, new PageRequest(0, Integer.MAX_VALUE)));
 
-		TaskModel taskModel = taskService.findByPrimaryKey(id);
-		model.addAttribute("task", taskModel);
+        UserModel userParam = new UserModel();
+        userParam.setRole(UserRole.SURVEYOR.getCode());
+        model.addAttribute("surveyors", userService.selectPage(userParam, new PageRequest(0, Integer.MAX_VALUE)));
 
-		model.addAttribute("customer", customerService.findByPrimaryKey(taskModel.getCustomerId()));
-		return "task/edit_task";
-	}
+        TaskModel taskModel = taskService.findByPrimaryKey(id);
+        model.addAttribute("task", taskModel);
+
+        model.addAttribute("customer", customerService.findByPrimaryKey(taskModel.getCustomerId()));
+        return "task/edit_task";
+    }
 
 }

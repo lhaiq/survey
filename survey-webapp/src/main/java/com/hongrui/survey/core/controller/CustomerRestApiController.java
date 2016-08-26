@@ -1,6 +1,7 @@
 package com.hongrui.survey.core.controller;
 
 import com.hongrui.survey.core.model.CustomerModel;
+import com.hongrui.survey.core.model.UserModel;
 import com.hongrui.survey.core.service.CustomerService;
 import com.hongrui.survey.core.vo.CustomerVO;
 import com.wlw.pylon.core.beans.mapping.BeanMapper;
@@ -31,8 +32,10 @@ public class CustomerRestApiController {
 
 
     @PostMapping(value = "/customer")
-    public ResponseEnvelope<Integer> createCustomer(CustomerVO customerVO) {
+    public ResponseEnvelope<Integer> createCustomer(@SessionAttribute("user") UserModel user,
+                                                    CustomerVO customerVO) {
         CustomerModel customerModel = beanMapper.map(customerVO, CustomerModel.class);
+        customerModel.setSyndicId(user.getId());
         Integer result = customerService.createSelective(customerModel);
         ResponseEnvelope<Integer> responseEnv = new ResponseEnvelope<>(result, true);
         return responseEnv;
@@ -48,7 +51,7 @@ public class CustomerRestApiController {
 
     @PutMapping(value = "/customer/{id}")
     public ResponseEnvelope<Integer> updateCustomer(@PathVariable Long id,
-                                                                         CustomerVO customerVO) {
+                                                    CustomerVO customerVO) {
         CustomerModel customerModel = beanMapper.map(customerVO, CustomerModel.class);
         customerModel.setId(id);
         Integer result = customerService.updateByPrimaryKeySelective(customerModel);
