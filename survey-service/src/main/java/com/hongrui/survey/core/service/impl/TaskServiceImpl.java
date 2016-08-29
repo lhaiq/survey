@@ -10,6 +10,7 @@ import com.hongrui.survey.core.service.*;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -246,7 +247,10 @@ public class TaskServiceImpl implements TaskService {
         String sql = "select status from task where id = ?";
         Map<Long, Integer> statuses = new HashMap<>();
         for (Long taskId : taskIds) {
-            Integer status = jdbcTemplate.queryForObject(sql, Integer.class, taskId);
+            Integer status = queryForObject(sql, Integer.class, taskId);
+            if(null==status){
+                continue;
+            }
             statuses.put(taskId, status);
         }
         return statuses;
@@ -296,7 +300,10 @@ public class TaskServiceImpl implements TaskService {
         Map<String, PhotoConfModel> photos = new HashMap<>();
         for (int i = 0; i < jsonArray.size(); i++) {
             Long photoTypeId = jsonArray.getLong(i);
-            String name = jdbcTemplate.queryForObject("select name from conf where id = ?", String.class, photoTypeId);
+            String name = queryForObject("select name from conf where id = ?", String.class, photoTypeId);
+            if(null==name){
+                continue;
+            }
             String pixel = jdbcTemplate.queryForObject("select pixel from conf where id = ?", String.class, photoTypeId);
             PhotoConfModel photoConfModel = new PhotoConfModel();
             photoConfModel.setPixel(pixel);
@@ -314,12 +321,17 @@ public class TaskServiceImpl implements TaskService {
 
     private Map<String, ReportConfModel> findReportsNoTemplate(Long taskId, String type) {
         String sql = "SELECT template from conf where name = ? and type = 0";
-        String templateIds = jdbcTemplate.queryForObject(sql, String.class, type);
-        JSONArray jsonArray = JSON.parseArray(templateIds);
         Map<String, ReportConfModel> reports = new HashMap<>();
+        String templateIds = queryForObject(sql, String.class, type);
+        if(null==templateIds){
+            return reports;
+        }
+        JSONArray jsonArray = JSON.parseArray(templateIds);
+
         for (int i = 0; i < jsonArray.size(); i++) {
             Long templateId = jsonArray.getLong(i);
-            String name = jdbcTemplate.queryForObject("select name from conf where id = ?", String.class, templateId);
+            String name = queryForObject("select name from conf where id = ?", String.class, templateId);
+            if(null==name)continue;;
             ReportConfModel reportConfModel = new ReportConfModel();
             reportConfModel.setTemplateId(templateId);
 
@@ -337,13 +349,21 @@ public class TaskServiceImpl implements TaskService {
     }
 
     private Map<String, ReportConfModel> findReports(Long taskId, String type) {
-        String sql = "SELECT template from conf where name = ? and type = 0";
-        String templateIds = jdbcTemplate.queryForObject(sql, String.class, type);
-        JSONArray jsonArray = JSON.parseArray(templateIds);
         Map<String, ReportConfModel> reports = new HashMap<>();
+        String sql = "SELECT template from conf where name = ? and type = 0";
+        String templateIds = queryForObject(sql, String.class, type);
+        if(null==templateIds){
+            return reports;
+        }
+
+        JSONArray jsonArray = JSON.parseArray(templateIds);
+
         for (int i = 0; i < jsonArray.size(); i++) {
             Long templateId = jsonArray.getLong(i);
-            String name = jdbcTemplate.queryForObject("select name from conf where id = ?", String.class, templateId);
+            String name = queryForObject("select name from conf where id = ?", String.class, templateId);
+            if(null==name){
+                continue;
+            }
             String template = jdbcTemplate.queryForObject("select content from conf where id = ?", String.class, templateId);
             template = template.replace("templateId", "templateId-" + templateId);
             ReportConfModel reportConfModel = new ReportConfModel();
@@ -376,4 +396,14 @@ public class TaskServiceImpl implements TaskService {
         return taskRepo.updateByPrimaryKeySelective(beanMapper.map(taskModel, Task.class));
     }
 
+
+    private <T> T queryForObject(String sql, Class<T> requiredType, Object... args) {
+        T t = null;
+        try {
+            t = jdbcTemplate.queryForObject(sql, requiredType, args);
+        } catch (DataAccessException e) {
+
+        }
+        return t;
+    }
 }
