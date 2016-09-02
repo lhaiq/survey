@@ -13,7 +13,7 @@ public class HRErrorCode extends ErrorCode{
     public static final ErrorCode PASSWORD_INCORRECT = ErrorCode("20001", "密码不正确");
     public static final ErrorCode OLD_PASSWORD_INCORRECT = ErrorCode("20002", "旧密码不正确");
     public static final ErrorCode ROLE_INVALID = ErrorCode("20003", "角色非法");
-    public static final ErrorCode USER_HAVE_EXISTED = ErrorCode("20003", "该用户名已存在");
+    public static final ErrorCode USER_HAVE_EXISTED = ErrorCode("20004", "该用户名已存在");
 
     public static final ErrorCode TASK_STATUS_INCORRECT = ErrorCode("30000", "任务状态不对");
 

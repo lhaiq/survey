@@ -19,7 +19,7 @@ public class CacheConfig {
     public Cache<String, Long> sessionCache() {
         Cache<String, Long> cache = CacheBuilder.newBuilder()
                 .expireAfterAccess(1, TimeUnit.DAYS).build();
-        cache.put("aaaaa", 4L);
+        cache.put("aaaaa", 3L);
 
         return cache;
     }
