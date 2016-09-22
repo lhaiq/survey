@@ -29,6 +29,10 @@ public class Task {
 
     private String summary;
 
+    private String extInfo;
+
+
+
     public Long getId() {
         return id;
     }
@@ -131,5 +135,13 @@ public class Task {
 
     public void setSummary(String summary) {
         this.summary = summary;
+    }
+
+    public String getExtInfo() {
+        return extInfo;
+    }
+
+    public void setExtInfo(String extInfo) {
+        this.extInfo = extInfo;
     }
 }

@@ -15,10 +15,12 @@
     <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
     <result column="commit_time" jdbcType="TIMESTAMP" property="commitTime" />
     <result column="summary" jdbcType="VARCHAR" property="summary" />
+    <result column="ext_info" jdbcType="VARCHAR" property="extInfo" />
+
   </resultMap>
   <sql id="Base_Column_List">
     id, surveyor_id, customer_id, create_time, check_time, comment, point, type, status, 
-    start_time, end_time, commit_time, summary
+    start_time, end_time, commit_time, summary ,ext_info
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
@@ -35,12 +37,12 @@
       create_time, check_time, comment, 
       point, type, status, 
       start_time, end_time, commit_time, 
-      summary)
+      summary , ext_info )
     values (#{id,jdbcType=BIGINT}, #{surveyorId,jdbcType=BIGINT}, #{customerId,jdbcType=BIGINT}, 
       #{createTime,jdbcType=TIMESTAMP}, #{checkTime,jdbcType=TIMESTAMP}, #{comment,jdbcType=VARCHAR}, 
       #{point,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
       #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{commitTime,jdbcType=TIMESTAMP}, 
-      #{summary,jdbcType=VARCHAR})
+      #{summary,jdbcType=VARCHAR}) ,  #{extInfo,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.hongrui.survey.core.entity.Task">
     insert into task
@@ -84,6 +86,9 @@
       <if test="summary != null">
         summary,
       </if>
+      <if test="extInfo != null">
+        ext_info
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -124,6 +129,9 @@
       </if>
       <if test="summary != null">
         #{summary,jdbcType=VARCHAR},
+      </if>
+      <if test="extInfo != null">
+        #{extInfo,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -166,6 +174,9 @@
       <if test="summary != null">
         summary = #{summary,jdbcType=VARCHAR},
       </if>
+      <if test="extInfo != null">
+        ext_info = #{extInfo,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -183,6 +194,7 @@
       end_time = #{endTime,jdbcType=TIMESTAMP},
       commit_time = #{commitTime,jdbcType=TIMESTAMP},
       summary = #{summary,jdbcType=VARCHAR}
+      ext_info = #{extInfo,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <select id="selectCount" parameterType="com.hongrui.survey.core.entity.Task" resultType="java.lang.Integer">
@@ -226,6 +238,9 @@
       </if>
       <if test="summary != null">
         and summary = #{summary,jdbcType=VARCHAR}
+      </if>
+      <if test="extInfo != null">
+        and ext_info = #{extInfo,jdbcType=VARCHAR}
       </if>
     </where>
   </select>
@@ -271,6 +286,9 @@
     </if>
     <if test="param1.summary != null">
       and summary = #{param1.summary,jdbcType=VARCHAR}
+    </if>
+    <if test="param1.extInfo != null">
+      and ext_info = #{param1.extInfo,jdbcType=VARCHAR}
     </if>
     <if test="param2.sort != null">
       order by 

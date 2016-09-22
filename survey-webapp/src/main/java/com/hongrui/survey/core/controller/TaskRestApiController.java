@@ -1,5 +1,7 @@
 package com.hongrui.survey.core.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.hongrui.survey.core.CustomerStatus;
 import com.hongrui.survey.core.TaskStatus;
 import com.hongrui.survey.core.model.CustomerModel;
@@ -56,7 +58,29 @@ public class TaskRestApiController {
 
 
     @PostMapping(value = "/task")
-    public ResponseEnvelope<String> createTask(TaskVO taskVO) {
+    public ResponseEnvelope<String> createTask(@RequestBody TaskVO taskVO) {
+        //json extInfo
+        String extInfo  = taskVO.getExtInfo();
+        JSONObject jo=JSON.parseObject(extInfo);
+
+        JSONObject jcus=jo.getJSONObject("customer");
+
+        //create customer
+        CustomerModel cm = new CustomerModel();
+        cm.setIdCard(jcus.getString("idCard")  );
+
+
+        int id=customerService.create(cm);
+
+
+        //set vo's customerId Name
+
+        taskVO.setCustomerId(cm.getId());
+        taskVO.setCustomerName(cm.getName() );
+
+
+
+
         TaskModel taskModel = beanMapper.map(taskVO, TaskModel.class);
         taskService.addTask(taskModel);
         ResponseEnvelope<String> responseEnv = new ResponseEnvelope<>("ok", true);

@@ -34,6 +34,7 @@
                             <select id="task_status" name="sample-table-2_length" aria-controls="sample-table-2"
                                     class="form-control input-sm">
                                 <option value="">---</option>
+                                <option value="8" <c:if test="${taskVO.status==8}">selected</c:if>>待分配</option>
                                 <option value="0" <c:if test="${taskVO.status==0}">selected</c:if>>待调查</option>
                                 <option value="1" <c:if test="${taskVO.status==1}">selected</c:if>>开始调查</option>
                                 <option value="2" <c:if test="${taskVO.status==2}">selected</c:if>>待审核</option>
@@ -111,6 +112,7 @@
                             <td class="hidden-480"><fmt:formatDate value="${item.endTime}"
                                                                    pattern="yyyy-MM-dd HH:mm:SS"/></td>
                             <td class="hidden-480">
+                                <c:if test="${item.status==8}">待分配</c:if>
                                 <c:if test="${item.status==0}">待调查</c:if>
                                 <c:if test="${item.status==1}">开始调查</c:if>
                                 <c:if test="${item.status==2}">待审核</c:if>
@@ -134,8 +136,8 @@
                                             <i class="ace-icon glyphicon glyphicon-repeat bigger-130" title="重新分配"></i>
                                         </a>
                                         <a class="green"
-                                           <c:if test="${item.status==0}">href="javascript:link('/survey/editTaskUI/${item.id}')"</c:if>
-                                           <c:if test="${item.status!=0}">style="opacity: 0.2"</c:if>
+                                           <c:if test="${item.status==0 or item.status==8}">href="javascript:link('/survey/editTaskUI/${item.id}')"</c:if>
+                                           <c:if test="${item.status!=0 and item.status!=8}">style="opacity: 0.2"</c:if>
                                                 >
                                             <i class="ace-icon fa fa-pencil bigger-130" title="编辑"></i>
                                         </a>

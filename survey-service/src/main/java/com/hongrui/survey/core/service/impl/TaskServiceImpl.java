@@ -199,7 +199,7 @@ public class TaskServiceImpl implements TaskService {
     @Transactional
     @Override
     public void addTask(TaskModel taskModel) {
-        taskModel.setStatus(TaskStatus.CREATED.getCode());
+        //taskModel.setStatus(TaskStatus.CREATED.getCode());
 
         //更改客户状态
         CustomerModel param = new CustomerModel();
@@ -210,6 +210,9 @@ public class TaskServiceImpl implements TaskService {
         taskModel.setCreateTime(new Date());
         createSelective(taskModel);
     }
+
+
+
 
     @Override
     public TaskDetailModel taskDetail(Long id) {
