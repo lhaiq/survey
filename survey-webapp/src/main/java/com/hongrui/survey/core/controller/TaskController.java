@@ -1,8 +1,11 @@
 package com.hongrui.survey.core.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.hongrui.survey.core.ConfType;
 import com.hongrui.survey.core.TaskStatus;
 import com.hongrui.survey.core.UserRole;
+import com.hongrui.survey.core.entity.Task;
 import com.hongrui.survey.core.model.*;
 import com.hongrui.survey.core.service.*;
 import org.apache.commons.lang3.StringUtils;
@@ -173,6 +176,23 @@ public class TaskController {
 
         model.addAttribute("customer", customerService.findByPrimaryKey(taskModel.getCustomerId()));
         return "task/edit_task";
+    }
+
+
+
+
+
+
+
+    @GetMapping(value = "/taskExtInfo/{taskId}")
+    public String taskExtInfoUI(@PathVariable Long taskId, Model model) {
+        TaskModel task=taskService.findByPrimaryKey(taskId);
+
+
+        JSONObject extInfo = JSON.parseObject(task.getExtInfo());;
+
+        model.addAttribute("extInfo", extInfo    );
+         return "task/task_ext_info";
     }
 
 }
