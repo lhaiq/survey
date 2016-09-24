@@ -258,6 +258,12 @@
                             <c:if test="${td.status==3}">onclick="comment('discard');"</c:if>>
                         <i class="ace-icon fa fa-times bigger-110"></i> 废弃
                     </button>
+
+                    &nbsp; &nbsp; &nbsp;
+                    <a class="btn  "  href="/suvery/report/download/${td.id}" >
+                        <i class="ace-icon fa fa-download bigger-110"></i> 下载
+                    </a>
+
                 </div>
             </div>
             <div class="row"></div>

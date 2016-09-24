@@ -219,6 +219,14 @@ public class TaskServiceImpl implements TaskService {
         TaskModel taskModel = findByPrimaryKey(id);
         TaskDetailModel taskDetailModel = beanMapper.map(taskModel, TaskDetailModel.class);
 
+
+        //
+        if( StringUtils.isNotBlank( taskModel.getExtInfo() )   ){
+            taskDetailModel.setExtUrl("/survey/task/extinfo/"+id);
+        }
+
+
+
         //reports
         taskDetailModel.setReports(findReportsNoTemplate(id, taskModel.getType()));
 
@@ -240,6 +248,10 @@ public class TaskServiceImpl implements TaskService {
         //sign
 
         taskDetailModel.setSign(signService.getByTaskId(id));
+
+
+        //
+
 
 
         return taskDetailModel;

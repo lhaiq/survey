@@ -25,6 +25,9 @@ public class TaskModel {
     private String customerName;
     private String extInfo;
 
+
+
+
     public String getExtInfo() {
         return extInfo;
     }

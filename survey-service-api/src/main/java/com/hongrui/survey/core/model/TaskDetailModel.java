@@ -28,6 +28,18 @@ public class TaskDetailModel {
 	private Map<String,PhotoConfModel> photos;
 	private SignModel sign;
 
+	public String getExtUrl() {
+		return extUrl;
+	}
+
+	public void setExtUrl(String extUrl) {
+		this.extUrl = extUrl;
+	}
+
+	private String extUrl ;
+
+
+
 	public void setSign(SignModel sign) {
 		this.sign = sign;
 	}

@@ -113,6 +113,8 @@
                                                                    pattern="yyyy-MM-dd HH:mm:SS"/></td>
                             <td class="hidden-480">
                                 <c:if test="${item.status==8}">待分配</c:if>
+                                <c:if test="${item.status==9}">待评审填写要点</c:if>
+
                                 <c:if test="${item.status==0}">待调查</c:if>
                                 <c:if test="${item.status==1}">开始调查</c:if>
                                 <c:if test="${item.status==2}">待审核</c:if>
@@ -130,7 +132,7 @@
                                         </a>
 
                                     </c:if>
-                                    <c:if test="${sessionScope.user.role==3}">
+                                    <c:if test="${sessionScope.user.role==3  }">
                                         <a class="blue" href="javascript:void(0)"
                                            onclick="reallocate(${item.customerId})">
                                             <i class="ace-icon glyphicon glyphicon-repeat bigger-130" title="重新分配"></i>
@@ -150,6 +152,17 @@
                                             <i class="ace-icon fa fa-trash-o bigger-130"></i>
                                         </a>
                                     </c:if>
+                                    <c:if test="${sessionScope.user.role==1  }">
+                                         <a class="green"
+                                             <c:if test="${item.status==0 or item.status==8}">href="javascript:link('/survey/editTaskUI/${item.id}')"</c:if>
+                                             <c:if test="${item.status!=0 and item.status!=8}">style="opacity: 0.2"</c:if>
+                                          >
+                                             <i class="ace-icon fa fa-pencil bigger-130" title="编辑"></i>
+                                          </a>
+                                    </c:if>
+
+
+
 
                                 </div>
                             </td>

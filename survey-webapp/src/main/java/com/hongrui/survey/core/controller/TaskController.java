@@ -11,6 +11,7 @@ import com.hongrui.survey.core.service.*;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,9 +30,12 @@ import com.wlw.pylon.web.rest.annotation.RestApiController;
 
 import com.hongrui.survey.core.vo.TaskVO;
 
-import java.io.UnsupportedEncodingException;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
 import java.util.List;
 import java.util.Map;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 @Controller
 @RequestMapping("/survey")
@@ -194,5 +198,71 @@ public class TaskController {
         model.addAttribute("extInfo", extInfo    );
          return "task/task_ext_info";
     }
+
+    @GetMapping(value = "/report/download/{id}")
+    public void download(HttpServletResponse  resp , @PathVariable Long id, Model model) throws IOException {
+        // task details
+        TaskDetailModel td = taskService.taskDetail(id);
+
+
+        ZipOutputStream out = new ZipOutputStream(new FileOutputStream(  downBaseDirectory+"/" + id +".zip"  ));
+        BufferedOutputStream bo = new BufferedOutputStream(out);
+
+
+        for (AudioModel audioModel :  td.getAudios() ){
+            File  f =new File(audioBaseDirectory + "/" + audioModel.getPath() + "." + audioModel.getExtension());
+            zip(out ,f ,audioModel.getPath() + "." + audioModel.getExtension() , bo  );
+
+        }
+
+        bo.close();
+        out.close(); // 输出流关闭
+        System.out.println("压缩完成");
+
+        resp.sendRedirect("/down/"+id+".zip");
+
+
+
+    }
+
+    @Value("${audio.base.url}")
+    private String audioBaseDirectory;
+
+    @Value("${down.base.url}")
+    private String downBaseDirectory;
+
+
+
+
+
+
+    private void zip(ZipOutputStream out, File f, String base,
+                     BufferedOutputStream bo) throws IOException { // 方法重载
+        if (f.isDirectory()) {
+            File[] fl = f.listFiles();
+            if (fl.length == 0) {
+                out.putNextEntry(new ZipEntry(base + "/")); // 创建zip压缩进入点base
+                System.out.println(base + "/");
+            }
+            for (int i = 0; i < fl.length; i++) {
+                zip(out, fl[i], base + "/" + fl[i].getName(), bo); // 递归遍历子文件夹
+            }
+            //System.out.println("第" + k + "次递归");
+            //k++;
+        } else {
+            out.putNextEntry(new ZipEntry(base)); // 创建zip压缩进入点base
+            System.out.println(base);
+            FileInputStream in = new FileInputStream(f);
+            BufferedInputStream bi = new BufferedInputStream(in);
+            int b;
+            while ((b = bi.read()) != -1) {
+                bo.write(b); // 将字节流写入当前zip目录
+            }
+            bi.close();
+            in.close(); // 输入流关闭
+        }
+    }
+
+
 
 }
