@@ -15,8 +15,6 @@ public class Task {
 
     private String comment;
 
-    private String point;
-
     private String type;
 
     private Integer status;
@@ -81,13 +79,6 @@ public class Task {
         this.comment = comment;
     }
 
-    public String getPoint() {
-        return point;
-    }
-
-    public void setPoint(String point) {
-        this.point = point;
-    }
 
     public String getType() {
         return type;

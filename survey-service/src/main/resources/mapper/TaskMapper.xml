@@ -8,7 +8,6 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="check_time" jdbcType="TIMESTAMP" property="checkTime" />
     <result column="comment" jdbcType="VARCHAR" property="comment" />
-    <result column="point" jdbcType="VARCHAR" property="point" />
     <result column="type" jdbcType="VARCHAR" property="type" />
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
@@ -16,11 +15,10 @@
     <result column="commit_time" jdbcType="TIMESTAMP" property="commitTime" />
     <result column="summary" jdbcType="VARCHAR" property="summary" />
     <result column="ext_info" jdbcType="VARCHAR" property="extInfo" />
-
   </resultMap>
   <sql id="Base_Column_List">
-    id, surveyor_id, customer_id, create_time, check_time, comment, point, type, status, 
-    start_time, end_time, commit_time, summary ,ext_info
+    id, surveyor_id, customer_id, create_time, check_time, comment, type, status, start_time, 
+    end_time, commit_time, summary, ext_info
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
@@ -35,14 +33,14 @@
   <insert id="insert" parameterType="com.hongrui.survey.core.entity.Task">
     insert into task (id, surveyor_id, customer_id, 
       create_time, check_time, comment, 
-      point, type, status, 
-      start_time, end_time, commit_time, 
-      summary , ext_info )
+      type, status, start_time, 
+      end_time, commit_time, summary, 
+      ext_info)
     values (#{id,jdbcType=BIGINT}, #{surveyorId,jdbcType=BIGINT}, #{customerId,jdbcType=BIGINT}, 
       #{createTime,jdbcType=TIMESTAMP}, #{checkTime,jdbcType=TIMESTAMP}, #{comment,jdbcType=VARCHAR}, 
-      #{point,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
-      #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{commitTime,jdbcType=TIMESTAMP}, 
-      #{summary,jdbcType=VARCHAR}) ,  #{extInfo,jdbcType=VARCHAR})
+      #{type,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{startTime,jdbcType=TIMESTAMP}, 
+      #{endTime,jdbcType=TIMESTAMP}, #{commitTime,jdbcType=TIMESTAMP}, #{summary,jdbcType=VARCHAR}, 
+      #{extInfo,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.hongrui.survey.core.entity.Task">
     insert into task
@@ -65,9 +63,6 @@
       <if test="comment != null">
         comment,
       </if>
-      <if test="point != null">
-        point,
-      </if>
       <if test="type != null">
         type,
       </if>
@@ -87,7 +82,7 @@
         summary,
       </if>
       <if test="extInfo != null">
-        ext_info
+        ext_info,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -108,9 +103,6 @@
       </if>
       <if test="comment != null">
         #{comment,jdbcType=VARCHAR},
-      </if>
-      <if test="point != null">
-        #{point,jdbcType=VARCHAR},
       </if>
       <if test="type != null">
         #{type,jdbcType=VARCHAR},
@@ -153,9 +145,6 @@
       <if test="comment != null">
         comment = #{comment,jdbcType=VARCHAR},
       </if>
-      <if test="point != null">
-        point = #{point,jdbcType=VARCHAR},
-      </if>
       <if test="type != null">
         type = #{type,jdbcType=VARCHAR},
       </if>
@@ -187,13 +176,12 @@
       create_time = #{createTime,jdbcType=TIMESTAMP},
       check_time = #{checkTime,jdbcType=TIMESTAMP},
       comment = #{comment,jdbcType=VARCHAR},
-      point = #{point,jdbcType=VARCHAR},
       type = #{type,jdbcType=VARCHAR},
       status = #{status,jdbcType=INTEGER},
       start_time = #{startTime,jdbcType=TIMESTAMP},
       end_time = #{endTime,jdbcType=TIMESTAMP},
       commit_time = #{commitTime,jdbcType=TIMESTAMP},
-      summary = #{summary,jdbcType=VARCHAR}
+      summary = #{summary,jdbcType=VARCHAR},
       ext_info = #{extInfo,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -217,9 +205,6 @@
       </if>
       <if test="comment != null">
         and comment = #{comment,jdbcType=VARCHAR}
-      </if>
-      <if test="point != null">
-        and point = #{point,jdbcType=VARCHAR}
       </if>
       <if test="type != null">
         and type = #{type,jdbcType=VARCHAR}
@@ -265,9 +250,6 @@
     </if>
     <if test="param1.comment != null">
       and comment = #{param1.comment,jdbcType=VARCHAR}
-    </if>
-    <if test="param1.point != null">
-      and point = #{param1.point,jdbcType=VARCHAR}
     </if>
     <if test="param1.type != null">
       and type = #{param1.type,jdbcType=VARCHAR}

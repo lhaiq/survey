@@ -17,6 +17,8 @@ public class Customer {
 
     private String telephoneNumber;
 
+    private String point;
+
     private Integer status;
 
     public Long getId() {
@@ -89,5 +91,13 @@ public class Customer {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public void setPoint(String point) {
+        this.point = point;
+    }
+
+    public String getPoint() {
+        return point;
     }
 }

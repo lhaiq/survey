@@ -10,6 +10,7 @@ public class CustomerVO{
 	private String company;
 	private String address;
 	private Long syndicId;
+	private String point;
 	private String idCard;
 	private String mobileNumber;
 	private String telephoneNumber;
@@ -77,5 +78,13 @@ public class CustomerVO{
 
 	public Long getSyndicId() {
 		return syndicId;
+	}
+
+	public void setPoint(String point) {
+		this.point = point;
+	}
+
+	public String getPoint() {
+		return point;
 	}
 }

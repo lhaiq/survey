@@ -13,7 +13,7 @@ public class TaskModel {
     private Date createTime;
     private Date checkTime;
     private String comment;
-    private String point;
+
     private String type;
     private Integer status;
     private Date startTime;
@@ -84,13 +84,6 @@ public class TaskModel {
         return this.comment;
     }
 
-    public void setPoint(String point) {
-        this.point = point;
-    }
-
-    public String getPoint() {
-        return this.point;
-    }
 
     public void setType(String type) {
         this.type = type;

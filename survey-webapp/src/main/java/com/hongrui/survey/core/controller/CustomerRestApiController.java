@@ -55,7 +55,7 @@ public class CustomerRestApiController {
         CustomerModel customerModel = beanMapper.map(customerVO, CustomerModel.class);
         customerModel.setId(id);
         Integer result = customerService.updateByPrimaryKeySelective(customerModel);
-        ResponseEnvelope<Integer> responseEnv = new ResponseEnvelope<Integer>(result, true);
+        ResponseEnvelope<Integer> responseEnv = new ResponseEnvelope<>(result, true);
         return responseEnv;
     }
 

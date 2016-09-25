@@ -84,6 +84,17 @@
                 </div>
             </div>
 
+            <div class="form-group">
+                <label class="col-sm-4 control-label no-padding-right" for="form-field-1-2">调查要点 <label
+                        style="color: red;">&nbsp;*</label> </label>
+
+                <div class="col-sm-8">
+                    <div class="col-sm-5 no-padding-left">
+                        <textarea name="point" class="form-control"/>
+                    </div>
+                </div>
+            </div>
+
             <div class="row" style="height:30px"></div>
             <div class="form-group">
                 <label class="col-sm-4 control-label no-padding-right" for="form-field-1-2"> </label>

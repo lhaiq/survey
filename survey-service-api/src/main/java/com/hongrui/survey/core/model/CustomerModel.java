@@ -15,6 +15,7 @@ public class CustomerModel{
 	private String telephoneNumber;
 	private Integer status;
 	private String syndicName;
+	private String point;
 		
 	public void setId(Long id){
 		this.id = id;
@@ -94,5 +95,13 @@ public class CustomerModel{
 
 	public String getSyndicName() {
 		return syndicName;
+	}
+
+	public void setPoint(String point) {
+		this.point = point;
+	}
+
+	public String getPoint() {
+		return point;
 	}
 }

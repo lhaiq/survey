@@ -51,7 +51,7 @@
                                         </div>
 
                                         <div class="hidden-md hidden-lg">
-                                            <div class="inline position-relative">
+                                             <div class="inline position-relative">
 
                                                 <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
                                                     <li>
